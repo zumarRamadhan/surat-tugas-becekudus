@@ -1,4 +1,4 @@
-import logo from './patrik.png';
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import './App.css';
 
 function App() {
