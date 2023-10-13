@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import LogoAPKB from "../Assets/LOGOAPKB.png";
-import "../Style/db.css";
+import "../Style/dbpeg.css";
 import { useNavigate, Link, useParams } from "react-router-dom";
 // import apiurl from "../api/api";
 // import axios from "axios";
 import { Icon } from "@iconify/react";
 
-function Db() {
-  const navigate = useNavigate();
+function DbPeg() {const navigate = useNavigate();
+  
   return (
     <div>
       <header>
@@ -18,7 +18,7 @@ function Db() {
           <li onClick={() => navigate("/forminput")}>
             <a href="">INPUT</a>
           </li>
-          <li className="active">
+          <li onClick={() => navigate("/db")}>
             <a href="">DB</a>
           </li>
           <li onClick={() => navigate("/database")}>
@@ -27,7 +27,7 @@ function Db() {
           <li onClick={() => navigate("/print")}>
             <a href="">PRINT</a>
           </li>
-          <li onClick={() => navigate("/dbpeg")}>
+          <li className="active">
             <a href="">DBPEG</a>
           </li>
         </ul>
@@ -46,50 +46,23 @@ function Db() {
             </div>
           </div>
           <button className="import exel">Export Excel</button>
+          <button className="tambah-data">Tambah Data</button>
         </div>
         <table>
           <tr>
-            <th id="id">ID ST</th>
-            <th id="eselon">ESELON IV</th>
-            <th id="dpt">DASAR PELAKSANAAN TUGAS</th>
-            <th id="nost">NO ST</th>
-            <th id="datest">TANGGAL ST</th>
-            <th id="pegawai">PEGAWAI</th>
-            <th id="maksud">MAKSUD PERJALANAN DINAS</th>
-            <th id="ktt">KANTOR TUJUAN TUGAS</th>
-            <th id="kt1">KOTA TUJUAN I</th>
-            <th id="tb">TANGGAL BERANGKAT</th>
-            <th id="tk">TANGGAL KEMBALI</th>
-            <th id="nospd">NO SPD</th>
-            <th id="datespd">TANGGAL SPD</th>
-            <th id="transport">TRANSPORT</th>
-            <th id="pencairan">PENCAIRAN</th>
-            <th id="nospyt">NO SPYT (SPD DALAM KOTA SAJA)</th>
-            <th id="dalamkota">
-              KANTOR TUJUAN TUGAS SPESIFIK (SPD DALAM KOTA SAJA)
-            </th>
-            <th id="ndp">ND Permohonan</th>
+            <th id="id">NAMA</th>
+            <th id="eselon">NIP</th>
+            <th id="dpt">PANGKAT</th>
+            <th id="nost">GOL/RUANG</th>
+            <th id="datest">JABATAN</th>
             <th id="aksi">AKSI</th>
           </tr>
           <tr>
-            <td id="id">1</td>
-            <td id="eselon">IV/A</td>
-            <td id="dpt">Surat Perintah Direksi</td>
-            <td id="nost">12345</td>
-            <td id="datest">2023-10-01</td>
-            <td id="pegawai">John</td>
-            <td id="maksud">Kunjungan Kerja</td>
-            <td id="ktt">Kantor Pusat</td>
-            <td id="kt1">Jakarta</td>
-            <td id="tb">2023-10-01</td>
-            <td id="tk">2023-10-01</td>
-            <td id="nospd">12345</td>
-            <td id="datespd">2023-10-01</td>
-            <td id="transport">Pesawat</td>
-            <td id="pencairan">Kantor</td>
-            <td id="nospyt">12345</td>
-            <td id="dalamkota">Kantor Pusat</td>
-            <td id="ndp">12345</td>
+            <td id="id">Ari Wirasto</td>
+            <td id="eselon">196012231983031002</td>
+            <td id="dpt">Penata Tk. 1</td>
+            <td id="nost">III/D</td>
+            <td id="datest">Kepala Kantor</td>
             <td id="action-db">
               <div className="action-db">
                 <button className="edit">
@@ -98,8 +71,39 @@ function Db() {
                 <button className="delete">
                   <Icon icon="fluent:delete-16-regular" width="20" />
                 </button>
-                <button className="print">
-                  <Icon icon="fluent:print-16-regular" width="20" />
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td id="id">Ari Wirasto</td>
+            <td id="eselon">196012231983031002</td>
+            <td id="dpt">Penata Tk. 1</td>
+            <td id="nost">III/D</td>
+            <td id="datest">Kepala Kantor</td>
+            <td id="action-db">
+              <div className="action-db">
+                <button className="edit">
+                  <Icon icon="fluent:edit-16-regular" width="20" />
+                </button>
+                <button className="delete">
+                  <Icon icon="fluent:delete-16-regular" width="20" />
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td id="id">Ari Wirasto</td>
+            <td id="eselon">196012231983031002</td>
+            <td id="dpt">Penata Tk. 1</td>
+            <td id="nost">III/D</td>
+            <td id="datest">Kepala Kantor</td>
+            <td id="action-db">
+              <div className="action-db">
+                <button className="edit">
+                  <Icon icon="fluent:edit-16-regular" width="20" />
+                </button>
+                <button className="delete">
+                  <Icon icon="fluent:delete-16-regular" width="20" />
                 </button>
               </div>
             </td>
@@ -110,4 +114,4 @@ function Db() {
   );
 }
 
-export default Db;
+export default DbPeg;

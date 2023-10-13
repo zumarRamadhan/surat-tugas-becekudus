@@ -118,9 +118,23 @@ tr:hover {
     background: #40649F;
 }
 
-.header-table .exel{
+.header-table .exel {
     border-radius: 10px;
     background: #63C86D;
+    color: #FFF;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.tambah-data {
+    border-radius: 10px;
+    background: #6F8FFF;
     color: #FFF;
     border: none;
     cursor: pointer;

@@ -21,13 +21,13 @@ function FormInputSuratPenugasan() {
           <li onClick={() => navigate("/db")}>
             <a href="">DB</a>
           </li>
-          <li>
+          <li onClick={() => navigate("/database")}>
             <a href="">DATABASE</a>
           </li>
-          <li>
+          <li onClick={() => navigate("/print")}>
             <a href="">PRINT</a>
           </li>
-          <li>
+          <li onClick={() => navigate("/dbpeg")}>
             <a href="">DBPEG</a>
           </li>
         </ul>
