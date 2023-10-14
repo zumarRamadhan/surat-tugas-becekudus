@@ -52,3 +52,20 @@ header ul li.active a {
   font-weight: 700;
   line-height: normal;
 }
+
+footer{
+  background-image: url(/src/Assets/img-header-apkb2.jpg);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px;
+}
+
+.copyright{
+  background: #0E2954;
+  width: 100%;
+  padding: 20px;
+  color: #FFF;
+  text-align: center;
+}
