@@ -1,0 +1,115 @@
+.header-title{
+    display: flex;
+    gap: 20px;
+}
+
+.title-form-add-pegawai {
+    border-radius: 20px;
+    background: #BED7FF;
+    padding: 15px;
+    width: 750px;
+}
+
+.title-form-add-pegawai h1 {
+    text-align: center;
+    color: #40649F;
+    font-family: "Poppins", sans-serif;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.btn-back{
+    background-color: #FF6F6F;
+    border: none;
+    border-radius: 20px;
+    width: 65px;
+    cursor: pointer;
+}
+
+.icon-back{
+    color: white;
+    width: 26px;
+    height: auto;
+}
+
+.btn-import-excel{
+    background-color: var(--success-color);
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    text-align: center;
+    color: white;
+    font-family: "Poppins", sans-serif;
+    font-size: 10px;
+    padding: 0 20px;
+    font-style: normal;
+    line-height: normal;
+}
+
+.btn-back:hover{
+    background-color: var(--dark-danger-color);
+}
+
+.btn-import-excel:hover{
+    background-color: var(--dark-success-color);
+}
+
+.body-form-add-pegawai {
+    padding: 30px;
+    border-radius: 20px;
+    border: 1px solid #C4C4C4;
+    background: #FFF;
+    margin-top: 20px;
+    gap: 20px;
+}
+
+.body-form-add-pegawai .form-input {
+    width: 100%;
+    position: relative;
+    margin-top: 18px;
+}
+
+.body-form-add-pegawai .form-input p {
+    color: #4B4B4B;
+    font-family: "Poppins", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-bottom: 10px;
+}
+
+.body-form-add-pegawai .form-input input {
+    width: 100%;
+    border: 1px solid #C4C4C4;
+    border-radius: 10px;
+    padding: 10px 15px;
+    color: #797979;
+    font-family: "Poppins", sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.btn-tambah-pegawai{
+    background-color: var(--success-color);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    color: white;
+    font-family: "Poppins", sans-serif;
+    font-size: 10px;
+    padding: 10px;
+    font-style: normal;
+    line-height: normal;
+    width: 100%;
+    margin-top: 38px;
+}
+
+.btn-tambah-pegawai:hover{
+    background-color: var(--dark-success-color);
+}

@@ -46,7 +46,7 @@ function DbPeg() {const navigate = useNavigate();
             </div>
           </div>
           <button className="import exel">Export Excel</button>
-          <button className="tambah-data">Tambah Data</button>
+          <button className="tambah-data" onClick={() => navigate("/addpegawai")}>Tambah Data</button>
         </div>
         <table>
           <tr>
@@ -65,7 +65,7 @@ function DbPeg() {const navigate = useNavigate();
             <td id="datest">Kepala Kantor</td>
             <td id="action-db">
               <div className="action-db">
-                <button className="edit">
+                <button className="edit" onClick={() => navigate("/editpegawai")}>
                   <Icon icon="fluent:edit-16-regular" width="20" />
                 </button>
                 <button className="delete">
@@ -82,7 +82,7 @@ function DbPeg() {const navigate = useNavigate();
             <td id="datest">Kepala Kantor</td>
             <td id="action-db">
               <div className="action-db">
-                <button className="edit">
+                <button className="edit" onClick={() => navigate("/editpegawai")}>
                   <Icon icon="fluent:edit-16-regular" width="20" />
                 </button>
                 <button className="delete">
@@ -99,7 +99,7 @@ function DbPeg() {const navigate = useNavigate();
             <td id="datest">Kepala Kantor</td>
             <td id="action-db">
               <div className="action-db">
-                <button className="edit">
+                <button className="edit" onClick={() => navigate("/editpegawai")}>
                   <Icon icon="fluent:edit-16-regular" width="20" />
                 </button>
                 <button className="delete">
