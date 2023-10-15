@@ -1,0 +1,39 @@
+.header-title{
+    display: flex;
+    gap: 20px;
+}
+
+.title-form-edit-st {
+    border-radius: 20px;
+    background: #BED7FF;
+    padding: 15px;
+    width: 100%;
+}
+
+.title-form-edit-st h1 {
+    text-align: center;
+    color: #40649F;
+    font-family: "Poppins", sans-serif;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.btn-back{
+    background-color: #FF6F6F;
+    border: none;
+    border-radius: 20px;
+    width: 65px;
+    cursor: pointer;
+}
+
+.icon-back{
+    color: white;
+    width: 26px;
+    height: auto;
+}
+
+.btn-back:hover{
+    background-color: var(--dark-danger-color);
+}
