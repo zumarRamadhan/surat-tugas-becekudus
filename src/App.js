@@ -13,6 +13,7 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<FormInput />} />
         <Route path="/forminput" element={<FormInput />} />
         <Route path="/db" element={<Db />} />
         <Route path="/dbpeg" element={<DbPeg />} />

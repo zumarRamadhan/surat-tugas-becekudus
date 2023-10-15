@@ -24,3 +24,113 @@
     --aksen1: #BED7FF;
     --aksen2: #40649F;
 }
+
+.box-print {
+    border-radius: 20px;
+    border: 1px solid #C4C4C4;
+    background: #FFF;
+    margin-top: 20px;
+    padding: 20px;
+}
+
+.head-print {
+    border-radius: 10px;
+    background: #fcff6fb0;
+    padding: 5px 15px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    color: #707813;
+    font-family: "Poppins", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.head-print input{
+    border: none;
+    background: none;
+    color: #707813;
+    font-family: "Poppins", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    padding: 5px 10px;
+    width: 100%;
+}
+
+.head-print input:focus{
+    outline: none;
+}
+
+.head-print span {
+    font-weight: bold;
+}
+
+.box-print1, .box-print2 {
+    border-radius: 10px;
+    background: #F5F5F5;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.box-print1 {
+    margin-bottom: 20px;
+    margin-top: 25px;
+}
+
+.box-print2 {
+    margin-bottom: 40px;
+}
+
+.box-print1 p, .box-print2 p {
+    color: #4B4B4B;
+    font-family: "Poppins", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.box-print1 button, .box-print2 button {
+    border: none;
+    padding: 10px 30px;
+    color: #FFF;
+    font-family: "Poppins", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    border-radius: 10px;
+    background: #63C86D;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+}
+
+.box-print1 button:hover, .box-print2 button:hover {
+    background: #3D8F3D;
+}
+
+.folder-output {
+    color: #707813;
+    font-family: "Poppins", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    width: 100%;
+    border-radius: 10px;
+    background: #fff27d;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+}
+
+.folder-output:hover {
+    background: #FFED4C;
+}

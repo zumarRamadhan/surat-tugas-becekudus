@@ -33,7 +33,31 @@ function Print() {
         </ul>
       </header>
 
-      
+      <div className="container">
+        <div className="title-form">
+          <h1>DASHBOARD PERCETAKAN</h1>
+        </div>
+
+        <div className="box-print">
+          <div className="head-print">
+            NO&nbsp;SURAT&nbsp;TUGAS&nbsp;:&nbsp;
+            <input type="number" placeholder="....."/>
+          </div>
+
+          <div className="box-print1">
+            <p>SURAT TUGAS</p>
+            <button className="btn-print">PRINT</button>
+          </div>
+          <div className="box-print2">
+            <p>SURAT PERJALANAN DINAS</p>
+            <button className="btn-print">PRINT</button>
+          </div>
+
+          <button className="folder-output">
+            <p>Folder Output</p>
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
