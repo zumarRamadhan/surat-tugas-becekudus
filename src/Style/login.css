@@ -8,17 +8,25 @@
     height: 100vh;
 }
 
+.logo-beceku-head{
+    width: 450px;
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 .box-login {
     border-radius: 20px;
     border: 1px solid #C4C4C4;
     /* background glass */
-    background: #ffffffb5;
+    background: #ffffffca;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     width: 100%;
     max-width: 687px;
     padding: 20px;
     position: absolute;
-    top: 50%;
+    top: 55%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
@@ -29,6 +37,17 @@
     font-size: 28px;
     font-style: normal;
     font-weight: 700;
+    line-height: normal;
+    text-align: center;
+    margin-bottom: 14px;
+}
+
+.box-login .text-info {
+    color: #4B4B4B;
+    font-family: "Poppins", sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
     line-height: normal;
     text-align: center;
     margin-bottom: 40px;
@@ -56,6 +75,7 @@
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+    background-color: #ffffff93;
 }
 
 .box-login form input:focus {

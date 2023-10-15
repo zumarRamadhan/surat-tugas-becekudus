@@ -11,14 +11,16 @@ function Login() {
   const navigate = useNavigate();
   return (
     <div className="body-login">
+      <img src={LogoAPKB} alt="" className="logo-beceku-head" />
       <div className="box-login">
-        <h1>Login</h1>
+        <h1>LOGIN</h1>
+        <p className="text-info">Silahkan masukan akun anda terlebih dahulu untuk masuk!</p>
         <form action="">
           <p>Email</p>
           <input type="text" placeholder="Email" required />
           <p>Password</p>
           <input type="password" placeholder="Password" required />
-          <button type="submit">Login</button>
+          <button type="submit">LOGIN</button>
         </form>
       </div>
 

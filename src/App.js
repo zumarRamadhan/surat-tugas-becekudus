@@ -8,6 +8,7 @@ import Database from "./website/database";
 import Login from "./website/login";
 import AddPegawai from "./website/addpegawai";
 import EditPegawai from "./website/editpegawai";
+import EditST from "./website/editsurattugas";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/addpegawai" element={<AddPegawai/>} />
         <Route path="/editpegawai" element={<EditPegawai/>} />
+        <Route path="/editsurattugas" element={<EditST/>} />
       </Routes>
     </Router>
   );

@@ -1,12 +1,12 @@
-// import { Icon } from "@iconify/react";
 import { useState, useEffect } from "react";
 import LogoAPKB from "../Assets/LOGOAPKB.png";
-import "../Style/inputform.css";
+import "../Style/editsurattugas.css";
 import { useNavigate, Link, useParams } from "react-router-dom";
 // import apiurl from "../api/api";
 // import axios from "axios";
+import { Icon } from "@iconify/react";
 
-function FormInputSuratPenugasan() {
+function EditST() {
   const navigate = useNavigate();
   return (
     <div>
@@ -14,28 +14,16 @@ function FormInputSuratPenugasan() {
         <div className="logo">
           <img src={LogoAPKB} />
         </div>
-        <ul className="navbar">
-          <li className="active">
-            <a href="">INPUT</a>
-          </li>
-          <li onClick={() => navigate("/db")}>
-            <a href="">DB</a>
-          </li>
-          <li onClick={() => navigate("/database")}>
-            <a href="">DATABASE</a>
-          </li>
-          <li onClick={() => navigate("/print")}>
-            <a href="">PRINT</a>
-          </li>
-          <li onClick={() => navigate("/dbpeg")}>
-            <a href="">DBPEG</a>
-          </li>
-        </ul>
       </header>
 
       <div className="container">
-        <div className="title-form">
-          <h1>FORM INPUT</h1>
+      <div className="header-title">
+        <button className="btn-back" onClick={() => navigate("/db")}>
+            <Icon icon="icon-park-outline:back" className="icon-back"/>
+        </button>
+        <div className="title-form-edit-st">
+          <h1>EDIT SURAT TUGAS & SPD</h1>
+        </div>
         </div>
         <div className="body-form">
           <div className="form-input">
@@ -137,7 +125,7 @@ function FormInputSuratPenugasan() {
               id=""
               rows="5"
               placeholder="Input Kantor Tujuan Tugas Spesifik"
-              style={{ resize: 'none' }}
+              style={{ resize: "none" }}
             ></textarea>
           </div>
           <div className="form-input">
@@ -157,4 +145,4 @@ function FormInputSuratPenugasan() {
   );
 }
 
-export default FormInputSuratPenugasan;
+export default EditST;
