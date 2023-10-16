@@ -88,6 +88,9 @@ function DbPeg() {
             <li className="active">
               <a href="">DBPEG</a>
             </li>
+            <li onClick={() => navigate("/ppk")}>
+            <a href="">PPK</a>
+          </li>
           </ul>
         </header>
 
