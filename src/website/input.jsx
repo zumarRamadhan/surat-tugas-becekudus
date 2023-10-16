@@ -64,7 +64,7 @@ function FormInputSuratPenugasan() {
           </div>
           <div className="form-input">
             <p>No ST</p>
-            <input type="text" placeholder="Input No ST"/>
+            <input type="text" placeholder="Input No ST" />
           </div>
           <div className="form-input">
             <p>Tanggal Kembali</p>
@@ -91,6 +91,13 @@ function FormInputSuratPenugasan() {
           </div>
         </div>
         <div className="body-form">
+          <div className="form-input">
+            <p>Nama PPK</p>
+            <input
+              type="text"
+              placeholder="Input Nama PPK"
+            />
+          </div>
           <div className="form-input">
             <p>Dasar Pelaksanaan Tugas</p>
             <input type="text" placeholder="Input Dasar Pelaksanaan Tugas" />
@@ -137,7 +144,7 @@ function FormInputSuratPenugasan() {
               id=""
               rows="5"
               placeholder="Input Kantor Tujuan Tugas Spesifik"
-              style={{ resize: 'none' }}
+              style={{ resize: "none" }}
             ></textarea>
           </div>
           <div className="form-input">
