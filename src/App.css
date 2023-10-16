@@ -23,6 +23,9 @@ header ul {
   display: flex;
   gap: 20px;
   list-style: none;
+  background-color: #ffffff5d;
+  padding: 10px 40px;
+  border-radius: 30px;
 }
 
 header ul li a {
