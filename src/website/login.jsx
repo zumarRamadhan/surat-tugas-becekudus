@@ -3,7 +3,7 @@ import LogoAPKB from "../Assets/LOGOAPKB.png";
 import LogoFooter from "../Assets/footer-logo 1.png";
 import "../Style/login.css";
 import { useNavigate, Link, useParams } from "react-router-dom";
-// import apiurl from "../api/api";
+import apiurl from "../api/api";
 import axios from "axios";
 import { Icon } from "@iconify/react";
 
@@ -28,13 +28,13 @@ function Login() {
     e.preventDefault();
     console.log("mengirim data");
     axios
-      .post("https://gorgeous-boa-smiling.ngrok-free.app/api/login", {
+      .post(`${apiurl}login`, {
         name: name,
         password: password,
       })
       .then((response) => {
         console.log(response.data);
-        sessionStorage.setItem("token", response.data.token);
+        sessionStorage.setItem("token", response.data.access_token);
         setisLoading(false);
         if (response.data.access_token !== undefined)
           return window.location.replace("/dbpeg");
