@@ -72,6 +72,7 @@ function Database() {
               KANTOR TUJUAN TUGAS SPESIFIK (SPD DALAM KOTA SAJA)
             </th>
             <th id="ndp">ND Permohonan</th>
+            <th id="ndp">Nama Peng-input</th>
             <th id="aksi">AKSI</th>
           </tr>
           <tr>
@@ -93,9 +94,19 @@ function Database() {
             <td id="nospyt">12345</td>
             <td id="dalamkota">Kantor Pusat</td>
             <td id="ndp">12345</td>
+            <td id="ndp">Sugianto</td>
             <td id="action-db">
               <div className="action-db">
-                <button className="edit" onClick={() => navigate("/editsurattugas")}>
+                <button
+                  className="preview"
+                  onClick={() => navigate("/preview")}
+                >
+                  <Icon icon="clarity:eye-line" width="20" />
+                </button>
+                <button
+                  className="edit"
+                  onClick={() => navigate("/editsurattugas")}
+                >
                   <Icon icon="fluent:edit-16-regular" width="20" />
                 </button>
                 <button className="delete">

@@ -22,7 +22,8 @@ function AddPegawai() {
     const popupLogout = document.querySelector("#popup-success");
     setTimeout(() => (popupLogout.style.display = "none"), 250);
     popupLogout.style.animation = "slide-up 0.3s ease-in-out";
-    window.location.reload();
+    // window.location.reload();
+     navigate(`/dbpeg`);
   };
 
   const showFailed = () => {
@@ -249,7 +250,7 @@ function AddPegawai() {
               className="img-success"
             />
           </div>
-          <p className="desc-success">SELAMAT DATANG DI NUGASYUK!!!</p>
+          <p className="desc-success">Data berhasil ditambahkan!</p>
           <button className="btn-success" onClick={closeSuccess}>
             Kembali
           </button>
@@ -268,7 +269,7 @@ function AddPegawai() {
             <img src={GifFailed} alt="Delete Failed" className="img-Failed" />
           </div>
           <p className="desc-Failed">
-            Email atau Password yang anda masukkan salah!!!
+            Gagal menambahkan data!
           </p>
           <button className="btn-Failed" onClick={closeFailed}>
             Kembali

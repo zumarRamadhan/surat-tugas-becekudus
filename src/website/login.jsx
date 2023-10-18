@@ -75,7 +75,7 @@ function Login() {
         // showSuccessAdd();
         closePopupLoading();
         if (response.data.access_token !== undefined)
-          return window.location.replace("/dbpeg");
+          return window.location.replace("/db");
       })
       .catch((err) => {
         // console.log("terjadi kesalahan : ", err);

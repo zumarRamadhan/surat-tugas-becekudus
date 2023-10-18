@@ -175,6 +175,18 @@ tr:hover {
     cursor: pointer;
 }
 
+.action-db .preview {
+    color: #fff;
+    border-radius: 10px;
+    background: var(--info-color);
+    padding: 10px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
 .action-db .edit:hover {
     background: #fbe62b;
 }
@@ -185,4 +197,8 @@ tr:hover {
 
 .action-db .delete:hover {
     background: #fd4444;
+}
+
+.action-db .preview:hover {
+    background: var(--aksen2);
 }

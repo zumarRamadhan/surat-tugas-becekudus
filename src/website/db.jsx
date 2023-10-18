@@ -95,7 +95,16 @@ function Db() {
             <td id="ndp">12345</td>
             <td id="action-db">
               <div className="action-db">
-                <button className="edit" onClick={() => navigate("/editsurattugas")}>
+                <button
+                  className="preview"
+                  onClick={() => navigate("/preview")}
+                >
+                  <Icon icon="clarity:eye-line" width="20" />
+                </button>
+                <button
+                  className="edit"
+                  onClick={() => navigate("/editsurattugas")}
+                >
                   <Icon icon="fluent:edit-16-regular" width="20" />
                 </button>
                 <button className="delete">
