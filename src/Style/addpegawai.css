@@ -46,6 +46,9 @@
     padding: 0 20px;
     font-style: normal;
     line-height: normal;
+    display: flex;
+    align-items: center;
+    /* height: 100%; */
 }
 
 .btn-back:hover{
@@ -112,4 +115,23 @@
 
 .btn-tambah-pegawai:hover{
     background-color: var(--dark-success-color);
+}
+
+.switch-inputRole input[type="radio"] {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+
+.switch-inputRole label {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.con-radio {
+    display: flex;
+    gap: 15px;
 }

@@ -5,40 +5,67 @@ import { useNavigate, Link, useParams } from "react-router-dom";
 import apiurl from "../api/api";
 import axios from "axios";
 import { Icon } from "@iconify/react";
-import GifSuccess from '../Assets/gif-success.gif';
+import GifSuccess from "../Assets/gif-success.gif";
 import GifFailed from "../Assets/gif-failed.gif";
+import GifDelate from "../Assets/gif-delete.gif";
+import ExportExcelButton from "../Component/exportfile";
 
 function DbPeg() {
   const navigate = useNavigate();
   const saveToken = sessionStorage.getItem("token");
+  const [dataExport, setDataExport] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const showSuccessDelete = () => {
-    const popupLogout = document.querySelector("#popup-success");
-    popupLogout.style.display = "flex";
-    popupLogout.style.animation = "slide-down 0.3s ease-in-out";
+    const background = document.querySelector("#popup-success");
+    background.style.display = "flex";
+    const popupSuccessDelete = document.querySelector(".detail-success");
+    popupSuccessDelete.style.display = "grid";
+    popupSuccessDelete.style.animation = "slide-down 0.3s ease-in-out";
   };
 
   const closeSuccessDelete = () => {
-    const popupLogout = document.querySelector("#popup-success");
-    setTimeout(() => (popupLogout.style.display = "none"), 250);
-    popupLogout.style.animation = "slide-up 0.3s ease-in-out";
+    const background = document.querySelector("#popup-success");
+    setTimeout(() => (background.style.display = "none"), 300);
+    // background.style.display = "none";
+    const popupSuccessDelete = document.querySelector(".detail-success");
+    setTimeout(() => (popupSuccessDelete.style.display = "none"), 250);
+    popupSuccessDelete.style.animation = "slide-up 0.3s ease-in-out";
+    // refresh
     window.location.reload();
+  };
+
+  const showRelog = () => {
+    const background = document.querySelector("#Relog");
+    background.style.display = "flex";
+    const popUpLogin = document.querySelector(".detail-Relog");
+    popUpLogin.style.display = "grid";
+    popUpLogin.style.animation = "slide-down 0.3s ease-in-out";
+  };
+
+  const closeRelog = () => {
+    const background = document.querySelector("#Relog");
+    setTimeout(() => (background.style.display = "none"), 300);
+    const popUpLogin = document.querySelector(".detail-Relog");
+    setTimeout(() => (popUpLogin.style.display = "none"), 250);
+    popUpLogin.style.animation = "slide-up 0.3s ease-in-out";
+    navigate(`/login`);
   };
 
   const showFailedDelete = () => {
     const background = document.querySelector("#popup-Failed");
     background.style.display = "flex";
-    const popUpLogin = document.querySelector(".detail-Failed");
-    popUpLogin.style.display = "grid";
-    popUpLogin.style.animation = "slide-down 0.3s ease-in-out";
+    const popupFailedDelete = document.querySelector(".detail-Failed");
+    popupFailedDelete.style.display = "grid";
+    popupFailedDelete.style.animation = "slide-down 0.3s ease-in-out";
   };
 
   const closeFailedDelete = () => {
     const background = document.querySelector("#popup-Failed");
     setTimeout(() => (background.style.display = "none"), 300);
-    const popUpLogin = document.querySelector(".detail-Failed");
-    setTimeout(() => (popUpLogin.style.display = "none"), 250);
-    popUpLogin.style.animation = "slide-up 0.3s ease-in-out";
+    const popupFailedDelete = document.querySelector(".detail-Failed");
+    setTimeout(() => (popupFailedDelete.style.display = "none"), 250);
+    popupFailedDelete.style.animation = "slide-up 0.3s ease-in-out";
   };
 
   const showPopupLoading = () => {
@@ -61,6 +88,7 @@ function DbPeg() {
   const [pegawaiData, setPegawaiData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [pegawaiToDelete, setPegawaiToDelete] = useState({});
 
   useEffect(() => {
     axios
@@ -74,42 +102,79 @@ function DbPeg() {
       .then((result) => {
         console.log("data API", result.data);
         const responseAPI = result.data;
-
+        setDataExport(responseAPI.data);
         setPegawaiData(responseAPI.data);
         setIsLoading(false);
       })
       .catch((err) => {
         console.log("terjadi kesalahan: ", err);
-        setIsError(true);
-        setIsLoading(false);
+        if (err.response && err.response.status === 401) {
+          showRelog();
+        } else {
+          setIsLoading(false);
+          // setIsError(true);
+        }
       });
   }, []);
 
-  const handleDelete = (id) => {
-    showPopupLoading();
-    axios
-      .delete(`${apiurl}employee/delete/${id}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${saveToken}`,
-          "ngrok-skip-browser-warning": "any",
-        },
-      })
-      .then((response) => {
-        // Penanganan ketika penghapusan berhasil
-        console.log("Data berhasil dihapus");
-        // closeDeletePopup();
-        showSuccessDelete();
-        closePopupLoading();
-      })
-      .catch((error) => {
-        // Penanganan ketika terjadi kesalahan saat menghapus data
-        console.log("Terjadi kesalahan saat menghapus data:", error);
-        showFailedDelete();
-        // closeDeletePopup();
-        closePopupLoading();
-      });
+  const showDeletePopup = (id) => {
+    const background = document.querySelector("#popup-Delete");
+    background.style.display = "flex";
+    const popupDelete = document.querySelector(".detail-Delete");
+    popupDelete.style.display = "block";
+    popupDelete.style.animation = "slide-down 0.3s ease-in-out";
+    setPegawaiToDelete(id);
   };
+
+  const handleDelete = () => {
+    if (pegawaiToDelete) {
+      showPopupLoading();
+      axios
+        .delete(`${apiurl}employee/delete/${pegawaiToDelete}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${saveToken}`,
+            "ngrok-skip-browser-warning": "any",
+          },
+        })
+        .then((response) => {
+          // Penanganan ketika penghapusan berhasil
+          console.log("Data berhasil dihapus");
+          closeDeletePopup();
+          showSuccessDelete();
+          closePopupLoading();
+        })
+        .catch((error) => {
+          // Penanganan ketika terjadi kesalahan saat menghapus data
+          console.log("Terjadi kesalahan saat menghapus data:", error);
+          showFailedDelete();
+          closeDeletePopup();
+          closePopupLoading();
+        });
+    }
+  };
+
+  const closeDeletePopup = () => {
+    const background = document.querySelector("#popup-Delete");
+    setTimeout(() => (background.style.display = "none"), 300);
+    // background.style.display = "none";
+    const popupDelete = document.querySelector(".detail-Delete");
+    setTimeout(() => (popupDelete.style.display = "none"), 250);
+    popupDelete.style.animation = "slide-up 0.3s ease-in-out";
+  };
+
+  // search
+
+  // Filter data based on the search term
+  const filteredPegawaiData = pegawaiData.filter(
+    (data) =>
+      data.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      data.emp_id.toString().includes(searchTerm) ||
+      data.rank.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      data.gol_room.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      data.position.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      data.role.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   if (pegawaiData && !isError)
     return (
@@ -134,25 +199,24 @@ function DbPeg() {
             <li className="active">
               <a href="">DBPEG</a>
             </li>
-            <li onClick={() => navigate("/ppk")}>
-              <a href="">PPK</a>
-            </li>
           </ul>
         </header>
 
         <div className="table-container">
           <div className="header-table">
             <div className="search">
-              <input type="text" placeholder="Pencarian" />
+              <input
+                type="text"
+                placeholder="Pencarian"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
               <div className="icon-search">
                 <Icon icon="icomoon-free:search" width="15" />
-                {/* <iconify-icon
-                icon="icomoon-free:search"
-                width="15"
-              ></iconify-icon> */}
               </div>
             </div>
-            <button className="import exel">Export Excel</button>
+
+            <ExportExcelButton data={dataExport} filename="data_pegawai" />
             <button
               className="tambah-data"
               onClick={() => navigate("/addpegawai")}
@@ -167,16 +231,18 @@ function DbPeg() {
               <th id="dpt">PANGKAT</th>
               <th id="nost">GOL/RUANG</th>
               <th id="datest">JABATAN</th>
+              <th id="role">ROLE</th>
               <th id="aksi">AKSI</th>
             </tr>
-            {Array.isArray(pegawaiData) ? (
-              pegawaiData.map((data, index) => (
+            {Array.isArray(filteredPegawaiData) ? (
+              filteredPegawaiData.map((data, index) => (
                 <tr key={index}>
                   <td id="id">{data.name}</td>
                   <td id="eselon">{data.emp_id}</td>
                   <td id="dpt">{data.rank}</td>
                   <td id="nost">{data.gol_room}</td>
                   <td id="datest">{data.position}</td>
+                  <td id="role">{data.role}</td>
                   <td id="action-db">
                     <div className="action-db">
                       <button
@@ -187,7 +253,7 @@ function DbPeg() {
                       </button>
                       <button
                         className="delete"
-                        onClick={() => handleDelete(data.id)}
+                        onClick={() => showDeletePopup(data.id)}
                       >
                         <Icon icon="fluent:delete-16-regular" width="20" />
                       </button>
@@ -197,7 +263,7 @@ function DbPeg() {
               ))
             ) : (
               <tr>
-                <td colspan="6">Loading data...</td>
+                <td colspan="7">Loading data...</td>
               </tr>
             )}
           </table>
@@ -240,6 +306,57 @@ function DbPeg() {
             <button className="btn-Failed" onClick={closeFailedDelete}>
               Kembali
             </button>
+          </div>
+        </div>
+
+        <div id="Relog">
+          <div className="detail-Relog">
+            <Icon
+              icon="radix-icons:cross-circled"
+              width="30"
+              style={{ cursor: "pointer" }}
+              onClick={closeRelog}
+            />
+            <div className="image-Relog">
+              <img src={GifFailed} alt="Relog" className="img-Failed" />
+            </div>
+            <p className="desc-Relog">
+              Akses Login Anda Sudah Expired, Silahkan Login Ulang!!
+            </p>
+            <button className="btn-Relog" onClick={closeRelog}>
+              Login Ulang
+            </button>
+          </div>
+        </div>
+
+        <div className="popup-Delete" id="popup-Delete">
+          <div className="detail-Delete">
+            <Icon
+              icon="radix-icons:cross-circled"
+              width="30"
+              style={{ cursor: "pointer" }}
+              onClick={closeDeletePopup}
+            />
+            <div className="image-Delete">
+              <img src={GifDelate} alt="" className="img-Delete" />
+            </div>
+            <p className="desc-Delete">Anda yakin ingin menghapus?</p>
+            <div className="con-btn-Delete">
+              <button
+                type="button"
+                className="btn-batal"
+                onClick={closeDeletePopup}
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                className="btn-delete"
+                onClick={handleDelete}
+              >
+                Hapus
+              </button>
+            </div>
           </div>
         </div>
 
@@ -293,6 +410,12 @@ function DbPeg() {
         </div>
 
         {/* end page loading */}
+        <div className="popup-loading" id="popup-loadingDetail">
+          <div className="body-loadingDetail" id="body-loadingDetail">
+            <h2 class="animate-loadingDetail">Loading</h2>
+            <p>Data Sedang Di Proses...</p>
+          </div>
+        </div>
       </div>
     );
 }

@@ -4,6 +4,35 @@
   box-sizing: border-box;
 }
 
+@keyframes slide-down {
+  from {
+      transform: translateY(-100%);
+  }
+
+  to {
+      transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+      transform: translateY(0);
+  }
+
+  to {
+      transform: translateY(-100%);
+  }
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
 header {
   background-image: url(/src/Assets/img-header-apkb2.jpg);
   width: 100%;
@@ -142,7 +171,7 @@ footer {
 .btn-success:hover,
 .btn-out:hover {
   background: #2a93d5;
-  color: var(--color-primer);
+  color: #fff;
   transition: 0.25s ease-in-out;
 }
 
@@ -150,7 +179,7 @@ footer {
 
 /* popup Failed */
 
-#popup-Failed {
+#popup-Failed, #Relog {
   top: 0;
   position: fixed;
   width: 100%;
@@ -168,7 +197,7 @@ footer {
   height: auto;
 }
 
-.detail-Failed {
+.detail-Failed, .detail-Relog {
   background: #ffffff;
   border-radius: 20px;
   width: 480px;
@@ -178,12 +207,12 @@ footer {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
 }
 
-.image-Failed {
+.image-Failed, .image-Relog {
   display: flex;
   justify-content: center;
 }
 
-.desc-Failed {
+.desc-Failed, .desc-Relog {
   font-family: "Poppins";
   font-style: normal;
   font-weight: 400;
@@ -193,7 +222,7 @@ footer {
   text-align: center;
 }
 
-.btn-Failed {
+.btn-Failed, .btn-Relog {
   background: #ffb0b0;
   border-radius: 10px;
   border: none;
@@ -228,7 +257,7 @@ footer {
 .btn-Failed:hover,
 .btn-Failed2:hover {
   background: #ee3a3a;
-  color: var(--color-primer);
+  color: #fff;
   transition: 0.25s ease-in-out;
 }
 
@@ -261,10 +290,12 @@ footer {
   width: 6.25em;
   height: 6.25em;
 }
+
 .pl__ring,
 .pl__ball {
   animation: ring 2s ease-out infinite;
 }
+
 .pl__ball {
   animation-name: ball;
 }
@@ -282,32 +313,40 @@ footer {
   from {
     stroke-dasharray: 0 257 0 0 1 0 0 258;
   }
+
   25% {
     stroke-dasharray: 0 0 0 0 257 0 258 0;
   }
+
   50%,
   to {
     stroke-dasharray: 0 0 0 0 0 515 0 0;
   }
 }
+
 @keyframes ball {
+
   from,
   50% {
     animation-timing-function: ease-in;
     stroke-dashoffset: 1;
   }
+
   64% {
     animation-timing-function: ease-in;
     stroke-dashoffset: -109;
   }
+
   78% {
     animation-timing-function: ease-in;
     stroke-dashoffset: -145;
   }
+
   92% {
     animation-timing-function: ease-in;
     stroke-dashoffset: -157;
   }
+
   57%,
   71%,
   85%,
@@ -343,6 +382,7 @@ footer {
     filter: blur(5px);
     letter-spacing: 3px;
   }
+
   100% {
     /*         opacity: 1; */
     /*         font-size: 12px; */
@@ -367,3 +407,97 @@ footer {
 
 /* end */
 /* end popup loading */
+
+/* popup Delete */
+#popup-Delete {
+  top: 0;
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  z-index: 200;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  animation-fill-mode: forwards;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.img-Delete {
+  max-width: 230px;
+  height: auto;
+}
+
+.detail-Delete {
+  background: #FFFFFF;
+  border-radius: 20px;
+  width: 480px;
+  display: none;
+  flex-direction: column;
+  padding: 30px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+}
+
+.image-Delete {
+  display: flex;
+  justify-content: center;
+}
+
+.con-btn-Delete {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  margin-top: 40px;
+}
+
+.desc-Delete {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  /* line-height: 22px; */
+  color: #797979;
+  text-align: center;
+}
+
+.btn-batal {
+  background: #D8F0FF;
+  border-radius: 10px;
+  border: none;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  /* line-height: 22px; */
+  color: #2A93D5;
+  width: 100%;
+  cursor: pointer;
+}
+
+.btn-batal:hover {
+  background: #2A93D5;
+  color: #fff;
+  transition: 0.25s ease-in-out;
+}
+
+.btn-delete {
+  background: #FFC6C6;
+  border-radius: 10px;
+  border: none;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  /* line-height: 22px; */
+  color: #FF3F3F;
+  width: 100%;
+  padding: 14px 0;
+  cursor: pointer;
+}
+
+.btn-delete:hover {
+  background: #FF3F3F;
+  color: #fff;
+  transition: 0.25s ease-in-out;
+}
+
+/* end popup Delete */

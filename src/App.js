@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import "./App.css";
 import FormInput from "./website/input";
 import Db from "./website/db";
@@ -11,6 +16,10 @@ import EditPegawai from "./website/editpegawai";
 import EditST from "./website/editsurattugas";
 
 function App() {
+  const redirectToDbPeg = () => {
+    return <Navigate to="/dbpeg" />;
+  };
+
   return (
     <Router>
       <Routes>
@@ -21,9 +30,18 @@ function App() {
         <Route path="/print" element={<Print />} />
         <Route path="/database" element={<Database />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/addpegawai" element={<AddPegawai/>} />
-        <Route path="/editpegawai" element={<EditPegawai/>} />
-        <Route path="/editsurattugas" element={<EditST/>} />
+        <Route path="/addpegawai" element={<AddPegawai />} />
+        <Route
+          path="/editpegawai/1"
+          element={
+            <>
+              {window.location.pathname === "/editpegawai/1" &&
+                redirectToDbPeg()}
+            </>
+          }
+        />
+        <Route path="/editpegawai/:id" element={<EditPegawai />} />
+        <Route path="/editsurattugas" element={<EditST />} />
       </Routes>
     </Router>
   );

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import LogoAPKB from "../Assets/LOGOAPKB.png";
 import "../Style/addpegawai.css";
 import { useNavigate, Link, useParams } from "react-router-dom";
@@ -13,33 +13,53 @@ function AddPegawai() {
   const saveToken = sessionStorage.getItem("token");
 
   const showSuccessAdd = () => {
-    const popupLogout = document.querySelector("#popup-success");
-    popupLogout.style.display = "flex";
+    const background = document.querySelector("#popup-success");
+    background.style.display = "flex";
+    const popupLogout = document.querySelector(".detail-success");
+    popupLogout.style.display = "grid";
     popupLogout.style.animation = "slide-down 0.3s ease-in-out";
   };
 
   const closeSuccess = () => {
-    const popupLogout = document.querySelector("#popup-success");
+    const background = document.querySelector("#popup-success");
+    setTimeout(() => (background.style.display = "none"), 300);
+    const popupLogout = document.querySelector(".detail-success");
     setTimeout(() => (popupLogout.style.display = "none"), 250);
     popupLogout.style.animation = "slide-up 0.3s ease-in-out";
-    // window.location.reload();
-     navigate(`/dbpeg`);
+    setTimeout(() => navigate(`/dbpeg`), 300);
+  };
+
+  const showRelog = () => {
+    const background = document.querySelector("#Relog");
+    background.style.display = "flex";
+    const popUpRelog = document.querySelector(".detail-Relog");
+    popUpRelog.style.display = "grid";
+    popUpRelog.style.animation = "slide-down 0.3s ease-in-out";
+  };
+
+  const closeRelog = () => {
+    const background = document.querySelector("#Relog");
+    setTimeout(() => (background.style.display = "none"), 300);
+    const popUpRelog = document.querySelector(".detail-Relog");
+    setTimeout(() => (popUpRelog.style.display = "none"), 250);
+    popUpRelog.style.animation = "slide-up 0.3s ease-in-out";
+    navigate(`/login`);
   };
 
   const showFailed = () => {
     const background = document.querySelector("#popup-Failed");
     background.style.display = "flex";
-    const popUpLogin = document.querySelector(".detail-Failed");
-    popUpLogin.style.display = "grid";
-    popUpLogin.style.animation = "slide-down 0.3s ease-in-out";
+    const popUpFailed = document.querySelector(".detail-Failed");
+    popUpFailed.style.display = "grid";
+    popUpFailed.style.animation = "slide-down 0.3s ease-in-out";
   };
 
   const closeFailed = () => {
     const background = document.querySelector("#popup-Failed");
     setTimeout(() => (background.style.display = "none"), 300);
-    const popUpLogin = document.querySelector(".detail-Failed");
-    setTimeout(() => (popUpLogin.style.display = "none"), 250);
-    popUpLogin.style.animation = "slide-up 0.3s ease-in-out";
+    const popUpFailed = document.querySelector(".detail-Failed");
+    setTimeout(() => (popUpFailed.style.display = "none"), 250);
+    popUpFailed.style.animation = "slide-up 0.3s ease-in-out";
   };
 
   const showPopupLoading = () => {
@@ -53,19 +73,18 @@ function AddPegawai() {
   const closePopupLoading = () => {
     const background = document.querySelector(".popup-loading");
     setTimeout(() => (background.style.display = "none"), 300);
-    // background.style.display = "none";
     const PopupLoading = document.querySelector(".body-loading");
     setTimeout(() => (PopupLoading.style.display = "none"), 250);
     PopupLoading.style.animation = "slide-up 0.3s ease-in-out";
   };
 
   const [formData, setFormData] = useState({
-    // Inisialisasi nilai awal untuk setiap field formulir
     name: "",
     emp_id: "",
     rank: "",
     gol_room: "",
     position: "",
+    role: "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -80,7 +99,8 @@ function AddPegawai() {
       form.append("rank", formData.rank);
       form.append("gol_room", formData.gol_room);
       form.append("position", formData.position);
-      console.log("mengirim data");
+      form.append("role", formData.role);
+
       showPopupLoading();
 
       axios
@@ -92,9 +112,7 @@ function AddPegawai() {
           },
         })
         .then((result) => {
-          console.log("data API", result.data);
           const responseAPI = result.data;
-          // setPegawaiData(responseAPI.data);
           setIsLoading(false);
           setFormData({
             name: "",
@@ -102,16 +120,22 @@ function AddPegawai() {
             rank: "",
             gol_room: "",
             position: "",
+            role: "",
           });
           setIsSubmitting(false);
           showSuccessAdd();
           closePopupLoading();
         })
-        .catch((err) => {
-          console.log("terjadi kesalahan: ", err);
-          // setIsError(true);
-          setIsLoading(false);
-          showFailed();
+        .catch((error) => {
+          console.log("terjadi kesalahan: ", error);
+
+          if (error.response && error.response.status === 401) {
+            showRelog();
+          } else {
+            setIsLoading(false);
+            showFailed();
+          }
+
           closePopupLoading();
         });
     }
@@ -134,7 +158,6 @@ function AddPegawai() {
 
     if (Object.keys(validationErrors).length === 0) {
       setIsSubmitting(true);
-      // showPopupLoading();
     }
   };
 
@@ -146,15 +169,56 @@ function AddPegawai() {
     if (!data.rank) errors.rank = "Pangkat harus diisi";
     if (!data.gol_room) errors.gol_room = "Gol/Ruang harus diisi";
     if (!data.position) errors.position = "Jabatan harus diisi";
+    if (!data.role) errors.role = "Role harus dipilih salah satu";
 
     return errors;
+  };
+
+  const importExcel = (file) => {
+    showPopupLoading();
+    const form = new FormData();
+    form.append("file", file);
+    axios
+      .post(`${apiurl}employee/import`, form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${saveToken}`,
+          "ngrok-skip-browser-warning": "any",
+        },
+      })
+      .then((response) => {
+        console.log("Import successful:", response.data);
+        // navigate("/dbpeg");
+        showSuccessAdd();
+        closePopupLoading();
+      })
+      .catch((error) => {
+        console.log("terjadi kesalahan: ", error);
+
+        if (error.response && error.response.status === 401) {
+          showRelog();
+        } else {
+          setIsLoading(false);
+          showFailed();
+        }
+
+        closePopupLoading();
+      });
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      importExcel(file);
+    }
   };
 
   return (
     <div>
       <header>
         <div className="logo">
-          <img src={LogoAPKB} />
+          <img src={LogoAPKB} alt="Logo" />
         </div>
       </header>
       <div className="container">
@@ -165,10 +229,18 @@ function AddPegawai() {
           <div className="title-form-add-pegawai">
             <h1>TAMBAH DATA PEGAWAI</h1>
           </div>
-          <button className="btn-import-excel">
+          <label htmlFor="fileInput" className="btn-import-excel">
             <h1>IMPORT EXCEL</h1>
-          </button>
+          </label>
+          <input
+            type="file"
+            accept=".xlsx, .xls"
+            id="fileInput"
+            onChange={handleFileChange}
+            style={{ display: "none" }}
+          />
         </div>
+
         <form onSubmit={handleSubmit} className="body-form-add-pegawai">
           <div className="form-input">
             <p>Nama</p>
@@ -184,7 +256,7 @@ function AddPegawai() {
           <div className="form-input">
             <p>Nip</p>
             <input
-              type="text"
+              type="number"
               name="emp_id"
               onChange={handleChange}
               value={formData.emp_id}
@@ -229,6 +301,35 @@ function AddPegawai() {
               <span className="error">{errors.position}</span>
             )}
           </div>
+          <div className="form-input">
+            <p>Role</p>
+            <div className="switch-inputRole">
+              <div className="con-radio">
+                <label>
+                  <input
+                    type="radio"
+                    name="role"
+                    value="biasa"
+                    checked={formData.role === "biasa"}
+                    onChange={handleChange}
+                  />
+                  BIASA
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="role"
+                    value="ppk"
+                    checked={formData.role === "ppk"}
+                    onChange={handleChange}
+                  />
+                  PPK
+                </label>
+              </div>
+            </div>
+            {errors.role && <span className="error">{errors.role}</span>}
+          </div>
+
           <button type="submit" className="btn-tambah-pegawai">
             <h1>TAMBAH</h1>
           </button>
@@ -268,11 +369,29 @@ function AddPegawai() {
           <div className="image-Failed">
             <img src={GifFailed} alt="Delete Failed" className="img-Failed" />
           </div>
-          <p className="desc-Failed">
-            Gagal menambahkan data!
-          </p>
+          <p className="desc-Failed">Gagal menambahkan data!</p>
           <button className="btn-Failed" onClick={closeFailed}>
             Kembali
+          </button>
+        </div>
+      </div>
+
+      <div id="Relog">
+        <div className="detail-Relog">
+          <Icon
+            icon="radix-icons:cross-circled"
+            width="30"
+            style={{ cursor: "pointer" }}
+            onClick={closeRelog}
+          />
+          <div className="image-Relog">
+            <img src={GifFailed} alt="Relog" className="img-Failed" />
+          </div>
+          <p className="desc-Relog">
+            Akses Login Anda Sudah Expired, Silahkan Login Ulang!!
+          </p>
+          <button className="btn-Relog" onClick={closeRelog}>
+            Login Ulang
           </button>
         </div>
       </div>
