@@ -30,9 +30,6 @@ function FormInputSuratPenugasan() {
           <li onClick={() => navigate("/dbpeg")}>
             <a href="">DBPEG</a>
           </li>
-          <li onClick={() => navigate("/ppk")}>
-            <a href="">PPK</a>
-          </li>
         </ul>
       </header>
 
@@ -42,8 +39,8 @@ function FormInputSuratPenugasan() {
         </div>
         <div className="body-form">
           <div className="form-input">
-            <p>ID</p>
-            <input type="text" placeholder="Input ID" />
+            <p>Pegawai (Dropdown)</p>
+            <input type="text" placeholder="Pilih Pegawai" />
           </div>
           <div className="form-input">
             <p>Tanggal SPD</p>
@@ -95,13 +92,6 @@ function FormInputSuratPenugasan() {
         </div>
         <div className="body-form">
           <div className="form-input">
-            <p>Nama PPK</p>
-            <input
-              type="text"
-              placeholder="Input Nama PPK"
-            />
-          </div>
-          <div className="form-input">
             <p>Dasar Pelaksanaan Tugas</p>
             <input type="text" placeholder="Input Dasar Pelaksanaan Tugas" />
           </div>
@@ -130,17 +120,46 @@ function FormInputSuratPenugasan() {
             <input type="text" placeholder="Input Transport" />
           </div>
           <div className="form-input">
-            <p>Pegawai</p>
-            <input type="text" placeholder="Input Pegawai" />
+            <p>Pegawai PKK (Dropdown)</p>
+            <input type="text" placeholder="Input Pegawai PPK" />
           </div>
           <div className="form-input">
-            <p>Pejabat Penanda Tangan ST & SPD</p>
+            <p>Pejabat Penanda Tangan ST & SPD (Dropdown)</p>
             <input
               type="text"
               placeholder="Input Pejabat Penanda Tangan ST & SPD"
             />
           </div>
+          {/* radio button 2 option plh and no plh */}
           <div className="form-input">
+            <p>Role</p>
+            <div className="switch-inputRole">
+              <div className="con-radio">
+                <label>
+                  <input
+                    type="radio"
+                    name="role"
+                    value="biasa"
+                    // checked={formData.role === "biasa"}
+                    // onChange={handleChange}
+                  />
+                  PLH
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="role"
+                    value="ppk"
+                    // checked={formData.role === "ppk"}
+                    // onChange={handleChange}
+                  />
+                  NO PLH
+                </label>
+              </div>
+            </div>
+          </div>
+
+          {/* <div className="form-input">
             <p>Kantor Tujuan Tugas Spesifik (Spd Dalam Kota Saja)</p>
             <textarea
               name=""
@@ -149,11 +168,11 @@ function FormInputSuratPenugasan() {
               placeholder="Input Kantor Tujuan Tugas Spesifik"
               style={{ resize: "none" }}
             ></textarea>
-          </div>
-          <div className="form-input">
+          </div> */}
+          {/* <div className="form-input">
             <p>Kota Asal Tujuan</p>
             <input type="text" placeholder="Input Kota Asal Tujuan" />
-          </div>
+          </div> */}
           <div className="form-input">
             <div className="button-form">
               <button id="save">Simpan</button>

@@ -28,6 +28,7 @@ function App() {
         <Route path="/db" element={<Db />} />
         <Route path="/dbpeg" element={<DbPeg />} />
         <Route path="/print" element={<Print />} />
+        <Route path="/print/:id" element={<Print />} />
         <Route path="/database" element={<Database />} />
         <Route path="/login" element={<Login />} />
         <Route path="/addpegawai" element={<AddPegawai />} />
@@ -41,7 +42,7 @@ function App() {
           }
         />
         <Route path="/editpegawai/:id" element={<EditPegawai />} />
-        <Route path="/editsurattugas" element={<EditST />} />
+        <Route path="/editsurattugas/:id" element={<EditST />} />
       </Routes>
     </Router>
   );

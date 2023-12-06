@@ -85,12 +85,13 @@ function DbPeg() {
     PopupLoading.style.animation = "slide-up 0.3s ease-in-out";
   };
 
-  const [pegawaiData, setPegawaiData] = useState({});
+  const [pegawaiData, setPegawaiData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [pegawaiToDelete, setPegawaiToDelete] = useState({});
 
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(`${apiurl}employee/data`, {
         headers: {
@@ -112,7 +113,7 @@ function DbPeg() {
           showRelog();
         } else {
           setIsLoading(false);
-          // setIsError(true);
+          setIsError(true);
         }
       });
   }, []);
@@ -225,47 +226,55 @@ function DbPeg() {
             </button>
           </div>
           <table>
-            <tr>
-              <th id="id">NAMA</th>
-              <th id="eselon">NIP</th>
-              <th id="dpt">PANGKAT</th>
-              <th id="nost">GOL/RUANG</th>
-              <th id="datest">JABATAN</th>
-              <th id="role">ROLE</th>
-              <th id="aksi">AKSI</th>
-            </tr>
-            {Array.isArray(filteredPegawaiData) ? (
-              filteredPegawaiData.map((data, index) => (
-                <tr key={index}>
-                  <td id="id">{data.name}</td>
-                  <td id="eselon">{data.emp_id}</td>
-                  <td id="dpt">{data.rank}</td>
-                  <td id="nost">{data.gol_room}</td>
-                  <td id="datest">{data.position}</td>
-                  <td id="role">{data.role}</td>
-                  <td id="action-db">
-                    <div className="action-db">
-                      <button
-                        className="edit"
-                        onClick={() => navigate(`/editpegawai/${data.id}`)}
-                      >
-                        <Icon icon="fluent:edit-16-regular" width="20" />
-                      </button>
-                      <button
-                        className="delete"
-                        onClick={() => showDeletePopup(data.id)}
-                      >
-                        <Icon icon="fluent:delete-16-regular" width="20" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))
-            ) : (
+            <thead>
               <tr>
-                <td colspan="7">Loading data...</td>
+                <th>Nama</th>
+                <th>NIP</th>
+                <th>Pangkat</th>
+                <th>Gol/Ruang</th>
+                <th>Jabatan</th>
+                <th>Role</th>
+                <th>Aksi</th>
               </tr>
-            )}
+            </thead>
+            <tbody>
+              {isLoading ? (
+                <tr>
+                  <td colSpan="7">Memuat data...</td>
+                </tr>
+              ) : filteredPegawaiData.length > 0 ? (
+                filteredPegawaiData.map((data, index) => (
+                  <tr key={index}>
+                    <td>{data.name}</td>
+                    <td>{data.emp_id}</td>
+                    <td>{data.rank}</td>
+                    <td>{data.gol_room}</td>
+                    <td>{data.position}</td>
+                    <td>{data.role}</td>
+                    <td>
+                      <div className="action-db">
+                        <button
+                          className="edit"
+                          onClick={() => navigate(`/editpegawai/${data.id}`)}
+                        >
+                          <Icon icon="fluent:edit-16-regular" width="20" />
+                        </button>
+                        <button
+                          className="delete"
+                          onClick={() => showDeletePopup(data.id)}
+                        >
+                          <Icon icon="fluent:delete-16-regular" width="20" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="7">Tidak ada data.</td>
+                </tr>
+              )}
+            </tbody>
           </table>
         </div>
 

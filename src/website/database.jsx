@@ -30,9 +30,6 @@ function Database() {
           <li onClick={() => navigate("/dbpeg")}>
             <a href="">DBPEG</a>
           </li>
-          <li onClick={() => navigate("/ppk")}>
-            <a href="">PPK</a>
-          </li>
         </ul>
       </header>
 
