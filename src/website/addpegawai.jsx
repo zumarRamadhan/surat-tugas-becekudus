@@ -7,6 +7,7 @@ import axios from "axios";
 import { Icon } from "@iconify/react";
 import GifSuccess from "../Assets/gif-success.gif";
 import GifFailed from "../Assets/gif-failed.gif";
+import Select from "react-select";
 
 function AddPegawai() {
   const navigate = useNavigate();

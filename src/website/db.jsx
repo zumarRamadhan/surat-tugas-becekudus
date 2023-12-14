@@ -41,6 +41,7 @@ function Db() {
     const popUpLogin = document.querySelector(".detail-Relog");
     popUpLogin.style.display = "grid";
     popUpLogin.style.animation = "slide-down 0.3s ease-in-out";
+    closePopupLoading();
   };
 
   const closeRelog = () => {
@@ -79,7 +80,6 @@ function Db() {
   const closePopupLoading = () => {
     const background = document.querySelector(".popup-loading");
     setTimeout(() => (background.style.display = "none"), 300);
-    // background.style.display = "none";
     const PopupLoading = document.querySelector(".body-loading");
     setTimeout(() => (PopupLoading.style.display = "none"), 250);
     PopupLoading.style.animation = "slide-up 0.3s ease-in-out";
@@ -116,7 +116,7 @@ function Db() {
         } else {
           setIsLoading(false);
           setIsError(true);
-          closePopupLoading();
+          // closePopupLoading();
         }
       });
   }, []);
@@ -170,40 +170,59 @@ function Db() {
   // search
 
   // Filter data based on the search term
-  const filteredAssignmentData = assignmentData.filter(
-    (data) =>
-      data.kk_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      data.unit.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      data.ndreq_st.includes(searchTerm) ||
-      data.no_st.includes(searchTerm) ||
-      data.nomor_st.includes(searchTerm) ||
-      data.date_st.includes(searchTerm) ||
-      data.no_spd.includes(searchTerm) ||
-      data.date_spd.includes(searchTerm) ||
-      data.departure_date.includes(searchTerm) ||
-      data.return_date.includes(searchTerm) ||
-      data.dipa_search.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      data.tagging_status === searchTerm || // assuming searchTerm is a boolean
-      data.plt.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      data.disbursement.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      data.no_spyt.includes(searchTerm) ||
-      data.implementation_tasks
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      data.business_trip_reason
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      data.destination_office
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      data.city_origin.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      data.destination_city_1
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      data.transportation.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      data.signature.includes(searchTerm) ||
-      data.employee.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredAssignmentData = assignmentData.filter((data) => {
+    const searchTermLowerCase = searchTerm.toLowerCase();
+
+    return (
+      (data.head_officer &&
+        data.head_officer.toLowerCase().includes(searchTermLowerCase)) ||
+      (data.nomor_identitas &&
+        data.nomor_identitas
+          .toString()
+          .toLowerCase()
+          .includes(searchTermLowerCase)) ||
+      (data.ppk && data.ppk.toLowerCase().includes(searchTermLowerCase)) ||
+      (data.ndreq_st && data.ndreq_st.includes(searchTerm)) ||
+      (data.no_st && data.no_st.includes(searchTerm)) ||
+      (data.nomor_st && data.nomor_st.includes(searchTerm)) ||
+      (data.date_st && data.date_st.includes(searchTerm)) ||
+      (data.no_spd && data.no_spd.includes(searchTerm)) ||
+      (data.date_spd && data.date_spd.includes(searchTerm)) ||
+      (data.departure_date && data.departure_date.includes(searchTerm)) ||
+      (data.return_date && data.return_date.includes(searchTerm)) ||
+      (data.plt && data.plt.toLowerCase().includes(searchTermLowerCase)) ||
+      (data.disbursement &&
+        data.disbursement.toLowerCase().includes(searchTermLowerCase)) ||
+      (data.no_spyt && data.no_spyt.includes(searchTerm)) ||
+      (data.implementation_tasks &&
+        data.implementation_tasks
+          .toLowerCase()
+          .includes(searchTermLowerCase)) ||
+      (data.business_trip_reason &&
+        data.business_trip_reason
+          .toLowerCase()
+          .includes(searchTermLowerCase)) ||
+      (data.destination_office &&
+        data.destination_office.toLowerCase().includes(searchTermLowerCase)) ||
+      (data.city_origin &&
+        data.city_origin.toLowerCase().includes(searchTermLowerCase)) ||
+      (data.destination_city_1 &&
+        data.destination_city_1.toLowerCase().includes(searchTermLowerCase)) ||
+      (data.destination_city_2 &&
+        data.destination_city_2.toLowerCase().includes(searchTermLowerCase)) ||
+      (data.destination_city_3 &&
+        data.destination_city_3.toLowerCase().includes(searchTermLowerCase)) ||
+      (data.destination_city_4 &&
+        data.destination_city_4.toLowerCase().includes(searchTermLowerCase)) ||
+      (data.destination_city_5 &&
+        data.destination_city_5.toLowerCase().includes(searchTermLowerCase)) ||
+      (data.transportation &&
+        data.transportation.toLowerCase().includes(searchTermLowerCase)) ||
+      (data.signature && data.signature.includes(searchTerm)) ||
+      (data.employee &&
+        data.employee.toLowerCase().includes(searchTermLowerCase))
+    );
+  });
 
   if (assignmentData && !isError)
     return (
@@ -250,21 +269,27 @@ function Db() {
             <thead>
               <tr>
                 <th id="no_st">NO ST</th>
-                <th id="input_name">NAMA PENGINPUT/PPK</th>
-                <th id="kk_name">Pejabat Penanda Tangan ST & SPD</th>
+                <th id="nomor_identitas">NO IDENTITAS</th>
+                <th id="ppk">NAMA PENGINPUT/PPK</th>
+                <th id="head_officer">Pejabat Penanda Tangan ST & SPD</th>
+                <th id="assignment">PEGAWAI</th>
                 <th id="implementation_tasks">DASAR PELAKSANAAN TUGAS</th>
                 <th id="nomor_st">NOMOR ST</th>
                 <th id="date_st">TANGGAL ST</th>
-                <th id="assignment">PEGAWAI</th>
                 <th id="business_trip_reason">MAKSUD PERJALANAN DINAS</th>
                 <th id="destination_office">KANTOR TUJUAN TUGAS</th>
                 <th id="destination_city_1">KOTA TUJUAN I</th>
+                <th id="destination_city_2">KOTA TUJUAN II</th>
+                <th id="destination_city_3">KOTA TUJUAN III</th>
+                <th id="destination_city_4">KOTA TUJUAN IV</th>
+                <th id="destination_city_5">KOTA TUJUAN V</th>
                 <th id="departure_date">TANGGAL BERANGKAT</th>
                 <th id="return_date">TANGGAL KEMBALI</th>
                 <th id="no_spd">NO SPD</th>
                 <th id="date_spd">TANGGAL SPD</th>
                 <th id="transportation">TRANSPORTASI</th>
                 <th id="disbursement">PENCAIRAN</th>
+                <th id="dipa_search">Pencairan DIPA</th>
                 <th id="no_spyt">NO SPYT (SPD DALAM KOTA SAJA)</th>
                 <th id="city_origin">KOTA ASAL</th>
                 <th id="ndreq_st">ND Permohonan</th>
@@ -279,25 +304,85 @@ function Db() {
               ) : filteredAssignmentData.length > 0 ? (
                 filteredAssignmentData.map((data, index) => (
                   <tr key={index.id}>
-                    <td>{data.no_st}</td>
-                    <td>{data.ppk}</td>
-                    <td>{data.kk_name}</td>
-                    <td>{data.implementation_tasks}</td>
-                    <td>{data.nomor_st}</td>
-                    <td>{data.date_st}</td>
-                    <td>{data.employee}</td>
-                    <td>{data.business_trip_reason}</td>
-                    <td>{data.destination_office}</td>
-                    <td>{data.destination_city_1}</td>
-                    <td>{data.departure_date}</td>
-                    <td>{data.return_date}</td>
-                    <td>{data.no_spd}</td>
-                    <td>{data.date_spd}</td>
-                    <td>{data.transportation}</td>
-                    <td>{data.disbursement}</td>
-                    <td>{data.no_spyt}</td>
-                    <td>{data.city_origin}</td>
-                    <td>{data.ndreq_st}</td>
+                    <td>{data.no_st !== "null" ? data.no_st : ""}</td>
+                    <td>
+                      {data.nomor_identitas !== "null"
+                        ? data.nomor_identitas
+                        : ""}
+                    </td>
+                    <td>{data.ppk !== "null" ? data.ppk : ""}</td>
+                    <td>
+                      {data.head_officer !== "null" ? data.head_officer : ""}
+                    </td>
+                    <td>{data.employee !== "null" ? data.employee : ""}</td>
+                    <td>
+                      {data.implementation_tasks !== "null"
+                        ? data.implementation_tasks
+                        : ""}
+                    </td>
+                    <td>{data.nomor_st !== "null" ? data.nomor_st : ""}</td>
+                    <td>{data.date_st !== "null" ? data.date_st : ""}</td>
+                    <td>
+                      {data.business_trip_reason !== "null"
+                        ? data.business_trip_reason
+                        : ""}
+                    </td>
+                    <td>
+                      {data.destination_office !== "null"
+                        ? data.destination_office
+                        : ""}
+                    </td>
+                    <td>
+                      {data.destination_city_1 !== "null"
+                        ? data.destination_city_1
+                        : ""}
+                    </td>
+                    <td>
+                      {data.destination_city_2 !== "null"
+                        ? data.destination_city_2
+                        : ""}
+                    </td>
+                    <td>
+                      {data.destination_city_3 !== "null"
+                        ? data.destination_city_3
+                        : ""}
+                    </td>
+                    <td>
+                      {data.destination_city_4 !== "null"
+                        ? data.destination_city_4
+                        : ""}
+                    </td>
+                    <td>
+                      {data.destination_city_5 !== "null"
+                        ? data.destination_city_5
+                        : ""}
+                    </td>
+                    <td>
+                      {data.departure_date !== "null"
+                        ? data.departure_date
+                        : ""}
+                    </td>
+                    <td>
+                      {data.return_date !== "null" ? data.return_date : ""}
+                    </td>
+                    <td>{data.no_spd !== "null" ? data.no_spd : ""}</td>
+                    <td>{data.date_spd !== "null" ? data.date_spd : ""}</td>
+                    <td>
+                      {data.transportation !== "null"
+                        ? data.transportation
+                        : ""}
+                    </td>
+                    <td>
+                      {data.disbursement !== "null" ? data.disbursement : ""}
+                    </td>
+                    <td>
+                      {data.dipa_search !== "null" ? data.dipa_search : ""}
+                    </td>
+                    <td>{data.no_spyt !== "null" ? data.no_spyt : ""}</td>
+                    <td>
+                      {data.city_origin !== "null" ? data.city_origin : ""}
+                    </td>
+                    <td>{data.ndreq_st !== "null" ? data.ndreq_st : ""}</td>
                     <td id="action-db">
                       <div className="action-db">
                         {/* <button
@@ -319,8 +404,12 @@ function Db() {
                           <Icon icon="fluent:delete-16-regular" width="20" />
                         </button>
                         <button className="print">
-                          <Icon icon="fluent:print-16-regular" width="20" 
-                          onClick={() => navigate(`/print/${data.no_st}`)}
+                          <Icon
+                            icon="fluent:print-16-regular"
+                            width="20"
+                            onClick={() =>
+                              navigate(`/print/${data.nomor_identitas}`)
+                            }
                           />
                         </button>
                       </div>

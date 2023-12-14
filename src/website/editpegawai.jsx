@@ -99,6 +99,7 @@ function EditPegawai() {
     axios
       .get(`${apiurl}employee/detail/${id}`, {
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${saveToken}`,
           "ngrok-skip-browser-warning": "any",
         },
@@ -147,14 +148,14 @@ function EditPegawai() {
         .then((result) => {
           const responseAPI = result.data;
           setIsLoading(false);
-          // setFormData({
-          //   name: "",
-          //   emp_id: "",
-          //   rank: "",
-          //   gol_room: "",
-          //   position: "",
-          //   role: "",
-          // });
+          setFormData({
+            name: "",
+            emp_id: "",
+            rank: "",
+            gol_room: "",
+            position: "",
+            role: "",
+          });
           setIsSubmitting(false);
           showSuccessEdit();
           closePopupLoading();

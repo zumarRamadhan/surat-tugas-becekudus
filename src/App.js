@@ -28,7 +28,7 @@ function App() {
         <Route path="/db" element={<Db />} />
         <Route path="/dbpeg" element={<DbPeg />} />
         <Route path="/print" element={<Print />} />
-        <Route path="/print/:id" element={<Print />} />
+        <Route path="/print/:valueInput" element={<Print />} />
         <Route path="/database" element={<Database />} />
         <Route path="/login" element={<Login />} />
         <Route path="/addpegawai" element={<AddPegawai />} />
