@@ -224,6 +224,17 @@ function Database() {
     );
   });
 
+  const getStatusColor = (taggingStatus) => {
+    switch (taggingStatus) {
+      case "canceled":
+        return "#FF9D9D"; // Canceled status
+      case "online":
+        return "#9BB1FF"; // Online status
+      default:
+        return "#FFFFFF"; // Default status
+    }
+  };
+
   if (assignmentData && !isError)
     return (
       <div>
@@ -236,7 +247,7 @@ function Database() {
               <a href="">INPUT</a>
             </li>
             <li>
-              <a  onClick={() => navigate("/db")}>DB</a>
+              <a onClick={() => navigate("/db")}>DB</a>
             </li>
             <li className="active">
               <a href="">DATABASE</a>
@@ -263,7 +274,10 @@ function Database() {
                 <Icon icon="icomoon-free:search" width="15" />
               </div>
             </div>
-            <ExportExcelButton data={dataExport} filename="file_backup_assignment" />
+            <ExportExcelButton
+              data={dataExport}
+              filename="file_backup_assignment"
+            />
           </div>
           <table>
             <thead>
@@ -273,6 +287,7 @@ function Database() {
                 <th id="ppk">NAMA PENGINPUT/PPK</th>
                 <th id="head_officer">Pejabat Penanda Tangan ST & SPD</th>
                 <th id="assignment">PEGAWAI</th>
+                <th id="unit">Sub Bagian/Seksi</th>
                 <th id="implementation_tasks">DASAR PELAKSANAAN TUGAS</th>
                 <th id="nomor_st">NOMOR ST</th>
                 <th id="date_st">TANGGAL ST</th>
@@ -281,19 +296,15 @@ function Database() {
                 <th id="destination_city_1">KOTA TUJUAN I</th>
                 <th id="destination_city_2">KOTA TUJUAN II</th>
                 <th id="destination_city_3">KOTA TUJUAN III</th>
-                <th id="destination_city_4">KOTA TUJUAN IV</th>
-                <th id="destination_city_5">KOTA TUJUAN V</th>
                 <th id="departure_date">TANGGAL BERANGKAT</th>
                 <th id="return_date">TANGGAL KEMBALI</th>
                 <th id="no_spd">NO SPD</th>
                 <th id="date_spd">TANGGAL SPD</th>
                 <th id="transportation">TRANSPORTASI</th>
-                <th id="disbursement">PENCAIRAN</th>
-                <th id="dipa_search">Pencairan DIPA</th>
+                <th id="dipa_search">Pembebanan DIPA</th>
                 <th id="no_spyt">NO SPYT (SPD DALAM KOTA SAJA)</th>
                 <th id="city_origin">KOTA ASAL</th>
                 <th id="ndreq_st">ND Permohonan</th>
-                {/* <th id="aksi">AKSI</th> */}
               </tr>
             </thead>
             <tbody>
@@ -303,7 +314,12 @@ function Database() {
                 </tr>
               ) : filteredAssignmentData.length > 0 ? (
                 filteredAssignmentData.map((data, index) => (
-                  <tr key={index.id}>
+                  <tr
+                    key={index.id}
+                    style={{
+                      backgroundColor: getStatusColor(data.tagging_status),
+                    }}
+                  >
                     <td>{data.no_st !== "null" ? data.no_st : ""}</td>
                     <td>
                       {data.nomor_identitas !== "null"
@@ -315,6 +331,7 @@ function Database() {
                       {data.head_officer !== "null" ? data.head_officer : ""}
                     </td>
                     <td>{data.employee !== "null" ? data.employee : ""}</td>
+                    <td>{data.unit !== "null" ? data.unit : ""}</td>
                     <td>
                       {data.implementation_tasks !== "null"
                         ? data.implementation_tasks
@@ -348,16 +365,6 @@ function Database() {
                         : ""}
                     </td>
                     <td>
-                      {data.destination_city_4 !== "null"
-                        ? data.destination_city_4
-                        : ""}
-                    </td>
-                    <td>
-                      {data.destination_city_5 !== "null"
-                        ? data.destination_city_5
-                        : ""}
-                    </td>
-                    <td>
                       {data.departure_date !== "null"
                         ? data.departure_date
                         : ""}
@@ -373,9 +380,6 @@ function Database() {
                         : ""}
                     </td>
                     <td>
-                      {data.disbursement !== "null" ? data.disbursement : ""}
-                    </td>
-                    <td>
                       {data.dipa_search !== "null" ? data.dipa_search : ""}
                     </td>
                     <td>{data.no_spyt !== "null" ? data.no_spyt : ""}</td>
@@ -383,35 +387,6 @@ function Database() {
                       {data.city_origin !== "null" ? data.city_origin : ""}
                     </td>
                     <td>{data.ndreq_st !== "null" ? data.ndreq_st : ""}</td>
-                    {/* <td id="action-db">
-                      <div className="action-db">
-                        <button
-                          className="preview"
-                          onClick={() => navigate("/preview")}
-                        >
-                          <Icon icon="clarity:eye-line" width="20" />
-                        </button>
-                        <button
-                          className="edit"
-                          onClick={() => navigate(`/editsurattugas/${data.id}`)}
-                        >
-                          <Icon icon="fluent:edit-16-regular" width="20" />
-                        </button>
-                        <button
-                          className="delete"
-                          onClick={() => showDeletePopup(data.id)}
-                        >
-                          <Icon icon="fluent:delete-16-regular" width="20" />
-                        </button>
-                        <button className="print">
-                          <Icon
-                            icon="fluent:print-16-regular"
-                            width="20"
-                            onClick={() => navigate(`/print/${data.nomor_identitas}`)}
-                          />
-                        </button>
-                      </div>
-                    </td> */}
                   </tr>
                 ))
               ) : (
@@ -421,46 +396,6 @@ function Database() {
               )}
             </tbody>
           </table>
-        </div>
-
-        <div id="popup-success">
-          <div className="detail-success">
-            <Icon
-              icon="radix-icons:cross-circled"
-              width="30"
-              style={{ cursor: "pointer" }}
-              onClick={closeSuccessDelete}
-            />
-            <div className="image-success">
-              <img
-                src={GifSuccess}
-                alt="Delete Success"
-                className="img-success"
-              />
-            </div>
-            <p className="desc-success">Data berhasil dihapus!</p>
-            <button className="btn-success" onClick={closeSuccessDelete}>
-              Kembali
-            </button>
-          </div>
-        </div>
-
-        <div id="popup-Failed">
-          <div className="detail-Failed">
-            <Icon
-              icon="radix-icons:cross-circled"
-              width="30"
-              style={{ cursor: "pointer" }}
-              onClick={closeFailedDelete}
-            />
-            <div className="image-Failed">
-              <img src={GifFailed} alt="Delete Failed" className="img-Failed" />
-            </div>
-            <p className="desc-Failed">Gagal menghapus data!</p>
-            <button className="btn-Failed" onClick={closeFailedDelete}>
-              Kembali
-            </button>
-          </div>
         </div>
 
         <div id="Relog">
@@ -480,37 +415,6 @@ function Database() {
             <button className="btn-Relog" onClick={closeRelog}>
               Login Ulang
             </button>
-          </div>
-        </div>
-
-        <div className="popup-Delete" id="popup-Delete">
-          <div className="detail-Delete">
-            <Icon
-              icon="radix-icons:cross-circled"
-              width="30"
-              style={{ cursor: "pointer" }}
-              onClick={closeDeletePopup}
-            />
-            <div className="image-Delete">
-              <img src={GifDelate} alt="" className="img-Delete" />
-            </div>
-            <p className="desc-Delete">Anda yakin ingin menghapus?</p>
-            <div className="con-btn-Delete">
-              <button
-                type="button"
-                className="btn-batal"
-                onClick={closeDeletePopup}
-              >
-                Batal
-              </button>
-              <button
-                type="button"
-                className="btn-delete"
-                onClick={handleDelete}
-              >
-                Hapus
-              </button>
-            </div>
           </div>
         </div>
 

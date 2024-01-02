@@ -184,6 +184,7 @@ function Db() {
       (data.ppk && data.ppk.toLowerCase().includes(searchTermLowerCase)) ||
       (data.ndreq_st && data.ndreq_st.includes(searchTerm)) ||
       (data.no_st && data.no_st.includes(searchTerm)) ||
+      (data.unit && data.unit.includes(searchTerm)) ||
       (data.nomor_st && data.nomor_st.includes(searchTerm)) ||
       (data.date_st && data.date_st.includes(searchTerm)) ||
       (data.no_spd && data.no_spd.includes(searchTerm)) ||
@@ -223,6 +224,17 @@ function Db() {
         data.employee.toLowerCase().includes(searchTermLowerCase))
     );
   });
+
+  const getStatusColor = (taggingStatus) => {
+    switch (taggingStatus) {
+      case "canceled":
+        return "#FF9D9D"; // Canceled status
+      case "online":
+        return "#9BB1FF"; // Online status
+      default:
+        return "#FFFFFF"; // Default status
+    }
+  };
 
   if (assignmentData && !isError)
     return (
@@ -273,6 +285,7 @@ function Db() {
                 <th id="ppk">NAMA PENGINPUT/PPK</th>
                 <th id="head_officer">Pejabat Penanda Tangan ST & SPD</th>
                 <th id="assignment">PEGAWAI</th>
+                <th id="unit">Sub Bagian/Seksi</th>
                 <th id="implementation_tasks">DASAR PELAKSANAAN TUGAS</th>
                 <th id="nomor_st">NOMOR ST</th>
                 <th id="date_st">TANGGAL ST</th>
@@ -281,15 +294,12 @@ function Db() {
                 <th id="destination_city_1">KOTA TUJUAN I</th>
                 <th id="destination_city_2">KOTA TUJUAN II</th>
                 <th id="destination_city_3">KOTA TUJUAN III</th>
-                <th id="destination_city_4">KOTA TUJUAN IV</th>
-                <th id="destination_city_5">KOTA TUJUAN V</th>
                 <th id="departure_date">TANGGAL BERANGKAT</th>
                 <th id="return_date">TANGGAL KEMBALI</th>
                 <th id="no_spd">NO SPD</th>
                 <th id="date_spd">TANGGAL SPD</th>
                 <th id="transportation">TRANSPORTASI</th>
-                <th id="disbursement">PENCAIRAN</th>
-                <th id="dipa_search">Pencairan DIPA</th>
+                <th id="dipa_search">Pembebanan DIPA</th>
                 <th id="no_spyt">NO SPYT (SPD DALAM KOTA SAJA)</th>
                 <th id="city_origin">KOTA ASAL</th>
                 <th id="ndreq_st">ND Permohonan</th>
@@ -303,7 +313,12 @@ function Db() {
                 </tr>
               ) : filteredAssignmentData.length > 0 ? (
                 filteredAssignmentData.map((data, index) => (
-                  <tr key={index.id}>
+                  <tr
+                    key={index.id}
+                    style={{
+                      backgroundColor: getStatusColor(data.tagging_status),
+                    }}
+                  >
                     <td>{data.no_st !== "null" ? data.no_st : ""}</td>
                     <td>
                       {data.nomor_identitas !== "null"
@@ -315,6 +330,7 @@ function Db() {
                       {data.head_officer !== "null" ? data.head_officer : ""}
                     </td>
                     <td>{data.employee !== "null" ? data.employee : ""}</td>
+                    <td>{data.unit !== "null" ? data.unit : ""}</td>
                     <td>
                       {data.implementation_tasks !== "null"
                         ? data.implementation_tasks
@@ -348,16 +364,6 @@ function Db() {
                         : ""}
                     </td>
                     <td>
-                      {data.destination_city_4 !== "null"
-                        ? data.destination_city_4
-                        : ""}
-                    </td>
-                    <td>
-                      {data.destination_city_5 !== "null"
-                        ? data.destination_city_5
-                        : ""}
-                    </td>
-                    <td>
                       {data.departure_date !== "null"
                         ? data.departure_date
                         : ""}
@@ -373,9 +379,6 @@ function Db() {
                         : ""}
                     </td>
                     <td>
-                      {data.disbursement !== "null" ? data.disbursement : ""}
-                    </td>
-                    <td>
                       {data.dipa_search !== "null" ? data.dipa_search : ""}
                     </td>
                     <td>{data.no_spyt !== "null" ? data.no_spyt : ""}</td>
@@ -385,12 +388,6 @@ function Db() {
                     <td>{data.ndreq_st !== "null" ? data.ndreq_st : ""}</td>
                     <td id="action-db">
                       <div className="action-db">
-                        {/* <button
-                          className="preview"
-                          onClick={() => navigate("/preview")}
-                        >
-                          <Icon icon="clarity:eye-line" width="20" />
-                        </button> */}
                         <button
                           className="edit"
                           onClick={() => navigate(`/editsurattugas/${data.id}`)}

@@ -31,6 +31,22 @@ function FormInputSuratPenugasan() {
     setTimeout(() => navigate(`/db`), 300);
   };
 
+  const showSuccessAddPegawai = () => {
+    const background = document.querySelector("#popup-success-pegawai");
+    background.style.display = "flex";
+    const popupLogout = document.querySelector(".detail-success");
+    popupLogout.style.display = "grid";
+    popupLogout.style.animation = "slide-down 0.3s ease-in-out";
+  };
+
+  const closeSuccessAddPegawai = () => {
+    const background = document.querySelector("#popup-success-pegawai");
+    setTimeout(() => (background.style.display = "none"), 300);
+    const popupLogout = document.querySelector(".detail-success");
+    setTimeout(() => (popupLogout.style.display = "none"), 250);
+    popupLogout.style.animation = "slide-up 0.3s ease-in-out";
+  };
+
   const showRelog = () => {
     const background = document.querySelector("#Relog");
     background.style.display = "flex";
@@ -103,13 +119,15 @@ function FormInputSuratPenugasan() {
     transportasi: "",
     id_ppk: "",
     tandatangan: "",
-    plt: "",
+    plt: "kosong",
     pencairan_dana: "",
     no_spyt: "",
     penanda_tangan: "",
+    tagging_status: "default",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmittingPegawai, setIsSubmittingPegawai] = useState(false);
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
@@ -122,11 +140,11 @@ function FormInputSuratPenugasan() {
       form.append("no_ndpermohonan_st", formData.no_ndpermohonan_st);
       form.append("no_st", formData.no_st);
       form.append("nomor_st", formData.nomor_st);
-      form.append("tanggal_st", formData.tanggal_st);
+      form.append("tanggal_st", formData.tanggal_st || "");
       form.append("no_spd", formData.no_spd);
       form.append("tanggal_spd", formData.tanggal_spd);
-      form.append("tanggal_berangkat", formData.tanggal_berangkat);
-      form.append("tanggal_kembali", formData.tanggal_kembali);
+      form.append("tanggal_berangkat", formData.tanggal_berangkat || "");
+      form.append("tanggal_kembali", formData.tanggal_kembali || "");
       form.append("pencarian_dipa", formData.pencarian_dipa);
       form.append("dasar_pelaksanaan_tugas", formData.dasar_pelaksanaan_tugas);
       form.append("maksud_perjalanan_dinas", formData.maksud_perjalanan_dinas);
@@ -138,8 +156,8 @@ function FormInputSuratPenugasan() {
       form.append("transportasi", formData.transportasi);
       form.append("id_ppk", formData.id_ppk);
       form.append("tandatangan", formData.tandatangan);
+      form.append("tagging", formData.tagging_status);
       form.append("plt", formData.plt);
-      form.append("pencairan_dana", formData.pencairan_dana);
       form.append("no_spyt", formData.no_spyt);
       form.append("penanda_tangan", formData.penanda_tangan);
 
@@ -180,13 +198,15 @@ function FormInputSuratPenugasan() {
             id_ppk: "",
             tandatangan: "",
             plt: "",
-            pencairan_dana: "",
             no_spyt: "",
             penanda_tangan: "",
           });
           setIsSubmitting(false);
-          showSuccessAdd();
+          setSelectedPegawai(null);
+          setSelectedPegawaiPPK(null);
+          setSelectedPegawaiPenandaTangan(null);
           closePopupLoading();
+          showSuccessAdd();
         })
         .catch((error) => {
           console.log("terjadi kesalahan: ", error);
@@ -223,15 +243,96 @@ function FormInputSuratPenugasan() {
     }
   };
 
+  const handleAddPegawai = (e) => {
+    e.preventDefault();
+
+    const validationErrors = validateForm(formData);
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length === 0) {
+      setIsSubmittingPegawai(true);
+
+      const form = new FormData();
+      form.append("id_pegawai", formData.id_pegawai);
+      form.append("nomor_identitas", formData.nomor_identitas);
+      form.append("unit", formData.unit);
+      form.append("no_ndpermohonan_st", formData.no_ndpermohonan_st);
+      form.append("no_st", formData.no_st);
+      form.append("nomor_st", formData.nomor_st);
+      form.append("tanggal_st", formData.tanggal_st || "");
+      form.append("no_spd", formData.no_spd);
+      form.append("tanggal_spd", formData.tanggal_spd || "");
+      form.append("tanggal_berangkat", formData.tanggal_berangkat || "");
+      form.append("tanggal_kembali", formData.tanggal_kembali || "");
+      form.append("pencarian_dipa", formData.pencarian_dipa);
+      form.append("dasar_pelaksanaan_tugas", formData.dasar_pelaksanaan_tugas);
+      form.append("maksud_perjalanan_dinas", formData.maksud_perjalanan_dinas);
+      form.append("kantor_tujuan_tugas", formData.kantor_tujuan_tugas);
+      form.append("kota_asal_tugas", formData.kota_asal_tugas);
+      form.append("kota_tujuan_tugas_1", formData.kota_tujuan_tugas_1);
+      form.append("kota_tujuan_tugas_2", formData.kota_tujuan_tugas_2);
+      form.append("kota_tujuan_tugas_3", formData.kota_tujuan_tugas_3);
+      form.append("transportasi", formData.transportasi);
+      form.append("id_ppk", formData.id_ppk);
+      form.append("tandatangan", formData.tandatangan);
+      form.append("tagging_status", formData.tagging_status);
+      form.append("plt", formData.plt);
+      form.append("no_spyt", formData.no_spyt);
+      form.append("penanda_tangan", formData.penanda_tangan);
+
+      showPopupLoading();
+
+      axios
+        .post(`${apiurl}assignment/create`, form, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${saveToken}`,
+            "ngrok-skip-browser-warning": "any",
+          },
+        })
+        .then((result) => {
+          const responseAPI = result.data;
+          setIsLoading(false);
+          setFormData((prevFormData) => ({
+            ...prevFormData,
+            id_pegawai: "",
+            unit: "",
+            no_ndpermohonan_st: "",
+            no_spd: "",
+            tanggal_spd: "",
+            pencarian_dipa: "",
+            no_spyt: "",
+          }));
+          setIsSubmittingPegawai(false);
+          setSelectedPegawai(null);
+          closePopupLoading();
+          showSuccessAddPegawai();
+        })
+        .catch((error) => {
+          console.log("terjadi kesalahan: ", error);
+
+          if (error.response && error.response.status === 401) {
+            showRelog();
+          } else {
+            setIsLoading(false);
+            showFailed();
+          }
+
+          closePopupLoading();
+        });
+    }
+  };
+
   const validateForm = (data) => {
     let errors = {};
 
     if (!data.id_pegawai) errors.id_pegawai = "Nama harus diisi";
     if (!data.id_ppk) errors.id_ppk = "PPK harus diisi";
+    if (!data.tagging_status) errors.tagging_status = "Silahkan pilih tagging";
     if (data.plt === "plh" && !data.penanda_tangan) {
       errors.penanda_tangan = "Penanda Tangan harus diisi";
     }
-    if (!data.plt) errors.plt = "Harus memilih role";
+    if (!data.plt) errors.plt = "Wajib memilih role";
     if (!data.nomor_identitas)
       errors.nomor_identitas = "Nomor identitas harus diisi";
     return errors;
@@ -338,6 +439,90 @@ function FormInputSuratPenugasan() {
     fetchData();
   }, []);
 
+  const handleClearForm = () => {
+    setFormData({
+      id_pegawai: "",
+      nomor_identitas: "",
+      unit: "",
+      no_ndpermohonan_st: "",
+      no_st: "",
+      nomor_st: "",
+      tanggal_st: "",
+      no_spd: "",
+      tanggal_spd: "",
+      tanggal_berangkat: "",
+      tanggal_kembali: "",
+      pencarian_dipa: "",
+      dasar_pelaksanaan_tugas: "",
+      maksud_perjalanan_dinas: "",
+      kantor_tujuan_tugas: "",
+      kota_asal_tugas: "",
+      kota_tujuan_tugas_1: "",
+      kota_tujuan_tugas_2: "",
+      kota_tujuan_tugas_3: "",
+      transportasi: "",
+      id_ppk: "",
+      tandatangan: "",
+      plt: "kosong",
+      no_spyt: "",
+      penanda_tangan: "",
+      tagging_status: "default",
+    });
+
+    setSelectedPegawai(null);
+    setSelectedPegawaiPPK(null);
+    setSelectedPegawaiPenandaTangan(null);
+
+    setErrors({});
+  };
+
+  const subBagianOptions = [
+    { value: "Subbagian Umum", label: "Subbagian Umum" },
+    {
+      value: "Seksi Intelijen dan Penindakan",
+      label: "Seksi Intelijen dan Penindakan",
+    },
+    { value: "Seksi Penyidikan dan BHP", label: "Seksi Penyidikan dan BHP" },
+    { value: "Seksi Perbendaharaan", label: "Seksi Perbendaharaan" },
+    {
+      value: "Seksi Pelayanan Kepabeanan dan Cukai I",
+      label: "Seksi Pelayanan Kepabeanan dan Cukai I",
+    },
+    {
+      value: "Seksi Pelayanan Kepabeanan dan Cukai II",
+      label: "Seksi Pelayanan Kepabeanan dan Cukai II",
+    },
+    {
+      value: "Seksi Penyuluhan dan Layanan Informasi",
+      label: "Seksi Penyuluhan dan Layanan Informasi",
+    },
+    { value: "Seksi Kepatuhan Internal", label: "Seksi Kepatuhan Internal" },
+  ];
+
+  const [selectedSubBagianSeksi, setSelectedSubBagianSeksi] = useState(null);
+  const handleSubBagianSeksiChange = (selectedOption) => {
+    setSelectedSubBagianSeksi(selectedOption);
+    setFormData((prevState) => ({
+      ...prevState,
+      unit: selectedOption?.value || "",
+    }));
+  };
+
+  const TransportOptions = [
+    { value: "Kendaraan Dinas", label: "Kendaraan Dinas" },
+    { value: "Kendaraan Pribadi", label: "Kendaraan Pribadi" },
+    { value: "Transportasi Umum", label: "Transportasi Umum" },
+  ];
+
+  const [selectedTransport, setSelectedTransport] = useState(null);
+  const handleTransport = (selectedOption) => {
+    setSelectedTransport(selectedOption);
+    setFormData((prevState) => ({
+      ...prevState,
+      transportasi: selectedOption?.value || "",
+    }));
+  };
+  
   return (
     <div>
       <header>
@@ -363,7 +548,7 @@ function FormInputSuratPenugasan() {
         </ul>
       </header>
 
-      <form onSubmit={handleSubmit} className="container">
+      <div className="container">
         <div className="title-form">
           <h1>FORM INPUT</h1>
         </div>
@@ -418,16 +603,17 @@ function FormInputSuratPenugasan() {
             />
           </div>
           <div className="form-input">
-            <p>Unit</p>
-            <input
-              type="text"
-              placeholder="Input Unit"
-              id="unit"
-              name="unit"
-              value={formData.unit}
-              onChange={handleChange}
+            <p>Sub Bagian/Seksi</p>
+            <Select
+              value={selectedSubBagianSeksi}
+              onChange={handleSubBagianSeksiChange}
+              options={subBagianOptions}
+              isClearable
+              placeholder="Pilih Sub Bagian/Seksi"
+              className="input-form"
             />
           </div>
+
           <div className="form-input">
             <p>No SPYT</p>
             <input
@@ -481,24 +667,13 @@ function FormInputSuratPenugasan() {
             />
           </div>
           <div className="form-input">
-            <p>Pencairan DIPA</p>
+            <p>Pembebanan DIPA</p>
             <input
               type="text"
               placeholder="Input Pencairan DIPA"
               id="pencarian_dipa"
               name="pencarian_dipa"
               value={formData.pencarian_dipa}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-input">
-            <p>Pencairan Dana</p>
-            <input
-              type="text"
-              placeholder="Input Pencairan Dana"
-              id="pencairan_dana"
-              name="pencairan_dana"
-              value={formData.pencairan_dana}
               onChange={handleChange}
             />
           </div>
@@ -515,9 +690,42 @@ function FormInputSuratPenugasan() {
           </div>
           <div className="form-input">
             <p>Tagging</p>
-            <div className="button-tangging">
-              <button id="cancel">BATAL</button>
-              <button id="continue">Kegiatan Online</button>
+            <div className="switch-inputTagging">
+              <div className="con-radio">
+                <label>
+                  <input
+                    type="radio"
+                    name="tagging_status"
+                    value="default"
+                    checked={formData.tagging_status === "default"}
+                    onChange={handleChange}
+                  />
+                  Default
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="tagging_status"
+                    value="canceled"
+                    checked={formData.tagging_status === "canceled"}
+                    onChange={handleChange}
+                  />
+                  Batal
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="tagging_status"
+                    value="online"
+                    checked={formData.tagging_status === "online"}
+                    onChange={handleChange}
+                  />
+                  Online
+                </label>
+              </div>
+              {errors.tagging_status && (
+                <span className="error">{errors.tagging_status}</span>
+              )}
             </div>
           </div>
         </div>
@@ -601,13 +809,13 @@ function FormInputSuratPenugasan() {
           </div>
           <div className="form-input">
             <p>Transport</p>
-            <input
-              type="text"
-              placeholder="Input Transport"
-              id="transportasi"
-              name="transportasi"
-              value={formData.transportasi}
-              onChange={handleChange}
+            <Select
+              value={selectedTransport}
+              onChange={handleTransport}
+              options={TransportOptions}
+              isClearable
+              placeholder="Pilih Transportasi"
+              className="input-form"
             />
           </div>
           <div className="form-input">
@@ -672,15 +880,19 @@ function FormInputSuratPenugasan() {
           </div>
           <div className="form-input">
             <div className="button-form">
-              <button id="save" type="submit">
+              <button id="save" type="submit" onClick={handleSubmit}>
                 Simpan
               </button>
-              <button id="clear">Clear Form</button>
-              <button id="add">Tambah Pegawai</button>
+              <button id="clear" onClick={handleClearForm}>
+                Clear Form
+              </button>
+              <button id="add" onClick={handleAddPegawai}>
+                Tambah Pegawai
+              </button>
             </div>
           </div>
         </div>
-      </form>
+      </div>
 
       <div id="popup-success">
         <div className="detail-success">
@@ -699,6 +911,30 @@ function FormInputSuratPenugasan() {
           </div>
           <p className="desc-success">Data berhasil ditambahkan!</p>
           <button className="btn-success" onClick={closeSuccess}>
+            Kembali
+          </button>
+        </div>
+      </div>
+
+      <div id="popup-success-pegawai">
+        <div className="detail-success">
+          <Icon
+            icon="radix-icons:cross-circled"
+            width="30"
+            style={{ cursor: "pointer" }}
+            onClick={closeSuccess}
+          />
+          <div className="image-success">
+            <img
+              src={GifSuccess}
+              alt="Delete Success"
+              className="img-success"
+            />
+          </div>
+          <p className="desc-success">
+            Data berhasil ditambahkan! Silahkan tambah pegawai
+          </p>
+          <button className="btn-success" onClick={closeSuccessAddPegawai}>
             Kembali
           </button>
         </div>

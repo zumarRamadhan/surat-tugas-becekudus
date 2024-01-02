@@ -106,7 +106,7 @@ footer {
 
 #popup-success,
 #popup-success-addCode,
-#popup-success-ChangesPass {
+#popup-success-ChangesPass, #popup-success-pegawai {
   top: 0;
   position: fixed;
   width: 100%;

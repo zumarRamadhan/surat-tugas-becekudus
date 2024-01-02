@@ -115,7 +115,7 @@ function Print() {
       const link = document.createElement("a");
       // Menyesuaikan nama file sesuai dengan jenis surat tugas
 
-      const fileName = type === "SPD" ? "nama_file.zip" : "nama_file.docx";
+      const fileName = type === "SPD" ? "outputSPD.zip" : "outputST.docx";
 
       link.href = url;
       link.setAttribute("download", fileName);
@@ -132,10 +132,14 @@ function Print() {
       showSuccess();
     } catch (error) {
       // Menyembunyikan popup loading
-      closePopupLoading();
 
-      // Menampilkan popup gagal
-      showFailed();
+      if (error.response && error.response.status === 401) {
+        showRelog();
+        closePopupLoading();
+      } else {
+        closePopupLoading();
+        showFailed();
+      }
     }
   };
 
@@ -233,7 +237,7 @@ function Print() {
           <div className="image-Failed">
             <img src={GifFailed} alt="Edit Data" className="img-Failed" />
           </div>
-          <p className="desc-Failed">Gagal memperbaharui data!</p>
+          <p className="desc-Failed">Gagal print, silahkan coba lagi!</p>
           <button className="btn-Failed" onClick={closeFailed}>
             Kembali
           </button>
