@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import LogoAPKB from "../Assets/LOGOAPKB.png";
-import "../Style/print.css";
+import LogoAPKB from "../../Assets/LOGOAPKB.png";
+import "../../Style/print.css";
 import { useNavigate, Link, useParams } from "react-router-dom";
-import apiurl from "../api/api";
+import apiurl from "../../api/api";
 import axios from "axios";
 import { Icon } from "@iconify/react";
-import GifSuccess from "../Assets/gif-success.gif";
-import GifFailed from "../Assets/gif-failed.gif";
-import ImgLogout from "../Assets/68582-log-out.gif";
+import GifSuccess from "../../Assets/gif-success.gif";
+import GifFailed from "../../Assets/gif-failed.gif";
+import ImgLogout from "../../Assets/68582-log-out.gif";
 
 function Print() {
   const navigate = useNavigate();
@@ -20,8 +20,8 @@ function Print() {
   }, [valueInput]);
 
   useEffect(() => {
-    if (sessionStorage.getItem("role") !== "master") {
-      navigate("/ppk/print");
+    if (sessionStorage.getItem("role") !== "ppk") {
+      navigate("/print");
     }
   }, []);
 
@@ -187,19 +187,19 @@ function Print() {
           <img src={LogoAPKB} />
         </div>
         <ul className="navbar">
-          <li onClick={() => navigate("/forminput")}>
+          <li onClick={() => navigate("/ppk/forminput")}>
             <a href="">INPUT</a>
           </li>
-          <li onClick={() => navigate("/db")}>
+          <li onClick={() => navigate("/ppk/db")}>
             <a href="">DB</a>
           </li>
-          <li onClick={() => navigate("/database")}>
+          <li onClick={() => navigate("/ppk/database")}>
             <a href="">DATABASE</a>
           </li>
           <li className="active">
             <a href="">PRINT</a>
           </li>
-          <li onClick={() => navigate("/dbpeg")}>
+          <li onClick={() => navigate("/ppk/dbpeg")}>
             <a href="">DBPEG</a>
           </li>
         </ul>
@@ -316,7 +316,11 @@ function Print() {
           </div>
           <p className="desc-logout">Anda yakin ingin keluar?</p>
           <div className="con-btn-logout">
-            <button type="button" className="btn-batal-logout" onClick={closeLogout}>
+            <button
+              type="button"
+              className="btn-batal-logout"
+              onClick={closeLogout}
+            >
               Batal
             </button>
             <button type="button" className="btn-keluar" onClick={handleLogout}>

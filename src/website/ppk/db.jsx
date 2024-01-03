@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
-import LogoAPKB from "../Assets/LOGOAPKB.png";
-import "../Style/db.css";
+import LogoAPKB from "../../Assets/LOGOAPKB.png";
+import "../../Style/db.css";
 import { useNavigate, Link, useParams } from "react-router-dom";
-import apiurl from "../api/api";
+import apiurl from "../../api/api";
 import axios from "axios";
 import { Icon } from "@iconify/react";
-import GifSuccess from "../Assets/gif-success.gif";
-import GifFailed from "../Assets/gif-failed.gif";
-import GifDelate from "../Assets/gif-delete.gif";
-import ExportExcelButton from "../Component/exportfile";
-import ImgLogout from "../Assets/68582-log-out.gif";
+import GifSuccess from "../../Assets/gif-success.gif";
+import GifFailed from "../../Assets/gif-failed.gif";
+import GifDelate from "../../Assets/gif-delete.gif";
+import ExportExcelButton from "../../Component/exportfile";
+import ImgLogout from "../../Assets/68582-log-out.gif";
 
 function Db() {
   const navigate = useNavigate();
@@ -18,8 +18,8 @@ function Db() {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    if (sessionStorage.getItem("role") !== "master") {
-      navigate("/ppk/db");
+    if (sessionStorage.getItem("role") !== "ppk") {
+      navigate("/db");
     }
   }, []);
 
@@ -60,7 +60,7 @@ function Db() {
     const popUpLogin = document.querySelector(".detail-Relog");
     setTimeout(() => (popUpLogin.style.display = "none"), 250);
     popUpLogin.style.animation = "slide-up 0.3s ease-in-out";
-    window.location.replace("/");
+    navigate(`/login`);
   };
 
   const showFailedDelete = () => {
@@ -284,19 +284,19 @@ function Db() {
             <img src={LogoAPKB} />
           </div>
           <ul className="navbar">
-            <li onClick={() => navigate("/forminput")}>
+            <li onClick={() => navigate("/ppk/forminput")}>
               <a href="">INPUT</a>
             </li>
             <li className="active">
               <a href="">DB</a>
             </li>
-            <li onClick={() => navigate("/database")}>
+            <li onClick={() => navigate("/ppk/database")}>
               <a href="">DATABASE</a>
             </li>
-            <li onClick={() => navigate("/print")}>
+            <li onClick={() => navigate("/ppk/print")}>
               <a href="">PRINT</a>
             </li>
-            <li onClick={() => navigate("/dbpeg")}>
+            <li onClick={() => navigate("/ppk/dbpeg")}>
               <a href="">DBPEG</a>
             </li>
           </ul>

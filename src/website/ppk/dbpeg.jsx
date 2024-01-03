@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
-import LogoAPKB from "../Assets/LOGOAPKB.png";
-import "../Style/dbpeg.css";
+import LogoAPKB from "../../Assets/LOGOAPKB.png";
+import "../../Style/dbpeg.css";
 import { useNavigate, Link, useParams } from "react-router-dom";
-import apiurl from "../api/api";
+import apiurl from "../../api/api";
 import axios from "axios";
 import { Icon } from "@iconify/react";
-import GifSuccess from "../Assets/gif-success.gif";
-import GifFailed from "../Assets/gif-failed.gif";
-import GifDelate from "../Assets/gif-delete.gif";
-import ExportExcelButton from "../Component/exportfile";
-import ImgLogout from "../Assets/68582-log-out.gif";
-
+import GifSuccess from "../../Assets/gif-success.gif";
+import GifFailed from "../../Assets/gif-failed.gif";
+import GifDelate from "../../Assets/gif-delete.gif";
+import ExportExcelButton from "../../Component/exportfile";
+import ImgLogout from "../../Assets/68582-log-out.gif";
 function DbPeg() {
   const navigate = useNavigate();
   const saveToken = sessionStorage.getItem("token");
@@ -18,8 +17,8 @@ function DbPeg() {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    if (sessionStorage.getItem("role") !== "master") {
-      navigate("/ppk/dbpeg");
+    if (sessionStorage.getItem("role") !== "ppk") {
+      navigate("/dbpeg");
     }
   }, []);
 
@@ -95,7 +94,6 @@ function DbPeg() {
   const [pegawaiData, setPegawaiData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [pegawaiToDelete, setPegawaiToDelete] = useState({});
 
   useEffect(() => {
     setIsLoading(true);
@@ -127,52 +125,6 @@ function DbPeg() {
         }
       });
   }, []);
-
-  const showDeletePopup = (id) => {
-    const background = document.querySelector("#popup-Delete");
-    background.style.display = "flex";
-    const popupDelete = document.querySelector(".detail-Delete");
-    popupDelete.style.display = "block";
-    popupDelete.style.animation = "slide-down 0.3s ease-in-out";
-    setPegawaiToDelete(id);
-  };
-
-  const handleDelete = () => {
-    if (pegawaiToDelete) {
-      showPopupLoading();
-      axios
-        .delete(`${apiurl}employee/delete/${pegawaiToDelete}`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${saveToken}`,
-            "ngrok-skip-browser-warning": "any",
-          },
-        })
-        .then((response) => {
-          // Penanganan ketika penghapusan berhasil
-          console.log("Data berhasil dihapus");
-          closeDeletePopup();
-          showSuccessDelete();
-          closePopupLoading();
-        })
-        .catch((error) => {
-          // Penanganan ketika terjadi kesalahan saat menghapus data
-          console.log("Terjadi kesalahan saat menghapus data:", error);
-          showFailedDelete();
-          closeDeletePopup();
-          closePopupLoading();
-        });
-    }
-  };
-
-  const closeDeletePopup = () => {
-    const background = document.querySelector("#popup-Delete");
-    setTimeout(() => (background.style.display = "none"), 300);
-    // background.style.display = "none";
-    const popupDelete = document.querySelector(".detail-Delete");
-    setTimeout(() => (popupDelete.style.display = "none"), 250);
-    popupDelete.style.animation = "slide-up 0.3s ease-in-out";
-  };
 
   // search
 
@@ -225,16 +177,16 @@ function DbPeg() {
             <img src={LogoAPKB} />
           </div>
           <ul className="navbar">
-            <li onClick={() => navigate("/forminput")}>
+            <li onClick={() => navigate("/ppk/forminput")}>
               <a href="">INPUT</a>
             </li>
-            <li onClick={() => navigate("/db")}>
+            <li onClick={() => navigate("/ppk/db")}>
               <a href="">DB</a>
             </li>
-            <li onClick={() => navigate("/database")}>
+            <li onClick={() => navigate("/ppk/database")}>
               <a href="">DATABASE</a>
             </li>
-            <li onClick={() => navigate("/print")}>
+            <li onClick={() => navigate("/ppk/print")}>
               <a href="">PRINT</a>
             </li>
             <li className="active">
@@ -258,12 +210,6 @@ function DbPeg() {
             </div>
 
             <ExportExcelButton data={dataExport} filename="data_pegawai" />
-            <button
-              className="tambah-data"
-              onClick={() => navigate("/addpegawai")}
-            >
-              Tambah Data
-            </button>
           </div>
           <table>
             <thead>
@@ -274,7 +220,6 @@ function DbPeg() {
                 <th>Gol/Ruang</th>
                 <th>Jabatan</th>
                 <th>Role</th>
-                <th>Aksi</th>
               </tr>
             </thead>
             <tbody>
@@ -291,22 +236,6 @@ function DbPeg() {
                     <td>{data.gol_room}</td>
                     <td>{data.position}</td>
                     <td>{data.role}</td>
-                    <td>
-                      <div className="action-db">
-                        <button
-                          className="edit"
-                          onClick={() => navigate(`/editpegawai/${data.id}`)}
-                        >
-                          <Icon icon="fluent:edit-16-regular" width="20" />
-                        </button>
-                        <button
-                          className="delete"
-                          onClick={() => showDeletePopup(data.id)}
-                        >
-                          <Icon icon="fluent:delete-16-regular" width="20" />
-                        </button>
-                      </div>
-                    </td>
                   </tr>
                 ))
               ) : (
@@ -316,46 +245,6 @@ function DbPeg() {
               )}
             </tbody>
           </table>
-        </div>
-
-        <div id="popup-success">
-          <div className="detail-success">
-            <Icon
-              icon="radix-icons:cross-circled"
-              width="30"
-              style={{ cursor: "pointer" }}
-              onClick={closeSuccessDelete}
-            />
-            <div className="image-success">
-              <img
-                src={GifSuccess}
-                alt="Delete Success"
-                className="img-success"
-              />
-            </div>
-            <p className="desc-success">Data berhasil dihapus!</p>
-            <button className="btn-success" onClick={closeSuccessDelete}>
-              Kembali
-            </button>
-          </div>
-        </div>
-
-        <div id="popup-Failed">
-          <div className="detail-Failed">
-            <Icon
-              icon="radix-icons:cross-circled"
-              width="30"
-              style={{ cursor: "pointer" }}
-              onClick={closeFailedDelete}
-            />
-            <div className="image-Failed">
-              <img src={GifFailed} alt="Delete Failed" className="img-Failed" />
-            </div>
-            <p className="desc-Failed">Gagal menghapus data!</p>
-            <button className="btn-Failed" onClick={closeFailedDelete}>
-              Kembali
-            </button>
-          </div>
         </div>
 
         <div id="Relog">
@@ -375,37 +264,6 @@ function DbPeg() {
             <button className="btn-Relog" onClick={closeRelog}>
               Login Ulang
             </button>
-          </div>
-        </div>
-
-        <div className="popup-Delete" id="popup-Delete">
-          <div className="detail-Delete">
-            <Icon
-              icon="radix-icons:cross-circled"
-              width="30"
-              style={{ cursor: "pointer" }}
-              onClick={closeDeletePopup}
-            />
-            <div className="image-Delete">
-              <img src={GifDelate} alt="" className="img-Delete" />
-            </div>
-            <p className="desc-Delete">Anda yakin ingin menghapus?</p>
-            <div className="con-btn-Delete">
-              <button
-                type="button"
-                className="btn-batal"
-                onClick={closeDeletePopup}
-              >
-                Batal
-              </button>
-              <button
-                type="button"
-                className="btn-delete"
-                onClick={handleDelete}
-              >
-                Hapus
-              </button>
-            </div>
           </div>
         </div>
 

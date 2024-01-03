@@ -1,24 +1,23 @@
-// import { Icon } from "@iconify/react";omor_ide
+// import { Icon } from "@iconify/react";
 import { useState, useEffect } from "react";
-import LogoAPKB from "../Assets/LOGOAPKB.png";
-import "../Style/editsurattugas.css";
+import LogoAPKB from "../../Assets/LOGOAPKB.png";
+import "../../Style/inputform.css";
 import { useNavigate, Link, useParams } from "react-router-dom";
-import apiurl from "../api/api";
+import apiurl from "../../api/api";
 import axios from "axios";
 import { Icon } from "@iconify/react";
-import GifSuccess from "../Assets/gif-success.gif";
-import GifFailed from "../Assets/gif-failed.gif";
+import GifSuccess from "../../Assets/gif-success.gif";
+import GifFailed from "../../Assets/gif-failed.gif";
 import Select from "react-select";
-import ImgLogout from "../Assets/68582-log-out.gif";
+import ImgLogout from "../../Assets/68582-log-out.gif";
 
-function EditST() {
-  const { id } = useParams();
+function FormInputSuratPenugasan() {
   const navigate = useNavigate();
   const saveToken = sessionStorage.getItem("token");
 
   useEffect(() => {
-    if (sessionStorage.getItem("role") !== "master") {
-      navigate("/ppk/db");
+    if (sessionStorage.getItem("role") !== "ppk") {
+      navigate("/forminput");
     }
   }, []);
 
@@ -127,10 +126,10 @@ function EditST() {
     transportasi: "",
     id_ppk: "",
     tandatangan: "",
-    plt: "",
+    plt: "kosong",
+    pencairan_dana: "",
     no_spyt: "",
     penanda_tangan: "",
-    id_head_officer: "",
     tagging_status: "default",
   });
 
@@ -138,200 +137,6 @@ function EditST() {
   const [isSubmittingPegawai, setIsSubmittingPegawai] = useState(false);
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-
-  //
-
-  const [selectedPegawai, setSelectedPegawai] = useState(null);
-  const [pegawaiOptions, setPegawaiOptions] = useState([]);
-  const handlePegawaiChange = (selectedOption) => {
-    setSelectedPegawai(selectedOption);
-    setFormData((prevState) => ({
-      ...prevState,
-      id_pegawai: selectedOption?.value || "",
-    }));
-  };
-
-  const [selectedPegawaiPPK, setSelectedPegawaiPPK] = useState(null);
-  const [pegawaiPPKOptions, setPegawaiPPKOptions] = useState([]);
-  const handlePegawaiPPKChange = (selectedOption) => {
-    setSelectedPegawaiPPK(selectedOption);
-    setFormData((prevState) => ({
-      ...prevState,
-      id_ppk: selectedOption?.value || "",
-    }));
-  };
-
-  const [selectedPegawaiPenandaTangan, setSelectedPegawaiPenandaTangan] =
-    useState(null);
-  const [pegawaiPenandaTanganOptions, setPegawaiPenandaTanganOptions] =
-    useState([]);
-  const handlePegawaiPenandaTanganChange = (selectedOption) => {
-    setSelectedPegawaiPenandaTangan(selectedOption);
-    setFormData((prevState) => ({
-      ...prevState,
-      penanda_tangan: selectedOption?.value || "",
-    }));
-  };
-
-  //
-  useEffect(() => {
-    showPopupLoading();
-    axios
-      .get(`${apiurl}assignment/detail/${id}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${saveToken}`,
-          "ngrok-skip-browser-warning": "any",
-        },
-      })
-      .then((response) => {
-        const selectedPegawaiOption = pegawaiOptions.find(
-          (option) => option.value === response.data.data.id_pegawai
-        );
-        setSelectedPegawai(selectedPegawaiOption);
-
-        const selectedPegawaiPPKOption = pegawaiPPKOptions.find(
-          (option) => option.value === response.data.data.id_ppk
-        );
-        setSelectedPegawaiPPK(selectedPegawaiPPKOption);
-
-        const selectedPegawaiPenandaTanganOption =
-          pegawaiPenandaTanganOptions.find(
-            (option) => option.value === response.data.data.id_head_officer
-          );
-        setSelectedPegawaiPenandaTangan(selectedPegawaiPenandaTanganOption);
-
-        const selectedSubBagianSeksiOption = subBagianOptions.find(
-          (option) => option.value === response.data.data.unit
-        );
-        setSelectedSubBagianSeksi(selectedSubBagianSeksiOption);
-
-        const selectedTransportOption = TransportOptions.find(
-          (option) => option.value === response.data.data.transportation
-        );
-        setSelectedTransport(selectedTransportOption);
-
-        setFormData({
-          id_pegawai:
-            response.data.data.id_pegawai !== "null"
-              ? response.data.data.id_pegawai
-              : "",
-          nomor_identitas:
-            response.data.data.nomor_identitas !== "null"
-              ? response.data.data.nomor_identitas
-              : "",
-          unit:
-            response.data.data.unit !== "null" ? response.data.data.unit : "",
-          no_ndpermohonan_st:
-            response.data.data.ndreq_st !== "null"
-              ? response.data.data.ndreq_st
-              : "",
-          no_st:
-            response.data.data.no_st !== "null" ? response.data.data.no_st : "",
-          nomor_st:
-            response.data.data.nomor_st !== "null"
-              ? response.data.data.nomor_st
-              : "",
-          tanggal_st:
-            response.data.data.date_st !== "null"
-              ? response.data.data.date_st
-              : "",
-          no_spd:
-            response.data.data.no_spd !== "null"
-              ? response.data.data.no_spd
-              : "",
-          tanggal_spd:
-            response.data.data.date_spd !== "null"
-              ? response.data.data.date_spd
-              : "",
-          tanggal_berangkat:
-            response.data.data.departure_date !== "null"
-              ? response.data.data.departure_date
-              : "",
-          tanggal_kembali:
-            response.data.data.return_date !== "null"
-              ? response.data.data.return_date
-              : "",
-          pencarian_dipa:
-            response.data.data.dipa_search !== "null"
-              ? response.data.data.dipa_search
-              : "",
-          dasar_pelaksanaan_tugas:
-            response.data.data.implementation_tasks !== "null"
-              ? response.data.data.implementation_tasks
-              : "",
-          maksud_perjalanan_dinas:
-            response.data.data.business_trip_reason !== "null"
-              ? response.data.data.business_trip_reason
-              : "",
-          kantor_tujuan_tugas:
-            response.data.data.destination_office !== "null"
-              ? response.data.data.destination_office
-              : "",
-          kota_asal_tugas:
-            response.data.data.city_origin !== "null"
-              ? response.data.data.city_origin
-              : "",
-          kota_tujuan_tugas_1:
-            response.data.data.destination_city_1 !== "null"
-              ? response.data.data.destination_city_1
-              : "",
-          kota_tujuan_tugas_2:
-            response.data.data.destination_city_2 !== "null"
-              ? response.data.data.destination_city_2
-              : "",
-          kota_tujuan_tugas_3:
-            response.data.data.destination_city_3 !== "null"
-              ? response.data.data.destination_city_3
-              : "",
-          transportasi:
-            response.data.data.transportation !== "null"
-              ? response.data.data.transportation
-              : "",
-          id_ppk:
-            response.data.data.id_ppk !== "null"
-              ? response.data.data.id_ppk
-              : "",
-          tandatangan:
-            response.data.data.signature !== "null"
-              ? response.data.data.signature
-              : "",
-          plt: response.data.data.plt !== "null" ? response.data.data.plt : "",
-          no_spyt:
-            response.data.data.no_spyt !== "null"
-              ? response.data.data.no_spyt
-              : "",
-          penanda_tangan:
-            response.data.data.id_head_officer !== "null"
-              ? response.data.data.id_head_officer
-              : "",
-          id_head_officer:
-            response.data.data.id_head_officer !== "null"
-              ? response.data.data.id_head_officer
-              : "",
-          tagging_status:
-            response.data.data.tagging_status !== "null"
-              ? response.data.data.tagging_status
-              : "",
-        });
-        // closePopupLoading();
-      })
-      .catch((error) => {
-        console.log("terjadi kesalahan: ", error);
-        if (error.response && error.response.status === 401) {
-          showRelog();
-        } else {
-          setIsLoading(false);
-          showFailed();
-        }
-      });
-  }, [
-    id,
-    saveToken,
-    pegawaiOptions,
-    pegawaiPPKOptions,
-    pegawaiPenandaTanganOptions,
-  ]);
 
   useEffect(() => {
     if (isSubmitting) {
@@ -344,7 +149,7 @@ function EditST() {
       form.append("nomor_st", formData.nomor_st);
       form.append("tanggal_st", formData.tanggal_st || "");
       form.append("no_spd", formData.no_spd);
-      form.append("tanggal_spd", formData.tanggal_spd || "");
+      form.append("tanggal_spd", formData.tanggal_spd);
       form.append("tanggal_berangkat", formData.tanggal_berangkat || "");
       form.append("tanggal_kembali", formData.tanggal_kembali || "");
       form.append("pencarian_dipa", formData.pencarian_dipa);
@@ -358,15 +163,15 @@ function EditST() {
       form.append("transportasi", formData.transportasi);
       form.append("id_ppk", formData.id_ppk);
       form.append("tandatangan", formData.tandatangan);
+      form.append("tagging", formData.tagging_status);
       form.append("plt", formData.plt);
       form.append("no_spyt", formData.no_spyt);
       form.append("penanda_tangan", formData.penanda_tangan);
-      form.append("tagging_status", formData.tagging_status);
 
       showPopupLoading();
 
       axios
-        .post(`${apiurl}assignment/edit/${id}`, form, {
+        .post(`${apiurl}assignment/create`, form, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${saveToken}`,
@@ -402,11 +207,13 @@ function EditST() {
             plt: "",
             no_spyt: "",
             penanda_tangan: "",
-            tagging_status: "default",
           });
           setIsSubmitting(false);
-          showSuccessAdd();
+          setSelectedPegawai(null);
+          setSelectedPegawaiPPK(null);
+          setSelectedPegawaiPenandaTangan(null);
           closePopupLoading();
+          showSuccessAdd();
         })
         .catch((error) => {
           console.log("terjadi kesalahan: ", error);
@@ -416,7 +223,6 @@ function EditST() {
           } else {
             setIsLoading(false);
             showFailed();
-            setIsSubmitting(false);
           }
 
           closePopupLoading();
@@ -444,6 +250,86 @@ function EditST() {
     }
   };
 
+  const handleAddPegawai = (e) => {
+    e.preventDefault();
+
+    const validationErrors = validateForm(formData);
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length === 0) {
+      setIsSubmittingPegawai(true);
+
+      const form = new FormData();
+      form.append("id_pegawai", formData.id_pegawai);
+      form.append("nomor_identitas", formData.nomor_identitas);
+      form.append("unit", formData.unit);
+      form.append("no_ndpermohonan_st", formData.no_ndpermohonan_st);
+      form.append("no_st", formData.no_st);
+      form.append("nomor_st", formData.nomor_st);
+      form.append("tanggal_st", formData.tanggal_st || "");
+      form.append("no_spd", formData.no_spd);
+      form.append("tanggal_spd", formData.tanggal_spd || "");
+      form.append("tanggal_berangkat", formData.tanggal_berangkat || "");
+      form.append("tanggal_kembali", formData.tanggal_kembali || "");
+      form.append("pencarian_dipa", formData.pencarian_dipa);
+      form.append("dasar_pelaksanaan_tugas", formData.dasar_pelaksanaan_tugas);
+      form.append("maksud_perjalanan_dinas", formData.maksud_perjalanan_dinas);
+      form.append("kantor_tujuan_tugas", formData.kantor_tujuan_tugas);
+      form.append("kota_asal_tugas", formData.kota_asal_tugas);
+      form.append("kota_tujuan_tugas_1", formData.kota_tujuan_tugas_1);
+      form.append("kota_tujuan_tugas_2", formData.kota_tujuan_tugas_2);
+      form.append("kota_tujuan_tugas_3", formData.kota_tujuan_tugas_3);
+      form.append("transportasi", formData.transportasi);
+      form.append("id_ppk", formData.id_ppk);
+      form.append("tandatangan", formData.tandatangan);
+      form.append("tagging_status", formData.tagging_status);
+      form.append("plt", formData.plt);
+      form.append("no_spyt", formData.no_spyt);
+      form.append("penanda_tangan", formData.penanda_tangan);
+
+      showPopupLoading();
+
+      axios
+        .post(`${apiurl}assignment/create`, form, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${saveToken}`,
+            "ngrok-skip-browser-warning": "any",
+          },
+        })
+        .then((result) => {
+          const responseAPI = result.data;
+          setIsLoading(false);
+          setFormData((prevFormData) => ({
+            ...prevFormData,
+            id_pegawai: "",
+            unit: "",
+            no_ndpermohonan_st: "",
+            no_spd: "",
+            tanggal_spd: "",
+            pencarian_dipa: "",
+            no_spyt: "",
+          }));
+          setIsSubmittingPegawai(false);
+          setSelectedPegawai(null);
+          closePopupLoading();
+          showSuccessAddPegawai();
+        })
+        .catch((error) => {
+          console.log("terjadi kesalahan: ", error);
+
+          if (error.response && error.response.status === 401) {
+            showRelog();
+          } else {
+            setIsLoading(false);
+            showFailed();
+          }
+
+          closePopupLoading();
+        });
+    }
+  };
+
   const validateForm = (data) => {
     let errors = {};
 
@@ -457,6 +343,38 @@ function EditST() {
     if (!data.nomor_identitas)
       errors.nomor_identitas = "Nomor identitas harus diisi";
     return errors;
+  };
+
+  const [selectedPegawai, setSelectedPegawai] = useState(null);
+  const [pegawaiOptions, setPegawaiOptions] = useState([]);
+  const handlePegawaiChange = (selectedOption) => {
+    setSelectedPegawai(selectedOption);
+    setFormData((prevState) => ({
+      ...prevState,
+      id_pegawai: selectedOption?.value || "",
+    }));
+  };
+
+  const [selectedPegawaiPPK, setSelectedPegawaiPPK] = useState(null);
+  const [selectedPegawaiPenandaTangan, setSelectedPegawaiPenandaTangan] =
+    useState(null);
+  const handlePegawaiPPKChange = (selectedOption) => {
+    setSelectedPegawaiPPK(selectedOption);
+    setFormData((prevState) => ({
+      ...prevState,
+      id_ppk: selectedOption?.value || "",
+    }));
+  };
+
+  const [pegawaiPPKOptions, setPegawaiPPKOptions] = useState([]);
+  const [pegawaiPenandaTanganOptions, setPegawaiPenandaTanganOptions] =
+    useState([]);
+  const handlePegawaiPenandaTanganChange = (selectedOption) => {
+    setSelectedPegawaiPenandaTangan(selectedOption);
+    setFormData((prevState) => ({
+      ...prevState,
+      penanda_tangan: selectedOption?.value || "",
+    }));
   };
 
   useEffect(() => {
@@ -565,86 +483,6 @@ function EditST() {
     setErrors({});
   };
 
-  const handleAddPegawai = (e) => {
-    e.preventDefault();
-
-    const validationErrors = validateForm(formData);
-    setErrors(validationErrors);
-
-    if (Object.keys(validationErrors).length === 0) {
-      setIsSubmittingPegawai(true);
-
-      const form = new FormData();
-      form.append("id_pegawai", formData.id_pegawai);
-      form.append("nomor_identitas", formData.nomor_identitas);
-      form.append("unit", formData.unit);
-      form.append("no_ndpermohonan_st", formData.no_ndpermohonan_st);
-      form.append("no_st", formData.no_st);
-      form.append("nomor_st", formData.nomor_st);
-      form.append("tanggal_st", formData.tanggal_st || "");
-      form.append("no_spd", formData.no_spd);
-      form.append("tanggal_spd", formData.tanggal_spd || "");
-      form.append("tanggal_berangkat", formData.tanggal_berangkat || "");
-      form.append("tanggal_kembali", formData.tanggal_kembali || "");
-      form.append("pencarian_dipa", formData.pencarian_dipa);
-      form.append("dasar_pelaksanaan_tugas", formData.dasar_pelaksanaan_tugas);
-      form.append("maksud_perjalanan_dinas", formData.maksud_perjalanan_dinas);
-      form.append("kantor_tujuan_tugas", formData.kantor_tujuan_tugas);
-      form.append("kota_asal_tugas", formData.kota_asal_tugas);
-      form.append("kota_tujuan_tugas_1", formData.kota_tujuan_tugas_1);
-      form.append("kota_tujuan_tugas_2", formData.kota_tujuan_tugas_2);
-      form.append("kota_tujuan_tugas_3", formData.kota_tujuan_tugas_3);
-      form.append("transportasi", formData.transportasi);
-      form.append("id_ppk", formData.id_ppk);
-      form.append("tandatangan", formData.tandatangan);
-      form.append("tagging_status", formData.tagging_status);
-      form.append("plt", formData.plt);
-      form.append("no_spyt", formData.no_spyt);
-      form.append("penanda_tangan", formData.penanda_tangan);
-
-      showPopupLoading();
-
-      axios
-        .post(`${apiurl}assignment/create`, form, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${saveToken}`,
-            "ngrok-skip-browser-warning": "any",
-          },
-        })
-        .then((result) => {
-          const responseAPI = result.data;
-          setIsLoading(false);
-          setFormData((prevFormData) => ({
-            ...prevFormData,
-            id_pegawai: "",
-            unit: "",
-            no_ndpermohonan_st: "",
-            no_spd: "",
-            tanggal_spd: "",
-            pencarian_dipa: "",
-            no_spyt: "",
-          }));
-          setIsSubmittingPegawai(false);
-          setSelectedPegawai(null);
-          closePopupLoading();
-          showSuccessAddPegawai();
-        })
-        .catch((error) => {
-          console.log("terjadi kesalahan: ", error);
-
-          if (error.response && error.response.status === 401) {
-            showRelog();
-          } else {
-            setIsLoading(false);
-            showFailed();
-          }
-
-          closePopupLoading();
-        });
-    }
-  };
-
   const subBagianOptions = [
     { value: "Subbagian Umum", label: "Subbagian Umum" },
     {
@@ -668,7 +506,7 @@ function EditST() {
     { value: "Seksi Kepatuhan Internal", label: "Seksi Kepatuhan Internal" },
   ];
 
-  const [selectedSubBagianSeksi, setSelectedSubBagianSeksi] = useState([null]);
+  const [selectedSubBagianSeksi, setSelectedSubBagianSeksi] = useState(null);
   const handleSubBagianSeksiChange = (selectedOption) => {
     setSelectedSubBagianSeksi(selectedOption);
     setFormData((prevState) => ({
@@ -729,19 +567,19 @@ function EditST() {
           <img src={LogoAPKB} />
         </div>
         <ul className="navbar">
-          <li className="active" onClick={() => navigate("/forminput")}>
+          <li className="active">
             <a href="">INPUT</a>
           </li>
-          <li onClick={() => navigate("/db")}>
+          <li onClick={() => navigate("/ppk/db")}>
             <a href="">DB</a>
           </li>
-          <li onClick={() => navigate("/database")}>
+          <li onClick={() => navigate("/ppk/database")}>
             <a href="">DATABASE</a>
           </li>
-          <li onClick={() => navigate("/print")}>
+          <li onClick={() => navigate("/ppk/print")}>
             <a href="">PRINT</a>
           </li>
-          <li onClick={() => navigate("/dbpeg")}>
+          <li onClick={() => navigate("/ppk/dbpeg")}>
             <a href="">DBPEG</a>
           </li>
         </ul>
@@ -761,11 +599,21 @@ function EditST() {
               isClearable
               placeholder="Pilih Pegawai"
               className="input-form"
-              isDisabled={true}
             />
             {errors.id_pegawai && (
               <span className="error">{errors.id_pegawai}</span>
             )}
+          </div>
+          <div className="form-input">
+            <p>No ST</p>
+            <input
+              type="text"
+              placeholder="Input No ST"
+              id="no_st"
+              name="no_st"
+              value={formData.no_st}
+              onChange={handleChange}
+            />
           </div>
           <div className="form-input">
             <p>Nomor Identitas</p>
@@ -802,6 +650,7 @@ function EditST() {
               className="input-form"
             />
           </div>
+
           <div className="form-input">
             <p>No SPYT</p>
             <input
@@ -835,17 +684,6 @@ function EditST() {
             />
           </div>
           <div className="form-input">
-            <p>No ST</p>
-            <input
-              type="text"
-              placeholder="Input No ST"
-              id="no_st"
-              name="no_st"
-              value={formData.no_st}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-input">
             <p>Tanggal Kembali</p>
             <input
               type="date"
@@ -869,7 +707,7 @@ function EditST() {
             <p>Pembebanan DIPA</p>
             <input
               type="text"
-              placeholder="Input Pembebanan DIPA"
+              placeholder="Input Pencairan DIPA"
               id="pencarian_dipa"
               name="pencarian_dipa"
               value={formData.pencarian_dipa}
@@ -1079,7 +917,7 @@ function EditST() {
           </div>
           <div className="form-input">
             <div className="button-form">
-              <button onClick={handleSubmit} id="save" type="submit">
+              <button id="save" type="submit" onClick={handleSubmit}>
                 Simpan
               </button>
               <button id="clear" onClick={handleClearForm}>
@@ -1108,7 +946,7 @@ function EditST() {
               className="img-success"
             />
           </div>
-          <p className="desc-success">Data berhasil dirubah!</p>
+          <p className="desc-success">Data berhasil ditambahkan!</p>
           <button className="btn-success" onClick={closeSuccess}>
             Kembali
           </button>
@@ -1260,4 +1098,4 @@ function EditST() {
   );
 }
 
-export default EditST;
+export default FormInputSuratPenugasan;

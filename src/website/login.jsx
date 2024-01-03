@@ -71,11 +71,22 @@ function Login() {
       .then((response) => {
         console.log(response.data);
         sessionStorage.setItem("token", response.data.access_token);
+        sessionStorage.setItem("role", response.data.role);
         setisLoading(false);
-        // showSuccessAdd();
         closePopupLoading();
-        if (response.data.access_token !== undefined)
-          return window.location.replace("/db");
+
+        if (response.data.access_token !== undefined) {
+          const role = response.data.role;
+
+          if (role === "master") {
+            // Jika role adalah master, arahkan ke /db
+            return window.location.replace("/db");
+          } else if (role === "ppk") {
+            // Jika role adalah ppk, arahkan ke /ppk/db
+            return window.location.replace("/ppk/db");
+          }
+          // Anda dapat menambahkan kondisi lain sesuai kebutuhan
+        }
       })
       .catch((err) => {
         // console.log("terjadi kesalahan : ", err);

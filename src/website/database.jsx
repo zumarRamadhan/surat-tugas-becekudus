@@ -9,12 +9,19 @@ import GifSuccess from "../Assets/gif-success.gif";
 import GifFailed from "../Assets/gif-failed.gif";
 import GifDelate from "../Assets/gif-delete.gif";
 import ExportExcelButton from "../Component/exportfile";
+import ImgLogout from "../Assets/68582-log-out.gif";
 
 function Database() {
   const navigate = useNavigate();
   const saveToken = sessionStorage.getItem("token");
   const [dataExport, setDataExport] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    if (sessionStorage.getItem("role") !== "master") {
+      navigate("/ppk/database");
+    }
+  }, []);
 
   const showSuccessDelete = () => {
     const background = document.querySelector("#popup-success");
@@ -235,9 +242,39 @@ function Database() {
     }
   };
 
+  const showLogout = () => {
+    const background = document.querySelector("#popup-logout");
+    background.style.display = "flex";
+    const popupLogout = document.querySelector(".detail-logout");
+    popupLogout.style.display = "grid";
+    popupLogout.style.animation = "slide-down 0.3s ease-in-out";
+  };
+
+  const closeLogout = () => {
+    const background = document.querySelector("#popup-logout");
+    setTimeout(() => (background.style.display = "none"), 300);
+    const popupLogout = document.querySelector(".detail-logout");
+    setTimeout(() => (popupLogout.style.display = "none"), 250);
+    popupLogout.style.animation = "slide-up 0.3s ease-in-out";
+  };
+
+  const handleLogout = () => {
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("role");
+    window.location.href = "/login";
+  };
+
   if (assignmentData && !isError)
     return (
       <div>
+        <div
+          className="logout"
+          onClick={() => {
+            showLogout();
+          }}
+        >
+          <p>Keluar</p>
+        </div>
         <header>
           <div className="logo">
             <img src={LogoAPKB} />
@@ -415,6 +452,39 @@ function Database() {
             <button className="btn-Relog" onClick={closeRelog}>
               Login Ulang
             </button>
+          </div>
+        </div>
+
+        {/*  */}
+
+        <div className="popup-logout" id="popup-logout">
+          <div className="detail-logout">
+            <Icon
+              icon="radix-icons:cross-circled"
+              width="30"
+              style={{ cursor: "pointer" }}
+              onClick={closeLogout}
+            />
+            <div className="image-logout">
+              <img src={ImgLogout} alt="" className="img-logout" />
+            </div>
+            <p className="desc-logout">Anda yakin ingin keluar?</p>
+            <div className="con-btn-logout">
+              <button
+                type="button"
+                className="btn-batal-logout"
+                onClick={closeLogout}
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                className="btn-keluar"
+                onClick={handleLogout}
+              >
+                Keluar
+              </button>
+            </div>
           </div>
         </div>
 

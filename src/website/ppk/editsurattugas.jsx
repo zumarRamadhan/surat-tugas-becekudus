@@ -1,15 +1,15 @@
 // import { Icon } from "@iconify/react";omor_ide
 import { useState, useEffect } from "react";
-import LogoAPKB from "../Assets/LOGOAPKB.png";
-import "../Style/editsurattugas.css";
+import LogoAPKB from "../../Assets/LOGOAPKB.png";
+import "../../Style/editsurattugas.css";
 import { useNavigate, Link, useParams } from "react-router-dom";
-import apiurl from "../api/api";
+import apiurl from "../../api/api";
 import axios from "axios";
 import { Icon } from "@iconify/react";
-import GifSuccess from "../Assets/gif-success.gif";
-import GifFailed from "../Assets/gif-failed.gif";
+import GifSuccess from "../../Assets/gif-success.gif";
+import GifFailed from "../../Assets/gif-failed.gif";
 import Select from "react-select";
-import ImgLogout from "../Assets/68582-log-out.gif";
+import ImgLogout from "../../Assets/68582-log-out.gif";
 
 function EditST() {
   const { id } = useParams();
@@ -17,8 +17,8 @@ function EditST() {
   const saveToken = sessionStorage.getItem("token");
 
   useEffect(() => {
-    if (sessionStorage.getItem("role") !== "master") {
-      navigate("/ppk/db");
+    if (sessionStorage.getItem("role") !== "ppk") {
+      navigate("/db");
     }
   }, []);
 
@@ -729,19 +729,19 @@ function EditST() {
           <img src={LogoAPKB} />
         </div>
         <ul className="navbar">
-          <li className="active" onClick={() => navigate("/forminput")}>
+          <li className="active" onClick={() => navigate("/ppk/forminput")}>
             <a href="">INPUT</a>
           </li>
-          <li onClick={() => navigate("/db")}>
+          <li onClick={() => navigate("/ppk/db")}>
             <a href="">DB</a>
           </li>
-          <li onClick={() => navigate("/database")}>
+          <li onClick={() => navigate("/ppk/database")}>
             <a href="">DATABASE</a>
           </li>
-          <li onClick={() => navigate("/print")}>
+          <li onClick={() => navigate("/ppk/print")}>
             <a href="">PRINT</a>
           </li>
-          <li onClick={() => navigate("/dbpeg")}>
+          <li onClick={() => navigate("/ppk/dbpeg")}>
             <a href="">DBPEG</a>
           </li>
         </ul>
@@ -761,7 +761,6 @@ function EditST() {
               isClearable
               placeholder="Pilih Pegawai"
               className="input-form"
-              isDisabled={true}
             />
             {errors.id_pegawai && (
               <span className="error">{errors.id_pegawai}</span>

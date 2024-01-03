@@ -1,25 +1,25 @@
 import { useState, useEffect } from "react";
-import LogoAPKB from "../Assets/LOGOAPKB.png";
-import "../Style/db.css";
+import LogoAPKB from "../../Assets/LOGOAPKB.png";
+import "../../Style/database.css";
 import { useNavigate, Link, useParams } from "react-router-dom";
-import apiurl from "../api/api";
+import apiurl from "../../api/api";
 import axios from "axios";
 import { Icon } from "@iconify/react";
-import GifSuccess from "../Assets/gif-success.gif";
-import GifFailed from "../Assets/gif-failed.gif";
-import GifDelate from "../Assets/gif-delete.gif";
-import ExportExcelButton from "../Component/exportfile";
-import ImgLogout from "../Assets/68582-log-out.gif";
+import GifSuccess from "../../Assets/gif-success.gif";
+import GifFailed from "../../Assets/gif-failed.gif";
+import GifDelate from "../../Assets/gif-delete.gif";
+import ExportExcelButton from "../../Component/exportfile";
+import ImgLogout from "../../Assets/68582-log-out.gif";
 
-function Db() {
+function Database() {
   const navigate = useNavigate();
   const saveToken = sessionStorage.getItem("token");
   const [dataExport, setDataExport] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    if (sessionStorage.getItem("role") !== "master") {
-      navigate("/ppk/db");
+    if (sessionStorage.getItem("role") !== "ppk") {
+      navigate("/database");
     }
   }, []);
 
@@ -43,9 +43,6 @@ function Db() {
   };
 
   const showRelog = () => {
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("role");
-
     const background = document.querySelector("#Relog");
     background.style.display = "flex";
     const popUpLogin = document.querySelector(".detail-Relog");
@@ -60,7 +57,7 @@ function Db() {
     const popUpLogin = document.querySelector(".detail-Relog");
     setTimeout(() => (popUpLogin.style.display = "none"), 250);
     popUpLogin.style.animation = "slide-up 0.3s ease-in-out";
-    window.location.replace("/");
+    navigate(`/login`);
   };
 
   const showFailedDelete = () => {
@@ -104,7 +101,7 @@ function Db() {
     setIsLoading(true);
     showPopupLoading();
     axios
-      .get(`${apiurl}assignment/data`, {
+      .get(`${apiurl}assignment/backup`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${saveToken}`,
@@ -194,7 +191,6 @@ function Db() {
       (data.ppk && data.ppk.toLowerCase().includes(searchTermLowerCase)) ||
       (data.ndreq_st && data.ndreq_st.includes(searchTerm)) ||
       (data.no_st && data.no_st.includes(searchTerm)) ||
-      (data.unit && data.unit.includes(searchTerm)) ||
       (data.nomor_st && data.nomor_st.includes(searchTerm)) ||
       (data.date_st && data.date_st.includes(searchTerm)) ||
       (data.no_spd && data.no_spd.includes(searchTerm)) ||
@@ -284,19 +280,19 @@ function Db() {
             <img src={LogoAPKB} />
           </div>
           <ul className="navbar">
-            <li onClick={() => navigate("/forminput")}>
+            <li onClick={() => navigate("/ppk/forminput")}>
               <a href="">INPUT</a>
             </li>
-            <li className="active">
-              <a href="">DB</a>
+            <li>
+              <a onClick={() => navigate("/ppk/db")}>DB</a>
             </li>
-            <li onClick={() => navigate("/database")}>
+            <li className="active">
               <a href="">DATABASE</a>
             </li>
-            <li onClick={() => navigate("/print")}>
+            <li onClick={() => navigate("/ppk/print")}>
               <a href="">PRINT</a>
             </li>
-            <li onClick={() => navigate("/dbpeg")}>
+            <li onClick={() => navigate("/ppk/dbpeg")}>
               <a href="">DBPEG</a>
             </li>
           </ul>
@@ -315,7 +311,10 @@ function Db() {
                 <Icon icon="icomoon-free:search" width="15" />
               </div>
             </div>
-            <ExportExcelButton data={dataExport} filename="file_assignment" />
+            <ExportExcelButton
+              data={dataExport}
+              filename="file_backup_assignment"
+            />
           </div>
           <table>
             <thead>
@@ -343,7 +342,6 @@ function Db() {
                 <th id="no_spyt">NO SPYT (SPD DALAM KOTA SAJA)</th>
                 <th id="city_origin">KOTA ASAL</th>
                 <th id="ndreq_st">ND Permohonan</th>
-                <th id="aksi">AKSI</th>
               </tr>
             </thead>
             <tbody>
@@ -426,31 +424,6 @@ function Db() {
                       {data.city_origin !== "null" ? data.city_origin : ""}
                     </td>
                     <td>{data.ndreq_st !== "null" ? data.ndreq_st : ""}</td>
-                    <td id="action-db">
-                      <div className="action-db">
-                        <button
-                          className="edit"
-                          onClick={() => navigate(`/editsurattugas/${data.id}`)}
-                        >
-                          <Icon icon="fluent:edit-16-regular" width="20" />
-                        </button>
-                        <button
-                          className="delete"
-                          onClick={() => showDeletePopup(data.id)}
-                        >
-                          <Icon icon="fluent:delete-16-regular" width="20" />
-                        </button>
-                        <button className="print">
-                          <Icon
-                            icon="fluent:print-16-regular"
-                            width="20"
-                            onClick={() =>
-                              navigate(`/print/${data.nomor_identitas}`)
-                            }
-                          />
-                        </button>
-                      </div>
-                    </td>
                   </tr>
                 ))
               ) : (
@@ -460,46 +433,6 @@ function Db() {
               )}
             </tbody>
           </table>
-        </div>
-
-        <div id="popup-success">
-          <div className="detail-success">
-            <Icon
-              icon="radix-icons:cross-circled"
-              width="30"
-              style={{ cursor: "pointer" }}
-              onClick={closeSuccessDelete}
-            />
-            <div className="image-success">
-              <img
-                src={GifSuccess}
-                alt="Delete Success"
-                className="img-success"
-              />
-            </div>
-            <p className="desc-success">Data berhasil dihapus!</p>
-            <button className="btn-success" onClick={closeSuccessDelete}>
-              Kembali
-            </button>
-          </div>
-        </div>
-
-        <div id="popup-Failed">
-          <div className="detail-Failed">
-            <Icon
-              icon="radix-icons:cross-circled"
-              width="30"
-              style={{ cursor: "pointer" }}
-              onClick={closeFailedDelete}
-            />
-            <div className="image-Failed">
-              <img src={GifFailed} alt="Delete Failed" className="img-Failed" />
-            </div>
-            <p className="desc-Failed">Gagal menghapus data!</p>
-            <button className="btn-Failed" onClick={closeFailedDelete}>
-              Kembali
-            </button>
-          </div>
         </div>
 
         <div id="Relog">
@@ -519,37 +452,6 @@ function Db() {
             <button className="btn-Relog" onClick={closeRelog}>
               Login Ulang
             </button>
-          </div>
-        </div>
-
-        <div className="popup-Delete" id="popup-Delete">
-          <div className="detail-Delete">
-            <Icon
-              icon="radix-icons:cross-circled"
-              width="30"
-              style={{ cursor: "pointer" }}
-              onClick={closeDeletePopup}
-            />
-            <div className="image-Delete">
-              <img src={GifDelate} alt="" className="img-Delete" />
-            </div>
-            <p className="desc-Delete">Anda yakin ingin menghapus?</p>
-            <div className="con-btn-Delete">
-              <button
-                type="button"
-                className="btn-batal"
-                onClick={closeDeletePopup}
-              >
-                Batal
-              </button>
-              <button
-                type="button"
-                className="btn-delete"
-                onClick={handleDelete}
-              >
-                Hapus
-              </button>
-            </div>
           </div>
         </div>
 
@@ -646,4 +548,4 @@ function Db() {
     );
 }
 
-export default Db;
+export default Database;
