@@ -211,6 +211,11 @@ function EditST() {
         );
         setSelectedTransport(selectedTransportOption);
 
+        const selectedPembebananDIPAOption = pembebananDIPAOptions.find(
+          (option) => option.value === response.data.data.dipa_search
+        );
+        setSelectedPembebananDIPA(selectedPembebananDIPAOption);
+
         setFormData({
           id_pegawai:
             response.data.data.id_pegawai !== "null"
@@ -692,6 +697,29 @@ function EditST() {
     }));
   };
 
+  const pembebananDIPAOptions = [
+    { value: "KPPBC TMC Kudus", label: "KPPBC TMC Kudus" },
+    {
+      value: "Kanwil DJBC Jateng dan DIY",
+      label: "Kanwil DJBC Jateng dan DIY",
+    },
+    {
+      value: "Sekretariat Direktorat Jenderal Bea dan Cukai",
+      label: "Sekretariat Direktorat Jenderal Bea dan Cukai",
+    },
+    { value: "DBH CHT", label: "DBH CHT" },
+    { value: "Lainnya", label: "Lainnya" },
+  ];
+
+  const [selectedPembebananDIPA, setSelectedPembebananDIPA] = useState(null);
+  const handlePembebananDIPA = (selectedOption) => {
+    setSelectedPembebananDIPA(selectedOption);
+    setFormData((prevState) => ({
+      ...prevState,
+      pencarian_dipa: selectedOption?.value || "",
+    }));
+  };
+
   const showLogout = () => {
     const background = document.querySelector("#popup-logout");
     background.style.display = "flex";
@@ -866,13 +894,13 @@ function EditST() {
           </div>
           <div className="form-input">
             <p>Pembebanan DIPA</p>
-            <input
-              type="text"
-              placeholder="Input Pembebanan DIPA"
-              id="pencarian_dipa"
-              name="pencarian_dipa"
-              value={formData.pencarian_dipa}
-              onChange={handleChange}
+            <Select
+              value={selectedPembebananDIPA}
+              onChange={handlePembebananDIPA}
+              options={pembebananDIPAOptions}
+              isClearable
+              placeholder="Pilih Pencairan DIPA"
+              className="input-form"
             />
           </div>
           <div className="form-input">

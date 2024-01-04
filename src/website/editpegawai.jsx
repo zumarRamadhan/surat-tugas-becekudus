@@ -175,6 +175,7 @@ function EditPegawai() {
           } else {
             setIsLoading(false);
             showFailed();
+            setIsSubmitting(false);
           }
 
           closePopupLoading();

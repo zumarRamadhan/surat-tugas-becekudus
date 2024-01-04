@@ -142,6 +142,7 @@ function AddPegawai() {
           } else {
             setIsLoading(false);
             showFailed();
+            setIsSubmitting(false);
           }
 
           closePopupLoading();
@@ -208,6 +209,7 @@ function AddPegawai() {
         } else {
           setIsLoading(false);
           showFailed();
+          setIsSubmitting(false);
         }
 
         closePopupLoading();

@@ -430,7 +430,7 @@ function Db() {
                       <div className="action-db">
                         <button
                           className="edit"
-                          onClick={() => navigate(`/editsurattugas/${data.id}`)}
+                          onClick={() => navigate(`/ppk/editsurattugas/${data.id}`)}
                         >
                           <Icon icon="fluent:edit-16-regular" width="20" />
                         </button>
@@ -445,7 +445,7 @@ function Db() {
                             icon="fluent:print-16-regular"
                             width="20"
                             onClick={() =>
-                              navigate(`/print/${data.nomor_identitas}`)
+                              navigate(`/ppk/print/${data.nomor_identitas}`)
                             }
                           />
                         </button>
