@@ -626,8 +626,6 @@ function EditST() {
             unit: "",
             no_ndpermohonan_st: "",
             no_spd: "",
-            tanggal_spd: "",
-            pencarian_dipa: "",
             no_spyt: "",
           }));
           setIsSubmittingPegawai(false);
@@ -777,7 +775,7 @@ function EditST() {
 
       <div className="container">
         <div className="title-form">
-          <h1>FORM INPUT</h1>
+          <h1>FORM EDIT</h1>
         </div>
         <div className="body-form">
           <div className="form-input">

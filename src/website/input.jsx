@@ -308,8 +308,6 @@ function FormInputSuratPenugasan() {
             unit: "",
             no_ndpermohonan_st: "",
             no_spd: "",
-            tanggal_spd: "",
-            pencarian_dipa: "",
             no_spyt: "",
           }));
           setIsSubmittingPegawai(false);
