@@ -68,6 +68,7 @@ function AddPegawai() {
     const popUpFailed = document.querySelector(".detail-Failed");
     setTimeout(() => (popUpFailed.style.display = "none"), 250);
     popUpFailed.style.animation = "slide-up 0.3s ease-in-out";
+    window.location.reload();
   };
 
   const showPopupLoading = () => {

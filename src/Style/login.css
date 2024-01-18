@@ -31,6 +31,12 @@
     transform: translate(-50%, -50%);
 }
 
+@media only screen and (max-width: 500px) {
+    .box-login {
+        width: 90%;
+    }
+}
+
 .box-login h1 {
     color: #4B4B4B;
     font-family: "Poppins", sans-serif;
@@ -66,7 +72,6 @@
 
 .box-login form input {
     width: 100%;
-    border: 1px solid #C4C4C4;
     border-radius: 10px;
     padding: 10px 15px;
     color: #000000;
@@ -82,7 +87,7 @@
     outline: none;
 }
 
-.box-login form button {
+.box-login form .btnLogin {
     width: 100%;
     border: none;
     padding: 10px 15px;
@@ -98,6 +103,31 @@
     margin-top: 50px;
 }
 
-.box-login form button:hover {
+.box-login form .btnLogin:hover {
     background: #40649F;
+}
+
+.con-form-username input, .con-form-password input {
+    border: none;
+}
+
+.con-form-username, .con-form-password {
+    display: flex;
+    background: #FFF;
+    align-items: center;
+    border-radius: 10px;
+    padding: 0 20px;
+}
+
+.con-form-username input, .con-form-password input {
+    border: none;
+}
+
+.btn-mata {
+    background: transparent;
+    border: none;
+    color: var(--color-primer);
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
 }

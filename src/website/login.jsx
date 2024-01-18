@@ -8,6 +8,9 @@ import axios from "axios";
 import { Icon } from "@iconify/react";
 import GifSuccess from "../Assets/gif-success.gif";
 import GifFailed from "../Assets/gif-failed.gif";
+import passIcon from "../Assets/pass-icon.svg";
+import mataIcon from "../Assets/icon-mata.svg";
+import userIcon from "../Assets/user-icon.svg";
 
 function Login() {
   const navigate = useNavigate();
@@ -97,6 +100,12 @@ function Login() {
       });
   };
 
+  const [passwordShown, setPasswordShown] = useState(false);
+
+  function togglePassword() {
+    setPasswordShown(!passwordShown);
+  }
+
   return (
     <div className="body-login">
       <img src={LogoAPKB} alt="" className="logo-beceku-head" />
@@ -104,37 +113,45 @@ function Login() {
         <h1>Login</h1>
         <form action="" onSubmit={login}>
           <p>Name</p>
-          <input
-            type="text"
-            placeholder="Name"
-            id="name"
-            name="name"
-            value={name}
-            onChange={handleName}
-            required
-          />
-          <p>Password</p>
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            className="input-password"
-            value={password}
-            onChange={handlePassword}
-            required
-          />
-          <button type="submit" value="Login">
+          <div className="con-form-username">
+              <img src={userIcon} className="icon-input" />
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="name"
+                className="input-username"
+                value={name}
+                onChange={handleName}
+                required
+              />
+            </div>
+            <p>Password</p>
+            <div className="con-form-password">
+              <img src={passIcon} className="icon-input" />
+              <input
+                type={passwordShown ? "text" : "password"}
+                id="password"
+                name="password"
+                placeholder="password"
+                className="input-password"
+                value={password}
+                onChange={handlePassword}
+                required
+              />
+              <button
+                type="button"
+                onClick={togglePassword}
+                className="btn-mata"
+              >
+                <img src={mataIcon} className="icon-mata" />
+              </button>
+            </div>
+          <button type="submit" value="Login" className="btnLogin">
             Login
           </button>
         </form>
       </div>
-
-      {/* <footer>
-        <img src={LogoFooter} />
-      </footer>
-      <div className="copyright">
-        <p>© KPPBC Tipe Madya Cukai Kudus | 2018</p>
-      </div> */}
 
       <div id="popup-Failed">
         <div className="detail-Failed">
