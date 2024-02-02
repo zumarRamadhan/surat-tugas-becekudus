@@ -598,7 +598,7 @@ function FormInputSuratPenugasan() {
             <a href="">DB</a>
           </li>
           <li onClick={() => navigate("/database")}>
-            <a href="">DATABASE</a>
+            <a href="">BACKUP</a>
           </li>
           <li onClick={() => navigate("/print")}>
             <a href="">PRINT</a>

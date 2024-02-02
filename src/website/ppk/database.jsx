@@ -7,7 +7,7 @@ import axios from "axios";
 import { Icon } from "@iconify/react";
 import GifSuccess from "../../Assets/gif-success.gif";
 import GifFailed from "../../Assets/gif-failed.gif";
-import GifDelate from "../../Assets/gif-delete.gif";
+import ImgRecore from "../../Assets/68582-log-out.gif";
 import ExportExcelButton from "../../Component/exportfile";
 import ImgLogout from "../../Assets/68582-log-out.gif";
 
@@ -60,22 +60,6 @@ function Database() {
     navigate(`/login`);
   };
 
-  const showFailedDelete = () => {
-    const background = document.querySelector("#popup-Failed");
-    background.style.display = "flex";
-    const popupFailedDelete = document.querySelector(".detail-Failed");
-    popupFailedDelete.style.display = "grid";
-    popupFailedDelete.style.animation = "slide-down 0.3s ease-in-out";
-  };
-
-  const closeFailedDelete = () => {
-    const background = document.querySelector("#popup-Failed");
-    setTimeout(() => (background.style.display = "none"), 300);
-    const popupFailedDelete = document.querySelector(".detail-Failed");
-    setTimeout(() => (popupFailedDelete.style.display = "none"), 250);
-    popupFailedDelete.style.animation = "slide-up 0.3s ease-in-out";
-  };
-
   const showPopupLoading = () => {
     const background = document.querySelector(".popup-loading");
     background.style.display = "flex";
@@ -92,10 +76,45 @@ function Database() {
     PopupLoading.style.animation = "slide-up 0.3s ease-in-out";
   };
 
+  const showSuccessRecore = () => {
+    const background = document.querySelector("#popup-success");
+    background.style.display = "flex";
+    const popupSuccessRecore = document.querySelector(".detail-success");
+    popupSuccessRecore.style.display = "grid";
+    popupSuccessRecore.style.animation = "slide-down 0.3s ease-in-out";
+  };
+
+  const closeSuccessRecore = () => {
+    const background = document.querySelector("#popup-success");
+    setTimeout(() => (background.style.display = "none"), 300);
+    // background.style.display = "none";
+    const popupSuccessRecore = document.querySelector(".detail-success");
+    setTimeout(() => (popupSuccessRecore.style.display = "none"), 250);
+    popupSuccessRecore.style.animation = "slide-up 0.3s ease-in-out";
+    // refresh
+    window.location.reload();
+  };
+
+  const showFailedRecore = () => {
+    const background = document.querySelector("#popup-Failed");
+    background.style.display = "flex";
+    const popupFailedRecore = document.querySelector(".detail-Failed");
+    popupFailedRecore.style.display = "grid";
+    popupFailedRecore.style.animation = "slide-down 0.3s ease-in-out";
+  };
+
+  const closeFailedRecore = () => {
+    const background = document.querySelector("#popup-Failed");
+    setTimeout(() => (background.style.display = "none"), 300);
+    const popupFailedRecore = document.querySelector(".detail-Failed");
+    setTimeout(() => (popupFailedRecore.style.display = "none"), 250);
+    popupFailedRecore.style.animation = "slide-up 0.3s ease-in-out";
+  };
+
   const [assignmentData, setAssignmentData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [assignmentToDelete, SetAssignmentToDelete] = useState({});
+  const [assignmentToRecore, setAssignmentToRecore] = useState({});
 
   useEffect(() => {
     setIsLoading(true);
@@ -127,52 +146,6 @@ function Database() {
         }
       });
   }, []);
-
-  const showDeletePopup = (id) => {
-    const background = document.querySelector("#popup-Delete");
-    background.style.display = "flex";
-    const popupDelete = document.querySelector(".detail-Delete");
-    popupDelete.style.display = "block";
-    popupDelete.style.animation = "slide-down 0.3s ease-in-out";
-    SetAssignmentToDelete(id);
-  };
-
-  const handleDelete = () => {
-    if (assignmentToDelete) {
-      showPopupLoading();
-      axios
-        .delete(`${apiurl}assignment/delete/${assignmentToDelete}`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${saveToken}`,
-            "ngrok-skip-browser-warning": "any",
-          },
-        })
-        .then((response) => {
-          // Penanganan ketika penghapusan berhasil
-          console.log("Data berhasil dihapus");
-          closeDeletePopup();
-          showSuccessDelete();
-          closePopupLoading();
-        })
-        .catch((error) => {
-          // Penanganan ketika terjadi kesalahan saat menghapus data
-          console.log("Terjadi kesalahan saat menghapus data:", error);
-          showFailedDelete();
-          closeDeletePopup();
-          closePopupLoading();
-        });
-    }
-  };
-
-  const closeDeletePopup = () => {
-    const background = document.querySelector("#popup-Delete");
-    setTimeout(() => (background.style.display = "none"), 300);
-    // background.style.display = "none";
-    const popupDelete = document.querySelector(".detail-Delete");
-    setTimeout(() => (popupDelete.style.display = "none"), 250);
-    popupDelete.style.animation = "slide-up 0.3s ease-in-out";
-  };
 
   // search
 
@@ -264,6 +237,55 @@ function Database() {
     window.location.href = "/login";
   };
 
+  const showRecore = (id) => {
+    setAssignmentToRecore(id);
+    const background = document.querySelector("#popup-recore");
+    background.style.display = "flex";
+    const popupRecore = document.querySelector(".detail-recore");
+    popupRecore.style.display = "grid";
+    popupRecore.style.animation = "slide-down 0.3s ease-in-out";
+  };
+
+  const closeRecore = () => {
+    const background = document.querySelector("#popup-recore");
+    setTimeout(() => (background.style.display = "none"), 300);
+    const popupRecore = document.querySelector(".detail-recore");
+    setTimeout(() => (popupRecore.style.display = "none"), 250);
+    popupRecore.style.animation = "slide-up 0.3s ease-in-out";
+  };
+
+  const handleRecore = () => {
+    if (assignmentToRecore) {
+      showPopupLoading();
+      axios
+        .post(
+          `${apiurl}assignment/recore/${assignmentToRecore}`,
+          {},
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${saveToken}`,
+              "ngrok-skip-browser-warning": "any",
+            },
+          }
+        )
+        .then((response) => {
+          // Penanganan ketika penghapusan berhasil
+          console.log("Data berhasil dikembalikan");
+          closeRecore();
+          showSuccessRecore();
+          closePopupLoading();
+        })
+        .catch((error) => {
+          // Penanganan ketika terjadi kesalahan saat menghapus data
+          console.log("Terjadi kesalahan saat mengembalikan data:", error);
+          showFailedRecore();
+          closeRecore();
+          closePopupLoading();
+        });
+    }
+  };
+
   if (assignmentData && !isError)
     return (
       <div>
@@ -287,7 +309,7 @@ function Database() {
               <a onClick={() => navigate("/ppk/db")}>DB</a>
             </li>
             <li className="active">
-              <a href="">DATABASE</a>
+              <a href="">BACKUP</a>
             </li>
             <li onClick={() => navigate("/ppk/print")}>
               <a href="">PRINT</a>
@@ -321,9 +343,9 @@ function Database() {
               <tr>
                 <th id="no_st">NO ST</th>
                 <th id="nomor_identitas">NO IDENTITAS</th>
+                <th id="assignment">PEGAWAI</th>
                 <th id="ppk">NAMA PENGINPUT/PPK</th>
                 <th id="head_officer">Pejabat Penanda Tangan ST & SPD</th>
-                <th id="assignment">PEGAWAI</th>
                 <th id="unit">Sub Bagian/Seksi</th>
                 <th id="implementation_tasks">DASAR PELAKSANAAN TUGAS</th>
                 <th id="nomor_st">NOMOR ST</th>
@@ -363,11 +385,24 @@ function Database() {
                         ? data.nomor_identitas
                         : ""}
                     </td>
+                    <td
+                      style={{
+                        backgroundColor:
+                          data.employee_status === "blank"
+                            ? "#FF9D9D"
+                            : data.employee_status === "core"
+                            ? "#FFF"
+                            : "transparent",
+                        color:
+                          data.employee_status === "blank" ? "#000" : "#4b4b4b",
+                      }}
+                    >
+                      {data.employee !== null ? data.employee : ""}
+                    </td>
                     <td>{data.ppk !== "null" ? data.ppk : ""}</td>
                     <td>
                       {data.head_officer !== "null" ? data.head_officer : ""}
                     </td>
-                    <td>{data.employee !== "null" ? data.employee : ""}</td>
                     <td>{data.unit !== "null" ? data.unit : ""}</td>
                     <td>
                       {data.implementation_tasks !== "null"
@@ -424,6 +459,22 @@ function Database() {
                       {data.city_origin !== "null" ? data.city_origin : ""}
                     </td>
                     <td>{data.ndreq_st !== "null" ? data.ndreq_st : ""}</td>
+                    <td id="action-db">
+                      {data.availability_status === "not_yet" && (
+                        <div className="action-db">
+                          <button
+                            className="edit"
+                            onClick={() => showRecore(data.id)}
+                          >
+                            <Icon
+                              icon="streamline:return-2-solid"
+                              width="20"
+                              style={{ color: "#000" }}
+                            />
+                          </button>
+                        </div>
+                      )}
+                    </td>
                   </tr>
                 ))
               ) : (
@@ -487,6 +538,83 @@ function Database() {
             </div>
           </div>
         </div>
+
+        <div className="popup-recore" id="popup-recore">
+          <div className="detail-recore">
+            <Icon
+              icon="radix-icons:cross-circled"
+              width="30"
+              style={{ cursor: "pointer" }}
+              onClick={closeRecore}
+            />
+            <div className="image-recore">
+              <img src={ImgRecore} alt="" className="img-recore" />
+            </div>
+            <p className="desc-recore">
+              Anda yakin ingin mengembalikan data tersebut?
+            </p>
+            <div className="con-btn-recore">
+              <button
+                type="button"
+                className="btn-batal-recore"
+                onClick={closeRecore}
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                className="btn-recore"
+                onClick={handleRecore}
+              >
+                Mengembalikan
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* success failed */}
+
+        <div id="popup-success">
+          <div className="detail-success">
+            <Icon
+              icon="radix-icons:cross-circled"
+              width="30"
+              style={{ cursor: "pointer" }}
+              onClick={closeSuccessRecore}
+            />
+            <div className="image-success">
+              <img
+                src={GifSuccess}
+                alt="Recore Success"
+                className="img-success"
+              />
+            </div>
+            <p className="desc-success">Data berhasil dikembalikan!</p>
+            <button className="btn-success" onClick={closeSuccessRecore}>
+              Kembali
+            </button>
+          </div>
+        </div>
+
+        <div id="popup-Failed">
+          <div className="detail-Failed">
+            <Icon
+              icon="radix-icons:cross-circled"
+              width="30"
+              style={{ cursor: "pointer" }}
+              onClick={closeFailedRecore}
+            />
+            <div className="image-Failed">
+              <img src={GifFailed} alt="Recore Failed" className="img-Failed" />
+            </div>
+            <p className="desc-Failed">Gagal mengembalikan data</p>
+            <button className="btn-Failed" onClick={closeFailedRecore}>
+              Kembali
+            </button>
+          </div>
+        </div>
+
+        {/*  */}
 
         {/* page laoding */}
 

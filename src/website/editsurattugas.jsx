@@ -105,7 +105,7 @@ function EditST() {
   };
 
   const [formData, setFormData] = useState({
-    id_pegawai: "",
+    user_id: "",
     nomor_identitas: "",
     unit: "",
     no_ndpermohonan_st: "",
@@ -147,7 +147,7 @@ function EditST() {
     setSelectedPegawai(selectedOption);
     setFormData((prevState) => ({
       ...prevState,
-      id_pegawai: selectedOption?.value || "",
+      user_id: selectedOption?.value || "",
     }));
   };
 
@@ -186,7 +186,7 @@ function EditST() {
       })
       .then((response) => {
         const selectedPegawaiOption = pegawaiOptions.find(
-          (option) => option.value === response.data.data.id_pegawai
+          (option) => option.value === response.data.data.user_id
         );
         setSelectedPegawai(selectedPegawaiOption);
 
@@ -217,9 +217,9 @@ function EditST() {
         setSelectedPembebananDIPA(selectedPembebananDIPAOption);
 
         setFormData({
-          id_pegawai:
-            response.data.data.id_pegawai !== "null"
-              ? response.data.data.id_pegawai
+          user_id:
+            response.data.data.user_id !== "null"
+              ? response.data.data.user_id
               : "",
           nomor_identitas:
             response.data.data.nomor_identitas !== "null"
@@ -341,7 +341,7 @@ function EditST() {
   useEffect(() => {
     if (isSubmitting) {
       const form = new FormData();
-      form.append("id_pegawai", formData.id_pegawai);
+      form.append("user_id", formData.user_id);
       form.append("nomor_identitas", formData.nomor_identitas);
       form.append("unit", formData.unit);
       form.append("no_ndpermohonan_st", formData.no_ndpermohonan_st);
@@ -382,7 +382,7 @@ function EditST() {
           const responseAPI = result.data;
           setIsLoading(false);
           setFormData({
-            id_pegawai: "",
+            user_id: "",
             nomor_identitas: "",
             unit: "",
             no_ndpermohonan_st: "",
@@ -452,7 +452,7 @@ function EditST() {
   const validateForm = (data) => {
     let errors = {};
 
-    if (!data.id_pegawai) errors.id_pegawai = "Nama harus diisi";
+    if (!data.user_id) errors.user_id = "Nama harus diisi";
     if (!data.id_ppk) errors.id_ppk = "PPK harus diisi";
     if (!data.tagging_status) errors.tagging_status = "Silahkan pilih tagging";
     if (data.plt === "plh" && !data.penanda_tangan) {
@@ -535,7 +535,7 @@ function EditST() {
 
   const handleClearForm = () => {
     setFormData({
-      id_pegawai: "",
+      user_id: "",
       nomor_identitas: "",
       unit: "",
       no_ndpermohonan_st: "",
@@ -580,7 +580,7 @@ function EditST() {
       setIsSubmittingPegawai(true);
 
       const form = new FormData();
-      form.append("id_pegawai", formData.id_pegawai);
+      form.append("user_id", formData.user_id);
       form.append("nomor_identitas", formData.nomor_identitas);
       form.append("unit", formData.unit);
       form.append("no_ndpermohonan_st", formData.no_ndpermohonan_st);
@@ -622,7 +622,7 @@ function EditST() {
           setIsLoading(false);
           setFormData((prevFormData) => ({
             ...prevFormData,
-            id_pegawai: "",
+            user_id: "",
             unit: "",
             no_ndpermohonan_st: "",
             no_spd: "",
@@ -762,7 +762,7 @@ function EditST() {
             <a href="">DB</a>
           </li>
           <li onClick={() => navigate("/database")}>
-            <a href="">DATABASE</a>
+            <a href="">BACKUP</a>
           </li>
           <li onClick={() => navigate("/print")}>
             <a href="">PRINT</a>
@@ -789,8 +789,8 @@ function EditST() {
               className="input-form"
               isDisabled={true}
             />
-            {errors.id_pegawai && (
-              <span className="error">{errors.id_pegawai}</span>
+            {errors.user_id && (
+              <span className="error">{errors.user_id}</span>
             )}
           </div>
           <div className="form-input">

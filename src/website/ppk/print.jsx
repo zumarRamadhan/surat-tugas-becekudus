@@ -194,7 +194,7 @@ function Print() {
             <a href="">DB</a>
           </li>
           <li onClick={() => navigate("/ppk/database")}>
-            <a href="">DATABASE</a>
+            <a href="">BACKUP</a>
           </li>
           <li className="active">
             <a href="">PRINT</a>

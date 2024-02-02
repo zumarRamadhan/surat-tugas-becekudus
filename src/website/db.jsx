@@ -291,7 +291,7 @@ function Db() {
               <a href="">DB</a>
             </li>
             <li onClick={() => navigate("/database")}>
-              <a href="">DATABASE</a>
+              <a href="">BACKUP</a>
             </li>
             <li onClick={() => navigate("/print")}>
               <a href="">PRINT</a>
@@ -322,9 +322,9 @@ function Db() {
               <tr>
                 <th id="no_st">NO ST</th>
                 <th id="nomor_identitas">NO IDENTITAS</th>
+                <th id="assignment">PEGAWAI</th>
                 <th id="ppk">NAMA PENGINPUT/PPK</th>
                 <th id="head_officer">Pejabat Penanda Tangan ST & SPD</th>
-                <th id="assignment">PEGAWAI</th>
                 <th id="unit">Sub Bagian/Seksi</th>
                 <th id="implementation_tasks">DASAR PELAKSANAAN TUGAS</th>
                 <th id="nomor_st">NOMOR ST</th>
@@ -365,11 +365,25 @@ function Db() {
                         ? data.nomor_identitas
                         : ""}
                     </td>
+                    <td
+                      style={{
+                        backgroundColor:
+                          data.employee_status === "blank"
+                            ? "#FF9D9D"
+                            : data.employee_status === "core"
+                            ? "#FFF"
+                            : "transparent",
+                        color:
+                          data.employee_status === "blank" ? "#000" : "#4b4b4b",
+                      }}
+                    >
+                      {data.employee !== null ? data.employee : ""}
+                    </td>
                     <td>{data.ppk !== "null" ? data.ppk : ""}</td>
                     <td>
                       {data.head_officer !== "null" ? data.head_officer : ""}
                     </td>
-                    <td>{data.employee !== "null" ? data.employee : ""}</td>
+
                     <td>{data.unit !== "null" ? data.unit : ""}</td>
                     <td>
                       {data.implementation_tasks !== "null"
@@ -428,12 +442,16 @@ function Db() {
                     <td>{data.ndreq_st !== "null" ? data.ndreq_st : ""}</td>
                     <td id="action-db">
                       <div className="action-db">
-                        <button
-                          className="edit"
-                          onClick={() => navigate(`/editsurattugas/${data.id}`)}
-                        >
-                          <Icon icon="fluent:edit-16-regular" width="20" />
-                        </button>
+                        {data.employee_status !== "blank" && (
+                          <button
+                            className="edit"
+                            onClick={() =>
+                              navigate(`/editsurattugas/${data.id}`)
+                            }
+                          >
+                            <Icon icon="fluent:edit-16-regular" width="20" />
+                          </button>
+                        )}
                         <button
                           className="delete"
                           onClick={() => showDeletePopup(data.id)}
