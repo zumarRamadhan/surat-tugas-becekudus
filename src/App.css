@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 
-.logout{
+.logout {
   position: absolute;
   right: 20px;
   top: 20px;
@@ -17,7 +17,7 @@
   cursor: pointer;
 }
 
-.logout p{
+.logout p {
   font-family: 'Poppins', sans-serif;
   font-style: normal;
   font-weight: 500;
@@ -121,21 +121,21 @@
 
 @keyframes slide-down {
   from {
-      transform: translateY(-100%);
+    transform: translateY(-100%);
   }
 
   to {
-      transform: translateY(0);
+    transform: translateY(0);
   }
 }
 
 @keyframes slide-up {
   from {
-      transform: translateY(0);
+    transform: translateY(0);
   }
 
   to {
-      transform: translateY(-100%);
+    transform: translateY(-100%);
   }
 }
 
@@ -294,7 +294,7 @@ footer {
 
 /* popup Failed */
 
-#popup-Failed, #Relog {
+#popup-Failed, #popup-Failed-PLH, #popup-Failed-SameIdent, #Relog {
   top: 0;
   position: fixed;
   width: 100%;
@@ -307,12 +307,12 @@ footer {
   background: rgba(0, 0, 0, 0.25);
 }
 
-.img-Failed {
+.img-Failed, .img-Failed-PLH, .img-Failed-SameIdent {
   max-width: 230px;
   height: auto;
 }
 
-.detail-Failed, .detail-Relog {
+.detail-Failed, .detail-Failed-PLH, .detail-Failed-SameIdent, .detail-Relog {
   background: #ffffff;
   border-radius: 20px;
   width: 480px;
@@ -322,12 +322,12 @@ footer {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
 }
 
-.image-Failed, .image-Relog {
+.image-Failed, .image-Failed-PLH, .image-Failed-SameIdent, .image-Relog {
   display: flex;
   justify-content: center;
 }
 
-.desc-Failed, .desc-Relog {
+.desc-Failed, .desc-Failed-PLH, .desc-Failed-SameIdent, .desc-Relog {
   font-family: "Poppins";
   font-style: normal;
   font-weight: 400;
@@ -337,7 +337,7 @@ footer {
   text-align: center;
 }
 
-.btn-Failed, .btn-Relog {
+.btn-Failed, .btn-Failed-PLH, .btn-Relog {
   background: #ffb0b0;
   border-radius: 10px;
   border: none;
@@ -370,7 +370,8 @@ footer {
 }
 
 .btn-Failed:hover,
-.btn-Failed2:hover {
+.btn-Failed-PLH:hover,
+.btn-Failed2:hover, .btn-Relog:hover {
   background: #ee3a3a;
   color: #fff;
   transition: 0.25s ease-in-out;

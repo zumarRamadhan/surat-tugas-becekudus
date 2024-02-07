@@ -87,6 +87,38 @@ function FormInputSuratPenugasan() {
     popUpFailed.style.animation = "slide-up 0.3s ease-in-out";
   };
 
+  const showFailedNoPLH = () => {
+    const background = document.querySelector("#popup-Failed-PLH");
+    background.style.display = "flex";
+    const popUpFailed = document.querySelector(".detail-Failed-PLH");
+    popUpFailed.style.display = "grid";
+    popUpFailed.style.animation = "slide-down 0.3s ease-in-out";
+  };
+
+  const closeFailedNoPLH = () => {
+    const background = document.querySelector("#popup-Failed-PLH");
+    setTimeout(() => (background.style.display = "none"), 300);
+    const popUpFailed = document.querySelector(".detail-Failed-PLH");
+    setTimeout(() => (popUpFailed.style.display = "none"), 250);
+    popUpFailed.style.animation = "slide-up 0.3s ease-in-out";
+  };
+
+  const showFailedSameIdent = () => {
+    const background = document.querySelector("#popup-Failed-SameIdent");
+    background.style.display = "flex";
+    const popUpFailed = document.querySelector(".detail-Failed-SameIdent");
+    popUpFailed.style.display = "grid";
+    popUpFailed.style.animation = "slide-down 0.3s ease-in-out";
+  };
+
+  const closeFailedSameIdent = () => {
+    const background = document.querySelector("#popup-Failed-SameIdent");
+    setTimeout(() => (background.style.display = "none"), 300);
+    const popUpFailed = document.querySelector(".detail-Failed-SameIdent");
+    setTimeout(() => (popUpFailed.style.display = "none"), 250);
+    popUpFailed.style.animation = "slide-up 0.3s ease-in-out";
+  };
+
   const showPopupLoading = () => {
     const background = document.querySelector(".popup-loading");
     background.style.display = "flex";
@@ -221,6 +253,18 @@ function FormInputSuratPenugasan() {
 
           if (error.response && error.response.status === 401) {
             showRelog();
+          } else if (error.response && error.response.status === 420) {
+            console.log("Kesalahan 420: Data kepala kantor tidak ada");
+            setIsLoading(false);
+            showFailedNoPLH();
+            setIsSubmitting(false);
+          } else if (error.response && error.response.status === 409) {
+            console.log(
+              "Kesalahan 409: Data dengan kode identitas yang sama sudah ada"
+            );
+            setIsLoading(false);
+            showFailedSameIdent();
+            setIsSubmitting(false);
           } else {
             setIsLoading(false);
             showFailed();
@@ -320,6 +364,18 @@ function FormInputSuratPenugasan() {
 
           if (error.response && error.response.status === 401) {
             showRelog();
+          } else if (error.response && error.response.status === 420) {
+            console.log("Kesalahan 420: Data kepala kantor tidak ada");
+            setIsLoading(false);
+            showFailedNoPLH();
+            setIsSubmitting(false);
+          } else if (error.response && error.response.status === 409) {
+            console.log(
+              "Kesalahan 409: Data dengan kode identitas yang sama sudah ada"
+            );
+            setIsLoading(false);
+            showFailedSameIdent();
+            setIsSubmitting(false);
           } else {
             setIsLoading(false);
             showFailed();
@@ -1015,6 +1071,56 @@ function FormInputSuratPenugasan() {
           <p className="desc-Failed">Gagal menambahkan data!</p>
           <button className="btn-Failed" onClick={closeFailed}>
             Kembali
+          </button>
+        </div>
+      </div>
+
+      <div id="popup-Failed-SameIdent">
+        <div className="detail-Failed-SameIdent">
+          <Icon
+            icon="radix-icons:cross-circled"
+            width="30"
+            style={{ cursor: "pointer" }}
+            onClick={closeFailedSameIdent}
+          />
+          <div className="image-Failed-SameIdent">
+            <img
+              src={GifFailed}
+              alt="Delete-SameIdent"
+              className="img-Failed-SameIdent"
+            />
+          </div>
+          <p className="desc-Failed-SameIdent">
+            <b>GAGAL MENAMBAHKAN DATA!!</b>
+            <br />
+            PEGAWAI YANG ANDA PILIH TELAH TERSEDIA DENGAN KODE IDENTITAS YANG
+            SAMA
+          </p>
+          <button className="btn-Failed" onClick={closeFailedSameIdent}>
+            TUTUP
+          </button>
+        </div>
+      </div>
+
+      <div id="popup-Failed-PLH">
+        <div className="detail-Failed-PLH">
+          <Icon
+            icon="radix-icons:cross-circled"
+            width="30"
+            style={{ cursor: "pointer" }}
+            onClick={closeFailedNoPLH}
+          />
+          <div className="image-Failed-PLH">
+            <img src={GifFailed} alt="Delete -PLH" className="img-Failed-PLH" />
+          </div>
+          <p className="desc-Failed-PLH">
+            <b>
+              DATA KEPALA KANTOR/NO PLH(format "Kepala KPPBC TMC Kudus") TIDAK
+              DI TEMUKAN
+            </b>
+          </p>
+          <button className="btn-Failed-PLH" onClick={closeFailedNoPLH}>
+            TUTUP
           </button>
         </div>
       </div>

@@ -379,8 +379,34 @@ function Db() {
                     >
                       {data.employee !== null ? data.employee : ""}
                     </td>
-                    <td>{data.ppk !== "null" ? data.ppk : ""}</td>
-                    <td>
+                    <td
+                      style={{
+                        backgroundColor:
+                          data.ppk_status === "non-active"
+                            ? "#FF9D9D"
+                            : data.ppk_status === "active"
+                            ? "#FFF"
+                            : "transparent",
+                        color:
+                          data.ppk_status === "non-active" ? "#000" : "#4b4b4b",
+                      }}
+                    >
+                      {data.ppk !== "null" ? data.ppk : ""}
+                    </td>
+                    <td
+                      style={{
+                        backgroundColor:
+                          data.head_officer_status === "non-active"
+                            ? "#FF9D9D"
+                            : data.head_officer_status === "active"
+                            ? "#FFF"
+                            : "transparent",
+                        color:
+                          data.head_officer_status === "non-active"
+                            ? "#000"
+                            : "#4b4b4b",
+                      }}
+                    >
                       {data.head_officer !== "null" ? data.head_officer : ""}
                     </td>
                     <td>{data.unit !== "null" ? data.unit : ""}</td>
@@ -445,7 +471,7 @@ function Db() {
                           <button
                             className="edit"
                             onClick={() =>
-                              navigate(`/editsurattugas/${data.id}`)
+                              navigate(`/ppk/editsurattugas/${data.id}`)
                             }
                           >
                             <Icon icon="fluent:edit-16-regular" width="20" />

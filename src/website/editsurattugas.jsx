@@ -69,7 +69,7 @@ function EditST() {
     const popUpRelog = document.querySelector(".detail-Relog");
     setTimeout(() => (popUpRelog.style.display = "none"), 250);
     popUpRelog.style.animation = "slide-up 0.3s ease-in-out";
-    navigate(`/login`);
+    window.location.replace("/");
   };
 
   const showFailed = () => {
@@ -87,6 +87,22 @@ function EditST() {
     setTimeout(() => (popUpFailed.style.display = "none"), 250);
     popUpFailed.style.animation = "slide-up 0.3s ease-in-out";
   };
+
+  const showFailedNoPLH = () => {
+    const background = document.querySelector("#popup-Failed-PLH");
+    background.style.display = "flex";
+    const popUpFailed = document.querySelector(".detail-Failed-PLH");
+    popUpFailed.style.display = "grid";
+    popUpFailed.style.animation = "slide-down 0.3s ease-in-out";
+  };
+
+  const closeFailedNoPLH = () => {
+    const background = document.querySelector("#popup-Failed-PLH");
+    setTimeout(() => (background.style.display = "none"), 300);
+    const popUpFailed = document.querySelector(".detail-Failed-PLH");
+    setTimeout(() => (popUpFailed.style.display = "none"), 250);
+    popUpFailed.style.animation = "slide-up 0.3s ease-in-out";
+  }
 
   const showPopupLoading = () => {
     const background = document.querySelector(".popup-loading");
@@ -186,137 +202,144 @@ function EditST() {
       })
       .then((response) => {
         const selectedPegawaiOption = pegawaiOptions.find(
-          (option) => option.value === response.data.data.user_id
+          (option) => option.value === response.data.data[0].user_id
         );
         setSelectedPegawai(selectedPegawaiOption);
 
         const selectedPegawaiPPKOption = pegawaiPPKOptions.find(
-          (option) => option.value === response.data.data.id_ppk
+          (option) => option.value === response.data.data[0].id_ppk
         );
         setSelectedPegawaiPPK(selectedPegawaiPPKOption);
 
         const selectedPegawaiPenandaTanganOption =
           pegawaiPenandaTanganOptions.find(
-            (option) => option.value === response.data.data.id_head_officer
+            (option) => option.value === response.data.data[0].id_head_officer
           );
         setSelectedPegawaiPenandaTangan(selectedPegawaiPenandaTanganOption);
 
         const selectedSubBagianSeksiOption = subBagianOptions.find(
-          (option) => option.value === response.data.data.unit
+          (option) => option.value === response.data.data[0].unit
         );
         setSelectedSubBagianSeksi(selectedSubBagianSeksiOption);
 
         const selectedTransportOption = TransportOptions.find(
-          (option) => option.value === response.data.data.transportation
+          (option) => option.value === response.data.data[0].transportation
         );
         setSelectedTransport(selectedTransportOption);
 
         const selectedPembebananDIPAOption = pembebananDIPAOptions.find(
-          (option) => option.value === response.data.data.dipa_search
+          (option) => option.value === response.data.data[0].dipa_search
         );
         setSelectedPembebananDIPA(selectedPembebananDIPAOption);
 
         setFormData({
           user_id:
-            response.data.data.user_id !== "null"
-              ? response.data.data.user_id
+            response.data.data[0].user_id !== "null"
+              ? response.data.data[0].user_id
               : "",
           nomor_identitas:
-            response.data.data.nomor_identitas !== "null"
-              ? response.data.data.nomor_identitas
+            response.data.data[0].nomor_identitas !== "null"
+              ? response.data.data[0].nomor_identitas
               : "",
           unit:
-            response.data.data.unit !== "null" ? response.data.data.unit : "",
+            response.data.data[0].unit !== "null"
+              ? response.data.data[0].unit
+              : "",
           no_ndpermohonan_st:
-            response.data.data.ndreq_st !== "null"
-              ? response.data.data.ndreq_st
+            response.data.data[0].ndreq_st !== "null"
+              ? response.data.data[0].ndreq_st
               : "",
           no_st:
-            response.data.data.no_st !== "null" ? response.data.data.no_st : "",
+            response.data.data[0].no_st !== "null"
+              ? response.data.data[0].no_st
+              : "",
           nomor_st:
-            response.data.data.nomor_st !== "null"
-              ? response.data.data.nomor_st
+            response.data.data[0].nomor_st !== "null"
+              ? response.data.data[0].nomor_st
               : "",
           tanggal_st:
-            response.data.data.date_st !== "null"
-              ? response.data.data.date_st
+            response.data.data[0].date_st !== "null"
+              ? response.data.data[0].date_st
               : "",
           no_spd:
-            response.data.data.no_spd !== "null"
-              ? response.data.data.no_spd
+            response.data.data[0].no_spd !== "null"
+              ? response.data.data[0].no_spd
               : "",
           tanggal_spd:
-            response.data.data.date_spd !== "null"
-              ? response.data.data.date_spd
+            response.data.data[0].date_spd !== "null"
+              ? response.data.data[0].date_spd
               : "",
           tanggal_berangkat:
-            response.data.data.departure_date !== "null"
-              ? response.data.data.departure_date
+            response.data.data[0].departure_date !== "null"
+              ? response.data.data[0].departure_date
               : "",
           tanggal_kembali:
-            response.data.data.return_date !== "null"
-              ? response.data.data.return_date
+            response.data.data[0].return_date !== "null"
+              ? response.data.data[0].return_date
               : "",
           pencarian_dipa:
-            response.data.data.dipa_search !== "null"
-              ? response.data.data.dipa_search
+            response.data.data[0].dipa_search !== "null"
+              ? response.data.data[0].dipa_search
               : "",
           dasar_pelaksanaan_tugas:
-            response.data.data.implementation_tasks !== "null"
-              ? response.data.data.implementation_tasks
+            response.data.data[0].implementation_tasks !== "null"
+              ? response.data.data[0].implementation_tasks
               : "",
           maksud_perjalanan_dinas:
-            response.data.data.business_trip_reason !== "null"
-              ? response.data.data.business_trip_reason
+            response.data.data[0].business_trip_reason !== "null"
+              ? response.data.data[0].business_trip_reason
               : "",
           kantor_tujuan_tugas:
-            response.data.data.destination_office !== "null"
-              ? response.data.data.destination_office
+            response.data.data[0].destination_office !== "null"
+              ? response.data.data[0].destination_office
               : "",
           kota_asal_tugas:
-            response.data.data.city_origin !== "null"
-              ? response.data.data.city_origin
+            response.data.data[0].city_origin !== "null"
+              ? response.data.data[0].city_origin
               : "",
           kota_tujuan_tugas_1:
-            response.data.data.destination_city_1 !== "null"
-              ? response.data.data.destination_city_1
+            response.data.data[0].destination_city_1 !== "null"
+              ? response.data.data[0].destination_city_1
               : "",
           kota_tujuan_tugas_2:
-            response.data.data.destination_city_2 !== "null"
-              ? response.data.data.destination_city_2
+            response.data.data[0].destination_city_2 !== "null"
+              ? response.data.data[0].destination_city_2
               : "",
           kota_tujuan_tugas_3:
-            response.data.data.destination_city_3 !== "null"
-              ? response.data.data.destination_city_3
+            response.data.data[0].destination_city_3 !== "null"
+              ? response.data.data[0].destination_city_3
               : "",
           transportasi:
-            response.data.data.transportation !== "null"
-              ? response.data.data.transportation
+            response.data.data[0].transportation !== "null"
+              ? response.data.data[0].transportation
               : "",
           id_ppk:
-            response.data.data.id_ppk !== "null"
-              ? response.data.data.id_ppk
+            response.data.data[0].id_ppk !== "null"
+              ? response.data.data[0].id_ppk
               : "",
           tandatangan:
-            response.data.data.signature !== "null"
-              ? response.data.data.signature
+            response.data.data[0].signature !== "null"
+              ? response.data.data[0].signature
               : "",
-          plt: response.data.data.plt !== "null" ? response.data.data.plt : "",
+          plt:
+            response.data.data[0].plt !== "null"
+              ? response.data.data[0].plt
+              : "",
           no_spyt:
-            response.data.data.no_spyt !== "null"
-              ? response.data.data.no_spyt
+            response.data.data[0].no_spyt !== "null"
+              ? response.data.data[0].no_spyt
               : "",
           penanda_tangan:
-            response.data.data.id_head_officer !== "null"
-              ? response.data.data.id_head_officer
+            response.data.data[0].id_head_officer !== "null"
+              ? response.data.data[0].id_head_officer
               : "",
           id_head_officer:
-            response.data.data.id_head_officer !== "null"
-              ? response.data.data.id_head_officer
+            response.data.data[0].id_head_officer !== "null"
+              ? response.data.data[0].id_head_officer
               : "",
           tagging_status:
-            response.data.data.tagging_status !== "null"
-              ? response.data.data.tagging_status
+            response.data.data[0].tagging_status !== "null"
+              ? response.data.data[0].tagging_status
               : "",
         });
         // closePopupLoading();
@@ -418,6 +441,11 @@ function EditST() {
 
           if (error.response && error.response.status === 401) {
             showRelog();
+          } else if (error.response && error.response.status === 420) {
+            console.log("Kesalahan 420: Data kepala kantor tidak ada");
+            setIsLoading(false);
+            showFailedNoPLH();
+            setIsSubmitting(false);
           } else {
             setIsLoading(false);
             showFailed();
@@ -638,9 +666,15 @@ function EditST() {
 
           if (error.response && error.response.status === 401) {
             showRelog();
+          } else if (error.response && error.response.status === 420) {
+            console.log("Kesalahan 420: Data kepala kantor tidak ada");
+            setIsLoading(false);
+            showFailedNoPLH();
+            setIsSubmitting(false);
           } else {
             setIsLoading(false);
             showFailed();
+            setIsSubmitting(false);
           }
 
           closePopupLoading();
@@ -789,9 +823,7 @@ function EditST() {
               className="input-form"
               isDisabled={true}
             />
-            {errors.user_id && (
-              <span className="error">{errors.user_id}</span>
-            )}
+            {errors.user_id && <span className="error">{errors.user_id}</span>}
           </div>
           <div className="form-input">
             <p>Nomor Identitas</p>
@@ -1108,12 +1140,12 @@ function EditST() {
               <button onClick={handleSubmit} id="save" type="submit">
                 Simpan
               </button>
-              <button id="clear" onClick={handleClearForm}>
+              {/* <button id="clear" onClick={handleClearForm}>
                 Clear Form
-              </button>
-              <button id="add" onClick={handleAddPegawai}>
+              </button> */}
+              {/* <button id="add" onClick={handleAddPegawai}>
                 Tambah Pegawai
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
@@ -1176,9 +1208,27 @@ function EditST() {
           <div className="image-Failed">
             <img src={GifFailed} alt="Delete Failed" className="img-Failed" />
           </div>
-          <p className="desc-Failed">Gagal menambahkan data!</p>
+          <p className="desc-Failed">Gagal memperbaharui data!</p>
           <button className="btn-Failed" onClick={closeFailed}>
             Kembali
+          </button>
+        </div>
+      </div>
+
+      <div id="popup-Failed-PLH">
+        <div className="detail-Failed-PLH">
+          <Icon
+            icon="radix-icons:cross-circled"
+            width="30"
+            style={{ cursor: "pointer" }}
+            onClick={closeFailedNoPLH}
+          />
+          <div className="image-Failed-PLH">
+            <img src={GifFailed} alt="Delete -PLH" className="img-Failed-PLH" />
+          </div>
+          <p className="desc-Failed-PLH"><b>DATA KEPALA KANTOR/NO PLH(format "Kepala KPPBC TMC Kudus") TIDAK DI TEMUKAN</b></p>
+          <button className="btn-Failed-PLH" onClick={closeFailedNoPLH}>
+            TUTUP
           </button>
         </div>
       </div>

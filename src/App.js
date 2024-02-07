@@ -26,6 +26,10 @@ function App() {
     return <Navigate to="/dbpeg" />;
   };
 
+  const redirectToDbPegPPK = () => {
+    return <Navigate to="/ppk/dbpeg" />;
+  };
+
   const token = sessionStorage.getItem("token");
   const role = sessionStorage.getItem("role");
   return (
@@ -137,6 +141,15 @@ function App() {
         <Route
           path="/ppk/editsurattugas/:id"
           element={token && role ? <EditSTPPK /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/ppk/editpegawai/1"
+          element={
+            <>
+              {window.location.pathname === "/ppk/editpegawai/1" &&
+                redirectToDbPegPPK()}
+            </>
+          }
         />
       </Routes>
     </Router>
