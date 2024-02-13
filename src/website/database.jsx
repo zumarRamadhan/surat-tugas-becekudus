@@ -24,6 +24,9 @@ function Database() {
   }, []);
 
   const showRelog = () => {
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("role");
+
     const background = document.querySelector("#Relog");
     background.style.display = "flex";
     const popUpLogin = document.querySelector(".detail-Relog");
@@ -38,7 +41,7 @@ function Database() {
     const popUpLogin = document.querySelector(".detail-Relog");
     setTimeout(() => (popUpLogin.style.display = "none"), 250);
     popUpLogin.style.animation = "slide-up 0.3s ease-in-out";
-    navigate(`/login`);
+    window.location.replace("/");
   };
 
   const showPopupLoading = () => {

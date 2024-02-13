@@ -43,6 +43,9 @@ function DbPeg() {
   };
 
   const showRelog = () => {
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("role");
+
     const background = document.querySelector("#Relog");
     background.style.display = "flex";
     const popUpLogin = document.querySelector(".detail-Relog");
@@ -56,7 +59,7 @@ function DbPeg() {
     const popUpLogin = document.querySelector(".detail-Relog");
     setTimeout(() => (popUpLogin.style.display = "none"), 250);
     popUpLogin.style.animation = "slide-up 0.3s ease-in-out";
-    navigate(`/login`);
+    window.location.replace("/");
   };
 
   const showFailedDelete = () => {
@@ -71,6 +74,26 @@ function DbPeg() {
     const background = document.querySelector("#popup-Failed");
     setTimeout(() => (background.style.display = "none"), 300);
     const popupFailedDelete = document.querySelector(".detail-Failed");
+    setTimeout(() => (popupFailedDelete.style.display = "none"), 250);
+    popupFailedDelete.style.animation = "slide-up 0.3s ease-in-out";
+  };
+
+  const showFailedDeleteHeadOfficer = () => {
+    const background = document.querySelector("#popup-FailedHeadOfficer");
+    background.style.display = "flex";
+    const popupFailedDelete = document.querySelector(
+      ".detail-FailedHeadOfficer"
+    );
+    popupFailedDelete.style.display = "grid";
+    popupFailedDelete.style.animation = "slide-down 0.3s ease-in-out";
+  };
+
+  const closeFailedDeleteHeadOfficer = () => {
+    const background = document.querySelector("#popup-FailedHeadOfficer");
+    setTimeout(() => (background.style.display = "none"), 300);
+    const popupFailedDelete = document.querySelector(
+      ".detail-FailedHeadOfficer"
+    );
     setTimeout(() => (popupFailedDelete.style.display = "none"), 250);
     popupFailedDelete.style.animation = "slide-up 0.3s ease-in-out";
   };
@@ -158,9 +181,15 @@ function DbPeg() {
           closePopupLoading();
         })
         .catch((error) => {
-          // Penanganan ketika terjadi kesalahan saat menghapus data
-          console.log("Terjadi kesalahan saat menghapus data:", error);
-          showFailedDelete();
+          if (error.response.status === 410) {
+            // Penanganan ketika respons adalah 410 (Gone)
+            console.log("Data sudah tidak tersedia lagi");
+            showFailedDeleteHeadOfficer();
+          } else {
+            // Penanganan ketika terjadi kesalahan saat menghapus data selain 410
+            console.log("Terjadi kesalahan saat menghapus data:", error);
+            showFailedDelete();
+          }
           closeDeletePopup();
           closePopupLoading();
         });
@@ -355,6 +384,34 @@ function DbPeg() {
             </div>
             <p className="desc-Failed">Gagal menghapus data!</p>
             <button className="btn-Failed" onClick={closeFailedDelete}>
+              Kembali
+            </button>
+          </div>
+        </div>
+
+        <div id="popup-FailedHeadOfficer">
+          <div className="detail-FailedHeadOfficer">
+            <Icon
+              icon="radix-icons:cross-circled"
+              width="30"
+              style={{ cursor: "pointer" }}
+              onClick={closeFailedDeleteHeadOfficer}
+            />
+            <div className="image-FailedHeadOfficer">
+              <img
+                src={GifFailed}
+                alt="Delete Failed"
+                className="img-FailedHeadOfficer"
+              />
+            </div>
+            <p className="desc-FailedHeadOfficer">
+              Anda tidak bisa menghapus data kepala kantor karena <b>belom ada data
+              pengganti!</b>
+            </p>
+            <button
+              className="btn-FailedHeadOfficer"
+              onClick={closeFailedDeleteHeadOfficer}
+            >
               Kembali
             </button>
           </div>

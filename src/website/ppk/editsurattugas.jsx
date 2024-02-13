@@ -56,6 +56,9 @@ function EditST() {
   };
 
   const showRelog = () => {
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("role");
+
     const background = document.querySelector("#Relog");
     background.style.display = "flex";
     const popUpRelog = document.querySelector(".detail-Relog");
@@ -69,7 +72,7 @@ function EditST() {
     const popUpRelog = document.querySelector(".detail-Relog");
     setTimeout(() => (popUpRelog.style.display = "none"), 250);
     popUpRelog.style.animation = "slide-up 0.3s ease-in-out";
-    navigate(`/login`);
+    window.location.replace("/");
   };
 
   const showFailed = () => {

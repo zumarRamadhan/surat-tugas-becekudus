@@ -56,6 +56,9 @@ function EditST() {
   };
 
   const showRelog = () => {
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("role");
+
     const background = document.querySelector("#Relog");
     background.style.display = "flex";
     const popUpRelog = document.querySelector(".detail-Relog");

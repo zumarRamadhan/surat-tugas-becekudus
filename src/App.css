@@ -294,7 +294,7 @@ footer {
 
 /* popup Failed */
 
-#popup-Failed, #popup-Failed-PLH, #popup-Failed-SameIdent, #Relog {
+#popup-Failed, #popup-Failed-PLH, #popup-Failed-SameIdent, #Relog, #popup-FailedHeadOfficer {
   top: 0;
   position: fixed;
   width: 100%;
@@ -307,12 +307,12 @@ footer {
   background: rgba(0, 0, 0, 0.25);
 }
 
-.img-Failed, .img-Failed-PLH, .img-Failed-SameIdent {
+.img-Failed, .img-Failed-PLH, .img-Failed-SameIdent, .img-FailedHeadOfficer {
   max-width: 230px;
   height: auto;
 }
 
-.detail-Failed, .detail-Failed-PLH, .detail-Failed-SameIdent, .detail-Relog {
+.detail-Failed, .detail-Failed-PLH, .detail-Failed-SameIdent, .detail-Relog, .detail-FailedHeadOfficer {
   background: #ffffff;
   border-radius: 20px;
   width: 480px;
@@ -322,12 +322,12 @@ footer {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
 }
 
-.image-Failed, .image-Failed-PLH, .image-Failed-SameIdent, .image-Relog {
+.image-Failed, .image-Failed-PLH, .image-Failed-SameIdent, .image-Relog, .image-FailedHeadOfficer {
   display: flex;
   justify-content: center;
 }
 
-.desc-Failed, .desc-Failed-PLH, .desc-Failed-SameIdent, .desc-Relog {
+.desc-Failed, .desc-Failed-PLH, .desc-Failed-SameIdent, .desc-Relog, .desc-FailedHeadOfficer {
   font-family: "Poppins";
   font-style: normal;
   font-weight: 400;
@@ -337,7 +337,7 @@ footer {
   text-align: center;
 }
 
-.btn-Failed, .btn-Failed-PLH, .btn-Relog {
+.btn-Failed, .btn-Failed-PLH, .btn-Relog, .btn-FailedHeadOfficer {
   background: #ffb0b0;
   border-radius: 10px;
   border: none;
@@ -371,7 +371,7 @@ footer {
 
 .btn-Failed:hover,
 .btn-Failed-PLH:hover,
-.btn-Failed2:hover, .btn-Relog:hover {
+.btn-Failed2:hover, .btn-Relog:hover, .btn-FailedHeadOfficer:hover {
   background: #ee3a3a;
   color: #fff;
   transition: 0.25s ease-in-out;

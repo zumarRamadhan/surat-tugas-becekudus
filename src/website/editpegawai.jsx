@@ -51,7 +51,7 @@ function EditPegawai() {
     const popUpLogin = document.querySelector(".detail-Relog");
     setTimeout(() => (popUpLogin.style.display = "none"), 250);
     popUpLogin.style.animation = "slide-up 0.3s ease-in-out";
-    navigate(`/login`);
+    window.location.replace("/");
   };
 
   const showFailed = () => {
@@ -68,6 +68,26 @@ function EditPegawai() {
     const popUpLogin = document.querySelector(".detail-Failed");
     setTimeout(() => (popUpLogin.style.display = "none"), 250);
     popUpLogin.style.animation = "slide-up 0.3s ease-in-out";
+  };
+
+  const showFailedDeleteHeadOfficer = () => {
+    const background = document.querySelector("#popup-FailedHeadOfficer");
+    background.style.display = "flex";
+    const popupFailedDelete = document.querySelector(
+      ".detail-FailedHeadOfficer"
+    );
+    popupFailedDelete.style.display = "grid";
+    popupFailedDelete.style.animation = "slide-down 0.3s ease-in-out";
+  };
+
+  const closeFailedDeleteHeadOfficer = () => {
+    const background = document.querySelector("#popup-FailedHeadOfficer");
+    setTimeout(() => (background.style.display = "none"), 300);
+    const popupFailedDelete = document.querySelector(
+      ".detail-FailedHeadOfficer"
+    );
+    setTimeout(() => (popupFailedDelete.style.display = "none"), 250);
+    popupFailedDelete.style.animation = "slide-up 0.3s ease-in-out";
   };
 
   const showPopupLoading = () => {
@@ -172,6 +192,9 @@ function EditPegawai() {
 
           if (error.response && error.response.status === 401) {
             showRelog();
+          } else if (error.response && error.response.status === 420) {
+            // Penanganan ketika respons adalah 420
+            showFailedDeleteHeadOfficer();
           } else {
             setIsLoading(false);
             showFailed();
@@ -361,7 +384,7 @@ function EditPegawai() {
             </div>
 
             <button type="submit" className="btn-tambah-pegawai">
-              <h1>TAMBAH</h1>
+              <h1>EDIT</h1>
             </button>
           </form>
         </div>
@@ -401,6 +424,34 @@ function EditPegawai() {
             </div>
             <p className="desc-Failed">Gagal memperbaharui data!</p>
             <button className="btn-Failed" onClick={closeFailed}>
+              Kembali
+            </button>
+          </div>
+        </div>
+
+        <div id="popup-FailedHeadOfficer">
+          <div className="detail-FailedHeadOfficer">
+            <Icon
+              icon="radix-icons:cross-circled"
+              width="30"
+              style={{ cursor: "pointer" }}
+              onClick={closeFailedDeleteHeadOfficer}
+            />
+            <div className="image-FailedHeadOfficer">
+              <img
+                src={GifFailed}
+                alt="Delete Failed"
+                className="img-FailedHeadOfficer"
+              />
+            </div>
+            <p className="desc-FailedHeadOfficer">
+              Anda tidak bisa mengedit data kepala kantor karena{" "}
+              <b>belom ada data pengganti!</b>
+            </p>
+            <button
+              className="btn-FailedHeadOfficer"
+              onClick={closeFailedDeleteHeadOfficer}
+            >
               Kembali
             </button>
           </div>
